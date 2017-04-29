@@ -28,8 +28,9 @@ public class LoggingExceptionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
             chain.doFilter(request, response);
-        } catch (Throwable throwable) {
-            logger.error(StringUtils.join("An exception occurred within the timeo project and task management multi-app: ", throwable.getMessage()), throwable);
+        } catch (Throwable exception) {
+            logger.error(StringUtils.join("An exception occurred within the timeo project and task management multi-app: ", exception.getMessage()), exception);
+            throw exception;
         }
     }
 

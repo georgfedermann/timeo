@@ -16,7 +16,6 @@
 
     <div><span>Check content of clipboard here:</span></div>
     <div><textarea rows="3" cols="60" ><jsp:text /></textarea></div>
-    <script src="http://localhost/jquery-3.1.1.js"><jsp:text /></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#trigger").click(copyToClipboard);

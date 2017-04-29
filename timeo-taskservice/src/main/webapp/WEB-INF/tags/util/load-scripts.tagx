@@ -29,7 +29,7 @@
   <script src="${spring_dojo_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
   <script language="JavaScript" type="text/javascript">dojo.require("dojo.parser");</script>
   
-  <script src="${jquery_url}" type="text/javascript"><!-- required for FF3 and Opery --></script>
+  <script src="${jquery_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
 
   <spring:url value="/resources/js/businessCard.js" var="businessCardScript"/>
   <script src="${businessCardScript}" type="text/javascript">

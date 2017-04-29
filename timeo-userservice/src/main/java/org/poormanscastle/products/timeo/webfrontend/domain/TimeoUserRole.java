@@ -46,7 +46,7 @@ public class TimeoUserRole implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return null;
+        return roleName;
     }
 
     /**

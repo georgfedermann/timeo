@@ -1,6 +1,8 @@
 package org.poormanscastle.products.timeo.webfrontend.domain;
+
 import java.util.Collection;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -17,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 @RooJavaBean
 @RooSerializable
-@RooJpaActiveRecord(finders = { "findTimeoUsersByLoginIdEquals" })
+@RooJpaActiveRecord(finders = {"findTimeoUsersByLoginIdEquals"})
 public class TimeoUser implements UserDetails {
 
     /**
@@ -49,7 +52,7 @@ public class TimeoUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return timeoUserRoles;
     }
 
     @Override

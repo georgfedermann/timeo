@@ -17,7 +17,21 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath*:META-INF/spring/applicationContext*.xml</param-value>
     </context-param>
-    
+
+    <!-- I use this filter to log any exceptions that get thrown within spring web mvc and
+         might be swallowed by the system otherwise. It is important that this filter is listed
+         before any other filter so it gets enlisted into the filterchain surrounding all other
+         filters, thus getting a chance to see all exceptions thrown by the complete system, 
+         including other filters. -->
+    <filter>
+        <filter-name>exceptionLoggingFilter</filter-name>
+        <filter-class>org.poormanscastle.products.timeo.webfrontend.web.exceptionhandler.LoggingExceptionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>exceptionLoggingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <filter>
         <filter-name>CharacterEncodingFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -104,12 +118,4 @@
         <location>/resourceNotFound</location>
     </error-page>
     
-    <filter>
-        <filter-name>exceptionLoggingFilter</filter-name>
-        <filter-class>org.poormanscastle.products.timeo.webfrontend.web.exceptionhandler.LoggingExceptionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>exceptionLoggingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
 </web-app>

@@ -27,7 +27,7 @@
         <beans:property name="authenticationSuccessHandler">
             <beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
                 <beans:property name="alwaysUseDefaultTargetUrl" value="true" />
-                <beans:property name="defaultTargetUrl" value="${cas.login.forward}" />
+                <beans:property name="defaultTargetUrl" value="${cas.login.defaultTargetUrl}" />
             </beans:bean>
         </beans:property>
     </beans:bean>
@@ -55,7 +55,7 @@
         <beans:property name="serviceProperties" ref="serviceProperties" />
         <beans:property name="ticketValidator">
             <beans:bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
-                <beans:constructor-arg index="0" value="${cas.server.hostname}cas" />
+                <beans:constructor-arg index="0" value="${cas.server.hostname}cas/" />
             </beans:bean>
         </beans:property>
         <beans:property name="key" value="CAS_AUTHENTICATION_PROVIDER_ID" />

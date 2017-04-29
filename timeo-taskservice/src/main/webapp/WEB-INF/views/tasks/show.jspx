@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_poormanscastle_products_timeo_task_domain_Task" object="${task}" path="/tasks" z="tjDPeCqvFUiBzYY2Dn/CbsbGf30=">
+        <field:display field="name" id="s_org_poormanscastle_products_timeo_task_domain_Task_name" object="${task}" z="zQoWIx4fph8jUirfmyORwe4xjds="/>
+        <field:display field="description" id="s_org_poormanscastle_products_timeo_task_domain_Task_description" object="${task}" z="ih3JB+NjuXYEvKX+BLgroxqB5Do="/>
+        <field:display field="comment" id="s_org_poormanscastle_products_timeo_task_domain_Task_comment" object="${task}" z="2m5T9JGvdFyekXD6wHdrb7Xd3OI="/>
+        <field:display field="effortEstimation" id="s_org_poormanscastle_products_timeo_task_domain_Task_effortEstimation" object="${task}" z="6Fb49xbYSUNV7kff4rgyDot0ojY="/>
+        <field:display field="effortMeasured" id="s_org_poormanscastle_products_timeo_task_domain_Task_effortMeasured" object="${task}" z="+w2sMSUY1EfERCANrdYZfBDErRo="/>
+        <field:display date="true" dateTimePattern="${task_entrydate_date_format}" field="entryDate" id="s_org_poormanscastle_products_timeo_task_domain_Task_entryDate" object="${task}" z="jjMruuljl4aPkTmPG63cEH8TC94="/>
+        <field:display date="true" dateTimePattern="${task_duedate_date_format}" field="dueDate" id="s_org_poormanscastle_products_timeo_task_domain_Task_dueDate" object="${task}" z="oF/aXrGqv5Pl9dYlAEaDS3Rl1LA="/>
+        <field:display date="true" dateTimePattern="${task_startdate_date_format}" field="startDate" id="s_org_poormanscastle_products_timeo_task_domain_Task_startDate" object="${task}" z="UewIQ4moiAIOgUrJqjFbJkWg/Us="/>
+        <field:display date="true" dateTimePattern="${task_donedate_date_format}" field="doneDate" id="s_org_poormanscastle_products_timeo_task_domain_Task_doneDate" object="${task}" z="zn2ysC2mKZP80PjndrwVuyn3jxg="/>
+        <field:display field="goal.name" id="s_org_poormanscastle_products_timeo_task_domain_Task_goal" object="${task}" z="user-managed"/>
+        <field:display field="status.name" id="s_org_poormanscastle_products_timeo_task_domain_Task_status" object="${task}" z="user-managed"/>
+        <field:display field="priority.name" id="s_org_poormanscastle_products_timeo_task_domain_Task_priority" object="${task}" z="user-managed"/>
+        <field:display field="project.name" id="s_org_poormanscastle_products_timeo_task_domain_Task_project" object="${task}" z="user-managed"/>
+        <field:display field="email" id="s_org_poormanscastle_products_timeo_task_domain_Task_projectTeamMember" label="Project team member" object="${resource}" z="user-managed"/>
+    </page:show>
+</div>

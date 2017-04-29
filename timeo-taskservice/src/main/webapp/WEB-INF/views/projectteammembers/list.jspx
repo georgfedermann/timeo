@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember" items="${projectteammembers}" z="lSZNbzdCIgO2VVh5ps620Rxh7Os=">
+        <table:table data="${projectteammembers}" id="l_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember" path="/projectteammembers" z="ed2TQqggF1GjlFbr+tJxjK5x7B0=">
+            <table:column stakeholderRef="false" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_role" property="role.name" sort="true" z="user-managed"/>
+            <table:column stakeholderRef="false" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_project" property="project.name" sort="true" z="user-managed"/>
+            <table:column stakeholderRef="true" label="email" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_label" property="label" sort="true" z="user-managed"/>
+            <table:column stakeholderRef="false" render="false" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_resourceId" label="Resource" property="resourceId" sort="true" z="user-managed"/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_poormanscastle_products_timeo_task_domain_Activity" object="${activity}" path="/activitys" z="4DmtqviWsMMRTXCLR0hGY3RZttM=">
+        <field:display field="comment" id="s_org_poormanscastle_products_timeo_task_domain_Activity_comment" object="${activity}" z="jSqBCVkDf+4AxL20fcfsAG14RJg="/>
+        <field:display date="true" dateTimePattern="${activity_startdatetime_date_format}" field="startDateTime" id="s_org_poormanscastle_products_timeo_task_domain_Activity_startDateTime" object="${activity}" z="TJ70uNBGen3ZmVkgdVO3/p1+lgY="/>
+        <field:display date="true" dateTimePattern="${activity_enddatetime_date_format}" field="endDateTime" id="s_org_poormanscastle_products_timeo_task_domain_Activity_endDateTime" object="${activity}" z="FfI/AC1pRXxWH58MCl4KB/hJ+zk="/>
+        <field:display field="projectTeamMember" id="s_org_poormanscastle_products_timeo_task_domain_Activity_projectTeamMember" object="${activity}" z="JR3hc6CXReGJNd4E3/uSx5W4kAM="/>
+        <field:display field="task" id="s_org_poormanscastle_products_timeo_task_domain_Activity_task" object="${activity}" z="3HN156znaCf4p6ZsNPEklbYP/os="/>
+    </page:show>
+</div>

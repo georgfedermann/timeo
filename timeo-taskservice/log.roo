@@ -1,0 +1,37 @@
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-01-26 19:12:28
+project --topLevelPackage org.poormanscastle.products.timeo.task --java 8 --projectName task
+jpa setup --provider HIBERNATE --database MYSQL --databaseName task --password task --userName task 
+project --topLevelPackage org.poormanscastle.products.timeo.task --java 8 --projectName task
+jpa setup --provider HIBERNATE --database MYSQL --databaseName task --password task --userName task 
+entity jpa --class org.poormanscastle.products.timeo.task.domain.Status --activeRecord 1 --serializable 1 --testAutomatically 1 
+field string --fieldName name --notNull 1 --unique 1 --comment "a unique name identifying this status" --sizeMin 1
+entity jpa --class ~.domain.Goal --testAutomatically 1 --activeRecord 1 --serializable 1 
+field string --fieldName name --notNull 1 --sizeMin 1 --unique 1 --comment "Defines the name of this goal. A goal is defined in the context of a project." 
+entity jpa --class ~.domain.Priority --testAutomatically 1 --activeRecord 1 --serializable 1
+field string --fieldName name --comment "Defines the name of this priority." --notNull 1 --sizeMin 1 --unique 1
+entity jpa --class ~.domain.Task --testAutomatically 1 --activeRecord 1 --serializable 1 
+field string --fieldName name --notNull 1 --unique 1 --comment "A unique, short name used to identify this task and reference to it, e.g. in JIRA." --sizeMin 3
+field string --fieldName description --notNull 1 --unique 0 --comment "A descriptive text of arbitrary length to describe what this task is about." --sizeMin 3
+field string --fieldName comment --notNull 1 --unique 0 --comment "This field can be used to store comments about task execution or status updates." 
+field number --type java.lang.Long --fieldName effortEstimation --min 0 --unique 0 --notNull 1 --comment "Estimated effort for this task in seconds."
+field number --type java.lang.Long --fieldName effortMeasured --min 0 --unique 0 --notNull 1 --comment "An additive value resulting from all reported actual efforts"
+field other --fieldName goal --type ~.domain.Goal --comment "The goal which this task promotes." --notNull 1 
+field reference --fieldName status --type ~.domain.Status --cardinality MANY_TO_ONE --comment "The status identifying the current state of this task" --notNull 1 
+field reference --fieldName priority --type ~.domain.Priority --cardinality MANY_TO_ONE --comment "The current priority of this task" --notNull 1
+entity jpa --class ~.domain.TimeoRole --serializable 1 --testAutomatically 1 --activeRecord 1 
+field string --fieldName name --comment "The name of this role" --notNull 1 --sizeMin "3" --unique 1
+field string --fieldName description --comment "A descriptive text to explain the meaning of this role." --notNull 1 --sizeMin 3 --unique 1 
+entity jpa --class ~.domain.Project --serializable 1 --testAutomatically 1 --activeRecord 1
+field string --fieldName name --comment "This project's name." --notNull 1 --unique 1 --sizeMin 3 
+field string --fieldName description --comment "A descriptive text explaining the reason for this project." --notNull 1 --unique 1 --sizeMin 3
+web mvc scaffold --class ~.web.GoalController --backingType ~.domain.Goal 
+web mvc scaffold --class ~.web.StatusController --backingType ~.domain.Status
+web mvc scaffold --class ~.web.ProjectController --backingType ~.domain.Project
+focus --class ~.domain.Project 
+field date --fieldName entryDate --type java.util.Date --comment "The date when the project was entered into the project management tool." --notNull 1 --dateFormat SHORT
+web mvc scaffold --class ~.web.TaskController --backingType ~.domain.Task
+web mvc scaffold --class ~.web.TimeoRole --backingType ~.domain.TimeoRole
+web mvc scaffold --class ~.web.TimeoRoleController --backingType ~.domain.TimeoRole
+web mvc scaffold --class ~.web.ProjectTeamMemberController --backingType ~.domain.ProjectTeamMember
+web mvc scaffold --class ~.web.ActivityController --backingType ~.domain.Activity
+

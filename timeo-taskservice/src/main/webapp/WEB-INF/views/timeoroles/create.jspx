@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_org_poormanscastle_products_timeo_task_domain_TimeoRole" modelAttribute="timeoRole" path="/timeoroles" render="${empty dependencies}" z="mPJrQ1VsbYKbkEKstXcumREnI+4=">
+        <field:input field="name" id="c_org_poormanscastle_products_timeo_task_domain_TimeoRole_name" min="3" required="true" z="0BF6FkZZSsUhM+0v0l4JglUQpxM="/>
+        <field:input field="description" id="c_org_poormanscastle_products_timeo_task_domain_TimeoRole_description" min="3" required="true" z="9QIy/K56Lp9J7UFxos4oTLPaeOE="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_org_poormanscastle_products_timeo_task_domain_TimeoRole" render="${not empty dependencies}" z="VOQPpJNd3F1DXv6S5uw/i23diNo="/>
+</div>

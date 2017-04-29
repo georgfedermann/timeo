@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_poormanscastle_products_timeo_task_domain_Activity" items="${activitys}" z="N7UBKwtE2t84NLzQkc20npLRpag=">
+        <table:table data="${activitys}" id="l_org_poormanscastle_products_timeo_task_domain_Activity" path="/activitys" z="PiySbLOPkpTdufAWDAqKpaKB1dw=">
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Activity_comment" property="comment" z="JfqjqdOqPDa2j578Gsf+kqiAb+4="/>
+            <table:column date="true" dateTimePattern="${activity_startdatetime_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Activity_startDateTime" property="startDateTime" z="8Cl/V/nHixGfCIgTdrWwXXWr9Ts="/>
+            <table:column date="true" dateTimePattern="${activity_enddatetime_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Activity_endDateTime" property="endDateTime" z="fKmci94ucGyDqviesfIv3L7kGcc="/>
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Activity_projectTeamMember" property="projectTeamMember" z="sW9evUVaGxVyZ/ZSkrdDPP4SYsU="/>
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Activity_task" property="task" z="3bHwCEvYTTQhXHw3ytHEwjLSSGM="/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+# path to location where timeo modules are deployed, i.e. where the servlet containers are installed.
+# end the path with a / character.
+loc_opt=/Users/georg/Software/tomcat/tomcat8/
+loc_sources=/Users/georg/poormanscastle/sources/
+loc_projects=/Users/georg/poormanscastle/projects/
+# define locations of tomcat instances running the timeo modules.
+# loc_tc_userservice means location of tomcat running userservice ;-)
+loc_tc_userservice=
+loc_tc_stakeholderservice=${loc_opt}timeo-stakeholderservice/
+loc_tc_taskservice=${loc_opt}timeo-taskservice/
+loc_tc_cas=
+loc_tc_webfrontend=
+
+echo "Executing timeo build script."
+echo "Location of user service is ${loc_tc_userservice}."
+echo "Location of stakeholder service is ${loc_tc_stakeholderservice}."
+echo "Location of task service is ${loc_tc_taskservice}."
+echo "Location of cas service is ${loc_tc_casservice}."
+echo "Location of webfrontend service is ${loc_tc_webfrontend}."
+echo "Location of projects folder is ${loc_projects}."
+
+# First: stop all tomcat services, so they have enough time to shutdown while the maven build is running
+# shutdown tomcat services
+if [ ! -d ${loc_tc_stakeholderservice} ]; then
+  echo "tomcat for stakeholder service not found: ${loc_tc_stakeholderservice}. Please check system setup and then run build script again."
+  exit 1
+fi
+if [ ! -d ${loc_tc_taskservice} ]; then
+  echo "tomcat for task service not found: ${loc_tc_taskservice}. Please check system setup and then run build script again."
+  exit 1
+fi
+echo "Shutting down stakeholder service"
+pushd ${loc_tc_stakeholderservice}
+bin/shutdown.sh
+rm -rf webapps/timeo-stakeholderservice*
+popd
+echo "Shutting down task service"
+pushd ${loc_tc_taskservice}
+bin/shutdown.sh
+rm -rf webapps/timeo-taskservice*
+popd
+
+# TODO shutdown the other services as they become available
+
+# prepare Maven build
+stage="local"
+if [ -z $1 ]; then
+  echo "No stage argument was given, thus assuming stage ${stage}."
+else
+  stage=$1
+  echo "A stage argument was given, thus setting stage to ${stage}."
+fi
+# run Maven build
+echo "Running complete maven build for stage ${stage}."
+mvn -P ${stage} clean package
+# if for debugging purposes I turn off the maven build, I activate the sleep below to give tomcat enough time to shut down. During a normal build the sleep is not required.
+# sleep 2
+
+# then, copy the war files
+echo "Copying stakeholder service war to tomcat webapps"
+cp -v timeo-stakeholderservice/target/timeo-stakeholderservice.war ${loc_tc_stakeholderservice}webapps
+echo "Copying task service war file to tomcat webapps"
+cp -v timeo-taskservice/target/timeo-taskservice.war ${loc_tc_taskservice}webapps
+
+# now, enough time should have passed to restart the services
+echo "Restarting stakeholder service tomcat."
+pushd ${loc_tc_stakeholderservice}
+bin/startup.sh
+popd
+echo "Restarting task service tomcat."
+pushd ${loc_tc_taskservice}
+bin/startup.sh
+popd
+
+# then, wait a second to let tomact expand the war files and then also copy the stakeholder thumb images to the stakeholder service
+echo "Wait a second to let tomcat expand the war files before copying additional resources to the then expanded webapps folder structute."
+sleep 3
+echo "Copying contact thumb images to stakeholder service using command cp -v ${loc_projects}stakeholders/* ${loc_tc_stakeholderservice}webapps/timeo-stakeholderservice/images/stakeholders/."
+cp -v ${loc_projects}stakeholders/* ${loc_tc_stakeholderservice}webapps/timeo-stakeholderservice/images/stakeholders/
+
+

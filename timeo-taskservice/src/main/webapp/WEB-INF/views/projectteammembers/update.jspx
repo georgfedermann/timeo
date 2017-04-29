@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember" modelAttribute="projectTeamMember" path="/projectteammembers" versionField="Version" z="">
+        <field:select field="role" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_role" itemLabel="name" itemValue="id" items="${timeoroles}" path="/timeoroles" required="true" z=""/>
+        <field:select field="resourceId" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_resourceId" itemLabel="email" itemValue="masterKey" items="${resources}" label="Resource" path="/resources" required="true" z=""/>
+        <field:select field="project" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_project" itemLabel="name" itemValue="id" items="${projects}" path="/projects" required="true" z=""/>
+        <field:input field="label" id="c_org_poormanscastle_products_timeo_task_domain_ProjectTeamMember_label" render="false" z="user-managed"/>
+    </form:update>
+</div>

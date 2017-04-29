@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder" items="${stakeholders}" z="Y8N/YjTYfImnalqWkQwAl7rYEHQ=">
+        <table:table data="${stakeholders}" id="l_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder" path="/stakeholders" z="BGDJKa0fKqKPehqG+Z7P3CoGGhI=">
+            <table:column id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_organisation" property="organisation" z="otwQSk+ranlleEVVkwCni16lywk="/>
+            <table:column id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_businessSection" property="businessSection" z="anq+7ZCi5YOfmUsN12M/Ao4e9Ww="/>
+            <table:column id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_masterKey" property="masterKey" z="5FAZDMvkcTUlKkq4udKcjYIlN+s="/>
+            <table:column id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_reportsTo" property="reportsTo" z="ST10nZdcU8J3201QONS8tkdmUgQ="/>
+            <table:column id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_directContact" property="directContact" z="NXeSESUJI9NO8Pva9d/tcIQWL40="/>
+            <table:column id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_name" property="name" z="uVHsTm5MG4CE+BROHYwNVlAFkPs="/>
+        </table:table>
+    </page:list>
+</div>

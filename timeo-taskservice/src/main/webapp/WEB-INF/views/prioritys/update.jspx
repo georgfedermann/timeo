@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_org_poormanscastle_products_timeo_task_domain_Priority" modelAttribute="priority" path="/prioritys" versionField="Version" z="yxZXuAEPc6i16nJu0pFSBajgjkE=">
+        <field:input field="name" id="c_org_poormanscastle_products_timeo_task_domain_Priority_name" min="1" required="true" z="NUMSteVVS7sHReY+MQpiNorM6I0="/>
+        <field:input field="description" id="c_org_poormanscastle_products_timeo_task_domain_Priority_description" min="3" required="true" z="Ez9JjThwnpVpMJIxN8rPrgvsmGI="/>
+    </form:update>
+</div>

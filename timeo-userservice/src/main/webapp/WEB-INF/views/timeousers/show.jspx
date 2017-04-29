@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUser" object="${timeouser}" path="/timeousers" z="A8/VakRELZ4D/dJKEGhk9MZmLos=">
+        <field:display field="loginId" id="s_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUser_loginId" object="${timeouser}" z="6/reqkSMCcS3KKeO+28HexuF+Ms="/>
+        <field:display field="password" id="s_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUser_password" object="${timeouser}" z="hhBe0nwEv3TDhJCzVlosjhyomrY="/>
+        <field:display field="stakeholderId" id="s_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUser_stakeholderId" object="${timeouser}" z="nz+eaNiQy8EtWN02YtGnLhln760="/>
+        <field:display field="timeoUserRoles" id="s_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUser_timeoUserRoles" object="${timeouser}" z="z7gy20NlZ9HLQYyOK2ojdpPvl6c="/>
+    </page:show>
+</div>

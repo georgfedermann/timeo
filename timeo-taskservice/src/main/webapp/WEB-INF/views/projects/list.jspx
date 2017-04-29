@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_poormanscastle_products_timeo_task_domain_Project" items="${projects}" z="FEkmbv2Eur6bL4sJatWSczm56bc=">
+        <table:table data="${projects}" id="l_org_poormanscastle_products_timeo_task_domain_Project" path="/projects" z="oX6z2ic8YTBUyvu4N1q0xKMolz4=">
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Project_name" property="name" sort="true" z="user-managed"/>
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Project_description" property="description" sort="true" z="user-managed"/>
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Project_projectStatus" property="projectStatus.name" sort="true" z="user-managed" />
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Project_spocMasterKey" label="SPOC" property="label" sort="true" stakeholderRef="true" z="user-managed" />
+            <table:column date="true" dateTimePattern="${project_startdate_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Project_startDate" property="startDate" sort="true" z="user-managed"/>
+            <table:column date="true" dateTimePattern="${project_duedate_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Project_dueDate" property="dueDate" sort="true" z="user-managed"/>
+            <table:column render="false" date="true" dateTimePattern="${project_entrydate_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Project_entryDate" property="entryDate" z="user-managed"/>
+            <table:column render="false" date="true" dateTimePattern="${project_donedate_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Project_doneDate" property="doneDate" z="user-managed"/>
+        </table:table>
+    </page:list>
+</div>

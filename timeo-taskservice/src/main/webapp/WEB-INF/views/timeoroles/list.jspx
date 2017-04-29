@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_poormanscastle_products_timeo_task_domain_TimeoRole" items="${timeoroles}" z="+XpfoFqWyCUg1iz8hMHXFyVCkrw=">
+        <table:table data="${timeoroles}" id="l_org_poormanscastle_products_timeo_task_domain_TimeoRole" path="/timeoroles" z="2VPa98ovMjG6F4uoSYTk8JpZ2Kg=">
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_TimeoRole_name" property="name" sort="true" z="user-managed"/>
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_TimeoRole_description" property="description" sort="true" z="user-managed"/>
+        </table:table>
+    </page:list>
+</div>

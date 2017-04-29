@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+    
+    <c:choose>
+        <c:when test="${not empty stakeholder}">
+            <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+            <jsp:output omit-xml-declaration="yes"/>
+
+            <div id="photo" style="float: left; width: 200px">
+                <img src="https://localhost:14443/timeo-stakeholderservice/images/stakeholders/${stakeholder.masterKey}.png" />
+            </div>
+            <div id="data" style="float: left; width: 400px">
+                ${stakeholder.name} (${stakeholder.masterKey})
+                <c:if test="${not empty reportsTo}">
+                    <span style="font-style: italic; font-weight: lighter; color: lightsteelblue">-> ${reportsTo.name}</span><br />
+                </c:if>
+                ${stakeholder.functionWithinOrganisation}<br />
+                ${stakeholder.email}<br />
+                ${stakeholder.phone} <br />
+                ${stakeholder.businessAddress}<br /><br />
+                ${stakeholder.notes}
+            </div>
+        </c:when>
+        <c:otherwise>
+            <div id="photo" style="float:left; width: 200px">
+                <img src="http://localhost/stakeholders/avatar.jpg" />
+            </div>
+            <div id="data" style="float: left; width: 400px">
+                No-one was found for the given identification.
+            </div>
+        </c:otherwise>
+    </c:choose>
+
+
+</div>

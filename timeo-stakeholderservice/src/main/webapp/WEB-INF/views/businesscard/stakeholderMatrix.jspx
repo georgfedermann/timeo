@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0">
+    <html>
+    
+    <spring:url value="/resources/js/jquery-3.1.1.js" var="js_jquery_url" />
+    <spring:url value="/resources/js/jquery.svg.js" var="js_jquery_svg_url" />
+    <spring:url value="/resources/images/stakeholders/foo.svg" var="images_matrix" />
+    <spring:url value="/pages/matrix/businesscard/" var="businesscardUrl"/>
+    <spring:url value="/pages/matrix/reportsTo/" var="reportsToUrl"/>
+
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <head>
+        <title>Stakeholder matrix</title>
+        <!--link rel="stylesheet" type="text/css" href="styles/jquery.svg.css"></link-->
+        <script src="${js_jquery_url}"><jsp:text/></script>
+        <script src="${js_jquery_svg_url}"><jsp:text/></script>
+        <script type="text/javascript">
+            var mouseX;
+            var mouseY;
+            $(document).mousemove(function (e) {
+                mouseX = e.pageX;
+                mouseY = e.pageY;
+            });
+            $(document).ready(function () {
+                $("div#mymatrix").svg({loadURL: "${images_matrix}"});
+                setTimeout(function () {
+                    $("svg").attr("width", "20000").attr("height", "620");
+                    $("g[id^='node']").each(function () {
+                        var nodeId = $(this).find('title').text();
+                        $(this).click(
+                                function () {
+                                    console.log("Mouse click " + $(this).prop("tagName") + " with id=" + nodeId);
+                                    $.get("${businesscardUrl}" + nodeId,
+                                            function (data) {
+                                                $("div#businesscard").html(data);
+                                            });
+                                }
+                        );
+                        var timer;
+                        $(this).mouseover(
+                                function () {
+                                    timer = setTimeout(function () {
+                                        console.log("Mouse over " + $(this).prop("tagName") + " with id=" + nodeId);
+                                        $.get("${businesscardUrl}" + nodeId,
+                                                function (data) {
+                                                    $("div#reportsTo").html(data);
+                                                });
+                                        $("div#reportsTo").css({'top': mouseY, left: mouseX}).fadeIn('slow');
+
+                                    }, 1000);
+                                }
+                        );
+                        $(this).mouseout(
+                                function () {
+                                    clearTimeout(timer);
+                                    $("div#reportsTo").fadeOut('slow');
+                                }
+                        );
+                    });
+                }, 1000);
+            });
+        </script>
+    </head>
+    <body>
+    <div id="helper">Please find below the stakeholder matrix.</div>
+    <div id="mymatrix">
+        <jsp:text/>
+    </div>
+    <div id="businesscard"
+         style="position: fixed; bottom: 0px; left: 0px; width: 600px; height: 190px; border: 1px solid #73AD21">Chandelier
+    </div>
+    <div id="reportsTo"
+         style="background-color: azure; position: absolute; display: none; width: 600px; height: 190px; border: 1px solid #73AD21; z-index:20000000000 ">
+        <jsp:text/>
+    </div>
+    </body>
+    </html>
+</jsp:root>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:spring="http://www.springframework.org/tags"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    
+    <div id="reportsToHeader" style="">reports to:</div>
+    <div id="photo" style="float: left; width: 200px">
+        <img src="http://localhost/stakeholders/${stakeholder.masterKey}.png" />
+    </div>
+    <div id="data" style="float: left; width: 400px">
+        ${stakeholder.name} (${stakeholder.masterKey})<br />
+        ${stakeholder.functionWithinOrganisation}<br />
+        ${stakeholder.email}<br />
+        ${stakeholder.phone} <br />
+        ${stakeholder.businessAddress}<br /><br />
+        ${stakeholder.notes}
+    </div>
+
+</div>

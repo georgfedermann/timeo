@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_poormanscastle_products_timeo_task_domain_Project" object="${project}" path="/projects" z="26UFGYPVHpj035hSPUEsYHLuj5I=">
+        <field:display field="name" id="s_org_poormanscastle_products_timeo_task_domain_Project_name" object="${project}" z="K6/K0tS/KjDtS+B+kOkPaUWZyaQ="/>
+        <field:display field="description" id="s_org_poormanscastle_products_timeo_task_domain_Project_description" object="${project}" z="BMGroiBqjh1UDCX6KSBuKsE6ON8="/>
+        <field:display field="projectStatus.name" id="s_org_poormanscastle_products_timeo_task_domain_Project_projectStatus" object="${project}" z="user-managed"/>
+        <field:display field="email" id="s_org_poormanscastle_products_timeo_task_domain_Project_spocMasterKey" label="SPOC" object="${resource}" stakeholderRef="true" z="user-managed"/>
+        <field:display field="dbClarityId" id="s_org_poormanscastle_products_timeo_task_domain_Project_dbClarityId" object="${project}" z="3OeaI3TJafwStCkqWctp1H9EfNM="/>
+        <field:display field="planPosition" id="s_org_poormanscastle_products_timeo_task_domain_Project_planPosition" object="${project}" z="9Nkq9fy86CihKl5oVTgP9Kjst6E="/>
+        <field:display date="true" dateTimePattern="${project_entrydate_date_format}" field="entryDate" id="s_org_poormanscastle_products_timeo_task_domain_Project_entryDate" object="${project}" z="CY/q9//FAHKZ08tbxzkSC96f6IE="/>
+        <field:display date="true" dateTimePattern="${project_duedate_date_format}" field="dueDate" id="s_org_poormanscastle_products_timeo_task_domain_Project_dueDate" object="${project}" z="UWJcGLFn6SNAiZoulTjfsxhkOjQ="/>
+        <field:display date="true" dateTimePattern="${project_startdate_date_format}" field="startDate" id="s_org_poormanscastle_products_timeo_task_domain_Project_startDate" object="${project}" z="Q6u3/sqw54amBdkWWEyEJgQNXoE="/>
+        <field:display date="true" dateTimePattern="${project_donedate_date_format}" field="doneDate" id="s_org_poormanscastle_products_timeo_task_domain_Project_doneDate" object="${project}" z="52vRSLJm22cy8OJrfyHdgGJzmVk="/>
+        <field:display render="false" field="label" id="s_org_poormanscastle_products_timeo_task_domain_Project_label" object="${project}" z="user-managed"/>
+    </page:show>
+</div>

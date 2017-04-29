@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUserRole" object="${timeouserrole}" path="/timeouserroles" z="m4SJJk2I4j9fmtRaF730B2F+6k4=">
+        <field:display field="roleName" id="s_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUserRole_roleName" object="${timeouserrole}" z="y5oEHMU/cDiseEl+OhN416TPM2o="/>
+        <field:display field="timeoUsers" id="s_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUserRole_timeoUsers" object="${timeouserrole}" z="1RiApwtK5MBpkz5+GMBa50W4DbA="/>
+    </page:show>
+</div>

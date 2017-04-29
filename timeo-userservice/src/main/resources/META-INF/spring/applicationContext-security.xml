@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" 
+    xmlns:beans="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+    <!-- HTTP security configurations -->
+    <http auto-config="true" entry-point-ref="casEntryPoint" use-expressions="true">
+        <custom-filter position="CAS_FILTER" ref="casFilter" />
+        
+        <logout logout-url="/resources/j_spring_security_logout" delete-cookies="JSESSIONID" />
+        <!-- Configure these elements to secure URIs in your application -->
+        <intercept-url pattern="/choices/**" access="hasRole('ROLE_ADMIN')" />
+        <intercept-url pattern="/member/**" access="isAuthenticated()" />
+        <intercept-url pattern="/resources/**" access="permitAll" />
+        <intercept-url pattern="/login/**" access="permitAll" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+        <logout invalidate-session="true" logout-url="/logout" logout-success-url="http://www.xkcd.com" delete-cookies="JSESSIONID" />
+    </http>
+    <!-- Configure Authentication mechanism -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="casAuthenticationProvider" />
+    </authentication-manager>
+    
+    <beans:bean id="casFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="casAuthenticationManager" />
+        <beans:property name="authenticationSuccessHandler">
+            <beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+                <beans:property name="alwaysUseDefaultTargetUrl" value="true" />
+                <beans:property name="defaultTargetUrl" value="${cas.login.forward}" />
+            </beans:bean>
+        </beans:property>
+    </beans:bean>
+    
+    <beans:bean id="casEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
+        <beans:property name="loginUrl" value="${cas.login.forward}" />
+        <beans:property name="serviceProperties" ref="serviceProperties" />
+    </beans:bean>
+    
+    <beans:bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
+        <beans:property name="service" value="${cas.service.hostname}timeo-userservice/j_spring_cas_security_check" />
+        <beans:property name="sendRenew" value="false" />
+    </beans:bean>
+    
+    <authentication-manager alias="casAuthenticationManager">
+        <authentication-provider ref="casAuthenticationProvider" />
+    </authentication-manager>
+    
+    <beans:bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+        <beans:property name="authenticationUserDetailsService">
+            <beans:bean class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+                <beans:constructor-arg ref="timeoUserDetailsService" />
+            </beans:bean>
+        </beans:property>
+        <beans:property name="serviceProperties" ref="serviceProperties" />
+        <beans:property name="ticketValidator">
+            <beans:bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+                <beans:constructor-arg index="0" value="${cas.server.hostname}cas" />
+            </beans:bean>
+        </beans:property>
+        <beans:property name="key" value="CAS_AUTHENTICATION_PROVIDER_ID" />
+    </beans:bean>
+    
+</beans:beans>

@@ -1,0 +1,39 @@
+project --topLevelPackage org.poormanscastle.products.timeo.stakeholdermatrix --java 8 --packaging JAR --projectName stakeholdermatrix 
+jpa setup --provider HIBERNATE --database MYSQL --databaseName stakeholdermatrix --userName stakeholdermatrix --password stakeholdermatrix
+entity jpa --class ~.domain.Stakeholder --activeRecord 1 --serializable 1 
+entity jpa --class ~.domain.Organisation
+field string --fieldName name --unique 1 --comment "The name of the organisation" --notNull 1 --sizeMin 1 
+entity jpa --class ~.domain.BusinessSection --activeRecord 1 --serializable 1 
+field string --fieldName name --unique 1 --comment "The name of the business section, like CIO, COO, external" --notNull 1 --sizeMin 1
+focus --class ~.domain.Stakeholder 
+field reference --fieldName organisation --type ~.domain.Organisation --comment "The organisation this stakeholder belongs to." --fetch LAZY --notNull 1 --cardinality MANY_TO_ONE 
+field reference --fieldName businessSection --type ~.domain.BusinessSection --comment "The business section this stakeholder belongs to. E.g. CIO, COO, etc." --fetch LAZY --notNull 1 --cardinality MANY_TO_ONE 
+logging setup --level WARN
+logging setup --level DEBUG --package ROOT
+web mvc setup
+web mvc scaffold --class ~.web.OrganisationController --backingType ~.domain.Organisation
+web mvc scaffold --class ~.web.SectionController --backingType ~.domain.Section
+web mvc scaffold --class ~.web.SectionController --backingType ~.domain.BusinessSection
+web mvc scaffold --class ~.web.StakeholderController --backingType ~.domain.Stakeholder
+focus --class ~.domain.Stakeholder 
+field number --type long --fieldName masterKey --notNull 1 --comment "a synthetic key to establish a line management hierarchy" --unique 1
+field number --type long --fieldName reportsTo --notNull 1 --comment "a synthetic key to establish line management hierarchy" --unique 0
+field number --type int --fieldName directContact --notNull 1 --comment "document whether I deal directly with this stakeholder" --unique 0
+field string --fieldName name --notNull 1 --comment "The name of this stakeholder" --sizeMin 1 --unique 0
+field string --fieldName functionWithinOrganisation --notNull 1 --comment "This stakeholder's function within the given organisation" --sizeMin 1 --unique 0
+field string --fieldName notes --notNull 1 --comment  "Things to remember about this stakeholder" --sizeMin 1 --unique 0
+field string --fieldName email --notNull 1 --comment  "This stakeholder's email address" --sizeMin 1 --unique 0
+field string --fieldName phone --notNull 1 --comment  "This stakeholder's telephone number" --sizeMin 1 --unique 0
+field string --fieldName businessAddress --notNull 1 --comment  "This stakeholder's business address" --sizeMin 1 --unique 0
+focus --class ~.domain.Organisation
+finder list --depth 1
+finder add --finderName findOrganisationsByNameEquals
+focus --class ~.domain.BusinessSection
+finder list --depth 1
+finder add --finderName findBusinessSectionsByNameEquals
+focus --class ~.domain.Stakeholder
+finder list --depth 1
+finder add --finderName findStakeholdersByMasterKey 
+
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-03-27 09:56:40
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-04-27 08:57:52

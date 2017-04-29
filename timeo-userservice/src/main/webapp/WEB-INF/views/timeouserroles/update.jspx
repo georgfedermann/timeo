@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUserRole" modelAttribute="timeoUserRole" path="/timeouserroles" versionField="Version" z="5lJvAHdqMkC//eawVEAhEUQ+QUI=">
+        <field:input field="roleName" id="c_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUserRole_roleName" min="3" required="true" z="0Boig5awP6k5biNisdBZfLOOCGE="/>
+        <field:select field="timeoUsers" id="c_org_poormanscastle_products_timeo_webfrontend_domain_TimeoUserRole_timeoUsers" itemValue="id" items="${timeousers}" multiple="true" path="/timeousers" z="gRJvpoT/HUP023fmPXz0/GB4Dbo="/>
+    </form:update>
+</div>

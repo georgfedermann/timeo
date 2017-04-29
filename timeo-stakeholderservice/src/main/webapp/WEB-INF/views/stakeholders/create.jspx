@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder" modelAttribute="stakeholder" path="/stakeholders" render="${empty dependencies}" z="DxnF1zR6hHpj4qZdHGjs5Jung7E=">
+        <field:select field="organisation" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_organisation" itemValue="id" items="${organisations}" path="/organisations" z="Fw5NAz/elLeUdaigYVdyUojt+CY="/>
+        <field:select field="businessSection" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_businessSection" itemValue="id" items="${businesssections}" path="/businesssections" z="YoVTrdJruwN+f3cN9ZHtiKbR9QY="/>
+        <field:input field="masterKey" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_masterKey" required="true" z="lBFe7rsvR1qqVoUvNosOsdrz7GE="/>
+        <field:input field="reportsTo" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_reportsTo" z="tENLyyjzIaNBzDK5zJcS5YnQgtk="/>
+        <field:input field="directContact" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_directContact" z="7mc8I5oUV1jq/PCi0tEMlQTdh/Q="/>
+        <field:input field="name" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_name" min="1" required="true" z="i6L2yjKDQEwfqHgOLdvRPm7tRRc="/>
+        <field:input field="functionWithinOrganisation" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_functionWithinOrganisation" z="AEP6zstldrvRRWTf5gNExAgWbIU="/>
+        <field:input field="notes" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_notes" z="aFFBIXwTFy6Q6A+r7MK78QxN3+s="/>
+        <field:input field="email" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_email" validationMessageCode="field_invalid_email" z="PvOiI5vdJO0tryzYSogffsWyw4c="/>
+        <field:input field="phone" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_phone" z="dvB7goBRIYNfx+urXKOXiPCO8t8="/>
+        <field:input field="businessAddress" id="c_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder_businessAddress" z="2QAoyC8khzFYaXhsM6cWvpxLXeA="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_org_poormanscastle_products_timeo_stakeholdermatrix_domain_Stakeholder" render="${not empty dependencies}" z="52bkE1e7RMuIUF7dz3aO4FmYVWc="/>
+</div>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div
+        xmlns:jsp="http://java.sun.com/JSP/Page"
+        xmlns:c="http://java.sun.com/jsp/jstl/core"
+        xmlns:spring="http://www.springframework.org/tags"
+        xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+        xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <div id="uuidContainer">
+        <input type="text" id="uuid" value="${uuid}" size="60" ><jsp:text /></input>
+    </div>
+    <div><button id="trigger">Copy to clipboard.</button></div>
+
+    <div><span>Check content of clipboard here:</span></div>
+    <div><textarea rows="3" cols="60" ><jsp:text /></textarea></div>
+    <script src="http://localhost/jquery-3.1.1.js"><jsp:text /></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#trigger").click(copyToClipboard);
+        });
+
+        function copyToClipboard(elem){
+            console.log("Button Copy to clipboard was pressed.");
+            var source = document.getElementById("uuid");
+            console.log("event element name: " + elem);
+            console.log("uuid source value: " + source.value);
+            console.log("Value in uuid source element: " + source.valueOf());
+            source.focus();
+            source.setSelectionRange(0, source.value.length);
+            var text = document.execCommand("copy");
+        }
+    </script>
+
+</div>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_org_poormanscastle_products_timeo_task_domain_Goal" modelAttribute="goal" path="/goals" render="${empty dependencies}" z="4sjTEbg1b5ut2utiR8CpN449W5s=">
+        <field:input field="name" id="c_org_poormanscastle_products_timeo_task_domain_Goal_name" min="1" required="true" z="HfD9vicS8t1l2lIsZ8J5tsNc8BM="/>
+        <field:input field="description" id="c_org_poormanscastle_products_timeo_task_domain_Goal_description" min="3" required="true" z="XqNx/S4UsqdXqs0gM/7+O8+wPX8="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_org_poormanscastle_products_timeo_task_domain_Goal" render="${not empty dependencies}" z="47QQPPlkDFqGMtNvrmYi8PgqSsk="/>
+</div>

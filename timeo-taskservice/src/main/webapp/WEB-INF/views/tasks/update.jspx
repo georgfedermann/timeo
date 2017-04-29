@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:url value="/resources/js/createTask.js" var="myScript" />
+    <script src="${myScript}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+    <form:update id="fu_org_poormanscastle_products_timeo_task_domain_Task" modelAttribute="task" path="/tasks" versionField="Version" z="b8AE0iUN7bDQrXJPqy1a8gw3t1I=">
+        <field:input field="name" id="c_org_poormanscastle_products_timeo_task_domain_Task_name" min="3" required="true" z="t43kO5QLzJbu3/sKXGRtKfBVLX0="/>
+        <field:input field="description" id="c_org_poormanscastle_products_timeo_task_domain_Task_description" min="3" required="true" z="9Dlcg1Qs4fwUjxgIrjUrg1gSK3w="/>
+        <field:input field="comment" id="c_org_poormanscastle_products_timeo_task_domain_Task_comment" required="true" z="yBInUsWq3bAQWLR8ujnykgkV3RI="/>
+        <field:input field="effortEstimation" id="c_org_poormanscastle_products_timeo_task_domain_Task_effortEstimation" min="0" required="true" validationMessageCode="field_invalid_integer" z="IaxtzhcRgpNtCfmoheC/wXD3PtE="/>
+        <field:input field="effortMeasured" id="c_org_poormanscastle_products_timeo_task_domain_Task_effortMeasured" min="0" required="true" validationMessageCode="field_invalid_integer" z="vBy2SKfG1y56SLPaIHqVgLSICm0="/>
+        <field:datetime dateTimePattern="${task_entrydate_date_format}" field="entryDate" id="c_org_poormanscastle_products_timeo_task_domain_Task_entryDate" required="true" z="fzfd40JtVjH5tdFs4u6lSxzH73w="/>
+        <field:datetime dateTimePattern="${task_duedate_date_format}" field="dueDate" id="c_org_poormanscastle_products_timeo_task_domain_Task_dueDate" z="4NI3snxvtCCwgqGBG9nhNEcpTZE="/>
+        <field:datetime dateTimePattern="${task_startdate_date_format}" field="startDate" id="c_org_poormanscastle_products_timeo_task_domain_Task_startDate" z="Fg0opU1+DxX+xidmdHivbm3Fg8k="/>
+        <field:datetime dateTimePattern="${task_donedate_date_format}" field="doneDate" id="c_org_poormanscastle_products_timeo_task_domain_Task_doneDate" z="OGeYzmKuPnU/8dL2Xp0J6ABd4JE="/>
+        <field:select field="goal" id="c_org_poormanscastle_products_timeo_task_domain_Task_goal" itemLabel="name" itemValue="id" items="${goals}" path="/goals" required="true" z="user-managed"/>
+        <field:select field="status" id="c_org_poormanscastle_products_timeo_task_domain_Task_status" itemLabel="name" itemValue="id" items="${statuses}" path="/statuses" required="true" z="user-managed"/>
+        <field:select field="priority" id="c_org_poormanscastle_products_timeo_task_domain_Task_priority" itemLabel="name" itemValue="id" items="${prioritys}" path="/prioritys" required="true" z="user-managed"/>
+        <field:select field="project" id="c_org_poormanscastle_products_timeo_task_domain_Task_project" itemLabel="name" itemValue="id" items="${projects}" path="/projects" required="true" z="user-managed"/>
+        <field:select field="projectTeamMember" id="c_org_poormanscastle_products_timeo_task_domain_Task_projectTeamMember" itemLabel="label" itemValue="id" items="${projectteammembers}" path="/projectteammembers" required="true" z="user-managed"/>
+    </form:update>
+</div>

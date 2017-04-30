@@ -12,7 +12,7 @@
     <groupId>org.poormanscastle.products.timeo</groupId>
     <artifactId>timeo-userservice</artifactId>
     <packaging>war</packaging>
-    <version>0.1.0.BUILD-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <name>timeo-userservice</name>
     <properties>
         <aspectj.version>1.8.1</aspectj.version>

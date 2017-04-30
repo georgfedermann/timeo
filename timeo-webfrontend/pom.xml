@@ -1,26 +1,141 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.poormanscastle.products.timeo</groupId>
+        <artifactId>timeo</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
     <groupId>org.poormanscastle.products.timeo</groupId>
-    <artifactId>timeo</artifactId>
+    <artifactId>timeo-webfrontend</artifactId>
+    <packaging>war</packaging>
     <version>0.1-SNAPSHOT</version>
-  </parent>
-  <groupId>org.poormanscastle.products.timeo</groupId>
-  <artifactId>timeo-webfrontend</artifactId>
-  <version>0.1-SNAPSHOT</version>
-  <name>timeo-webfrontend</name>
-  <url>http://maven.apache.org</url>
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+    <name>timeo-webfrontend</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>3.2.10.RELEASE</spring.version>
+        <spring-security.version>3.2.5.RELEASE</spring-security.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>spring-maven-release</id>
+            <name>Spring Maven Release Repository</name>
+            <url>http://maven.springframework.org/release</url>
+        </repository>
+        <repository>
+            <id>spring-maven-milestone</id>
+            <name>Spring Maven Milestone Repository</name>
+            <url>http://maven.springframework.org/milestone</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-maven-release</id>
+            <name>Spring Maven Release Repository</name>
+            <url>http://maven.springframework.org/release</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>spring-maven-milestone</id>
+            <name>Spring Maven Milestone Repository</name>
+            <url>http://maven.springframework.org/milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+    <dependencies>
+        <!-- general dependencies -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <!-- Spring dependencies -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- javax.servlet API so I can subclass stuff like Filter, Interceptor, etc. -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>timeo-webfrontend</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12</version>
+                <configuration>
+                    <printSummary>false</printSummary>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <excludes>
+                        <exclude>**/*_Roo_*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-idea-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                    <dependenciesAsLibraries>true</dependenciesAsLibraries>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <developers>
+        <developer>
+            <id>georg.federmann</id>
+            <name>Georg Federmann</name>
+            <email>georg.federmann@gmail.com</email>
+            <organization>workingtitle</organization>
+            <organizationUrl>http://www.workingtitle.com</organizationUrl>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
 </project>

@@ -9,7 +9,7 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
 
-    <groupId>org.poormanscastle.products.timeo.stakeholdermatrix</groupId>
+    <groupId>org.poormanscastle.products.timeo</groupId>
     <artifactId>timeo-stakeholderservice</artifactId>
     <packaging>war</packaging>
     <version>0.1.0.BUILD-SNAPSHOT</version>

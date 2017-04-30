@@ -11,7 +11,7 @@ loc_tc_userservice=${loc_opt}timeo-userservice/
 loc_tc_stakeholderservice=${loc_opt}timeo-stakeholderservice/
 loc_tc_taskservice=${loc_opt}timeo-taskservice/
 loc_tc_cas=
-loc_tc_webfrontend=
+loc_tc_webfrontend=${loc_opt}timeo-webfrontend
 
 echo "Executing timeo build script."
 echo "Location of user service is ${loc_tc_userservice}."
@@ -32,7 +32,11 @@ if [ ! -d ${loc_tc_taskservice} ]; then
   exit 1
 fi
 if [ ! -d ${loc_tc_userservice} ]; then
-  echo "tomcat for user service not found: ${loc_tc_userservice}. Please check system setup an then run build script again."
+  echo "tomcat for user service not found: ${loc_tc_userservice}. Please check system setup and then run build script again."
+  exit 1
+fi
+if [ ! -d ${loc_tc_webfrontend} ]; then
+  echo "tomcat for webfrontend not found: ${loc_tc_webfrontend}. Please check system setup and then run build script again."
   exit 1
 fi
 echo "Shutting down stakeholder service"
@@ -49,6 +53,11 @@ echo "Shutting down user service"
 pushd ${loc_tc_userservice}
 bin/shutdown.sh
 rm -rf webapps/timeo-userservice*
+popd
+echo "Shutting down webfrontend"
+pushd ${loc_tc_webfrontend}
+bin/shutdown.sh
+rm -rf webapps/timeo-webfrontend*
 popd
 
 # TODO shutdown the other services as they become available
@@ -74,6 +83,8 @@ echo "Copying task service war file to tomcat webapps"
 cp -v timeo-taskservice/target/timeo-taskservice.war ${loc_tc_taskservice}webapps/
 echo "Copying user service war file to tomcat webapps"
 cp -v timeo-userservice/target/timeo-userservice.war ${loc_tc_userservice}webapps/
+echo "Copying webfrontend war file to the tomcat webapps"
+cp -v timeo-webfrontend/target/timeo-webfrontend.war ${loc_tc_webfrontend}webapps/
 
 # now, enough time should have passed to restart the services
 echo "Restarting stakeholder service tomcat."
@@ -88,6 +99,10 @@ echo "Restarting user service tomcat."
 pushd ${loc_tc_userservice}
 bin/startup.sh
 popd
+echo "Restarting webfrontend tomcat."
+pushd ${loc_tc_webfrontend}
+bin/startup.sh
+popd
 
 # then, wait a second to let tomact expand the war files and then also copy the stakeholder thumb images to the stakeholder service
 echo "Wait a second to let tomcat expand the war files before copying additional resources to the then expanded webapps folder structute."
@@ -95,4 +110,5 @@ sleep 3
 echo "Copying contact thumb images to stakeholder service using command cp -v ${loc_projects}stakeholders/* ${loc_tc_stakeholderservice}webapps/timeo-stakeholderservice/images/stakeholders/."
 cp -v ${loc_projects}stakeholders/* ${loc_tc_stakeholderservice}webapps/timeo-stakeholderservice/images/stakeholders/
 
+grin
 

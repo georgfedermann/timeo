@@ -9,7 +9,7 @@
         <version>0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.poormanscastle.products.timeo.task</groupId>
+    <groupId>org.poormanscastle.products.timeo</groupId>
     <artifactId>timeo-taskservice</artifactId>
     <packaging>war</packaging>
     <version>0.1.0.BUILD-SNAPSHOT</version>

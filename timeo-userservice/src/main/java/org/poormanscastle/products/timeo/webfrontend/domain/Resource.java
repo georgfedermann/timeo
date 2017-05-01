@@ -1,5 +1,8 @@
 package org.poormanscastle.products.timeo.webfrontend.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.serializable.RooSerializable;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -29,5 +32,13 @@ public class Resource {
     private String phoneNumber;
 
     private String businessAddress;
+
+    private String loginId;
+
+    private List<String> grantedAuthorities = new ArrayList<>();
+
+    public void addGrantedAuthority(String grantedAuthority) {
+        grantedAuthorities.add(grantedAuthority);
+    }
 
 }

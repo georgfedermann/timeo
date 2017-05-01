@@ -4,6 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+    
     <!-- HTTP security configurations -->
     <http auto-config="true" entry-point-ref="casEntryPoint" use-expressions="true">
         <custom-filter position="CAS_FILTER" ref="casFilter" />
@@ -14,9 +15,11 @@
         <intercept-url pattern="/member/**" access="isAuthenticated()" />
         <intercept-url pattern="/resources/**" access="permitAll" />
         <intercept-url pattern="/login/**" access="permitAll" />
+        <intercept-url pattern="/ajax/**" access="permitAll" />
         <intercept-url pattern="/**" access="isAuthenticated()" />
         <logout invalidate-session="true" logout-url="/logout" logout-success-url="http://www.xkcd.com" delete-cookies="JSESSIONID" />
     </http>
+    
     <!-- Configure Authentication mechanism -->
     <authentication-manager alias="authenticationManager">
         <authentication-provider ref="casAuthenticationProvider" />

@@ -10,7 +10,7 @@
         <module>timeo-taskservice</module>
         <module>timeo-stakeholderservice</module>
         <module>timeo-userservice</module>
-    <module>timeo-webfrontend</module>
+        <module>timeo-webfrontend</module>
   </modules>
     <profiles>
         <profile>

@@ -26,8 +26,8 @@
             <title>${application_name}</title>
         </head>
         <body>
-            Welcome to the application!
-        
+            <p>Welcome to the application, ${username}!</p>
+            <p>This if the information we have about you: ${username.toString()}</p>
         </body>
     </html>
 </jsp:root>

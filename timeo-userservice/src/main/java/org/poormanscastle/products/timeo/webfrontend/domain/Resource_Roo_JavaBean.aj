@@ -3,6 +3,7 @@
 
 package org.poormanscastle.products.timeo.webfrontend.domain;
 
+import java.util.List;
 import org.poormanscastle.products.timeo.webfrontend.domain.Resource;
 
 privileged aspect Resource_Roo_JavaBean {
@@ -53,6 +54,22 @@ privileged aspect Resource_Roo_JavaBean {
     
     public void Resource.setBusinessAddress(String businessAddress) {
         this.businessAddress = businessAddress;
+    }
+    
+    public String Resource.getLoginId() {
+        return this.loginId;
+    }
+    
+    public void Resource.setLoginId(String loginId) {
+        this.loginId = loginId;
+    }
+    
+    public List<String> Resource.getGrantedAuthorities() {
+        return this.grantedAuthorities;
+    }
+    
+    public void Resource.setGrantedAuthorities(List<String> grantedAuthorities) {
+        this.grantedAuthorities = grantedAuthorities;
     }
     
 }

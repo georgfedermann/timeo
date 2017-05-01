@@ -28,17 +28,17 @@ public class AjaxController {
     @Autowired
     private ProjectTeamMemberService projectTeamMemberService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/forProject/{projectId}")
-    public
-    @ResponseBody
-    List<ProjectTeamMember> getPojectTeamMemberForProject(@PathVariable String projectId) {
-        logger.info(StringUtils.join("Got a REST-ful WS request for the project team members of project with id ", projectId, "."));
+    @RequestMapping(method = RequestMethod.GET, value = "/forProject/{projectId}") 
+    public @ResponseBody List<ProjectTeamMember> getPojectTeamMemberForProject(@PathVariable String projectId) {
+        logger.info(StringUtils.join("Got a REST-ful WS request for the project team members of project with id ", 
+                projectId, "."));
         return projectTeamMemberService.getProjectTeamMembersForProject(projectId);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/widget/forProject/{projectId}")
     public String getWidgetPojectTeamMemberForProject(@PathVariable String projectId, Model modelUi) {
-        logger.info(StringUtils.join("Got a REST-ful WS request for the project team members of project with id ", projectId, "."));
+        logger.info(StringUtils.join("Got a REST-ful WS request for the project team members of project with id ", 
+                projectId, "."));
         modelUi.addAttribute("projectTeamMembers", projectTeamMemberService.getProjectTeamMembersForProject(projectId));
         return "ajax/ProjectTeamMemberWidget";
     }

@@ -43,9 +43,7 @@ public class PagesController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/stakeholder/{stakeholderKey}")
-    public
-    @ResponseBody
-    Stakeholder getStakeholderByKey(@PathVariable String stakeholderKey) {
+    public @ResponseBody Stakeholder getStakeholderByKey(@PathVariable String stakeholderKey) {
         logger.info(StringUtils.join("Got a REST-ful WS request for the stakeholder with master key ", stakeholderKey));
         List<Stakeholder> stakeholders = Stakeholder.findStakeholdersByMasterKey(stakeholderKey).getResultList();
         if (stakeholders.size() == 1) {
@@ -58,9 +56,7 @@ public class PagesController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/stakeholders")
-    public
-    @ResponseBody
-    List<Stakeholder> getAllStakehoolders() {
+    public @ResponseBody List<Stakeholder> getAllStakehoolders() {
         logger.info(StringUtils.join("Got a request for all stakeholders."));
         return Stakeholder.findAllStakeholders();
     }

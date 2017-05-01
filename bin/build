@@ -11,7 +11,7 @@ loc_tc_userservice=${loc_opt}timeo-userservice/
 loc_tc_stakeholderservice=${loc_opt}timeo-stakeholderservice/
 loc_tc_taskservice=${loc_opt}timeo-taskservice/
 loc_tc_cas=
-loc_tc_webfrontend=${loc_opt}timeo-webfrontend
+loc_tc_webfrontend=${loc_opt}timeo-webfrontend/
 
 echo "Executing timeo build script."
 echo "Location of user service is ${loc_tc_userservice}."

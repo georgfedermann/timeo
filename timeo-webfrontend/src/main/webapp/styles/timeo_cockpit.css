@@ -1,4 +1,47 @@
-body{
-    color: #FFC200;
-    background-color: black;
+@import "reset.css";
+
+body {
+    color: #606060;
+    background-color: beige;
+}
+
+div#cockpit_panel {
+    /* border: 1px #505150 solid;*/
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 650px;
+    box-shadow: 3px 3px 10px 3px rgba(50, 50, 50, 0.95);
+    background: url("../images/normal-bg.png") repeat-y scroll 0 0 #E3DED8;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+div#header_panel {
+    text-align: right;
+    padding: 10px 10px 10px 10px;
+}
+
+div#taskbrowser_container {
+    display: flex;
+}
+
+div#taskbrowser_panel {
+    width: 850px;
+}
+
+div#toolbar {
+    width: 150px;
+    text-align: center;
+}
+
+div#footer {
+    width: 100%;
+    border-top: inset 1px black;
+    text-align: center;
+    position: fixed;
+    bottom: 0px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: beige;
 }

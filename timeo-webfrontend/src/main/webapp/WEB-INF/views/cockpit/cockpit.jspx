@@ -16,6 +16,15 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8" />
     <jsp:directive.page pageEncoding="UTF-8" />
     
+    <spring:url var="profile_button_img_active" value="/resources/images/user_active.png" />
+    <spring:url var="profile_button_img_inactive" value="/resources/images/user_inactive.png" />
+    <spring:url var="profile_button_img_mouseover" value="/resources/images/user_mouseover.png" />
+    <spring:url var="profile_button_img_selected" value="/resources/images/user_selected.png" />
+    <spring:url var="receive_call_button_img_active" value="/resources/images/phone_active.png" />
+    <spring:url var="receive_call_button_img_inactive" value="/resources/images/phone_inactive.png" />
+    <spring:url var="receive_call_button_img_mouseover" value="/resources/images/phone_mouseover.png" />
+    <spring:url var="receive_call_button_img_selected" value="/resources/images/phone_selected.png" />
+    
     <html>
         <head>
             <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -26,8 +35,30 @@
             <title>${application_name}</title>
         </head>
         <body>
-            <p>Welcome to the application, ${username}!</p>
-            <p>This if the information we have about you: ${username.toString()}</p>
+            <div id="cockpit_panel">
+                
+                <div id="header_panel">
+                    <span><spring:message code="cockpit.salutation" arguments="${username}" />  </span>
+                </div>
+                
+                <div id="taskbrowser_container">
+                    <div id="taskbrowser_panel">
+                        <jsp:text />
+                    </div>
+                    <div id="toolbar">
+                        <div id="profile_button">
+                            <img src="${profile_button_img_active}" />
+                        </div>
+                        <div id="receive_call_button">
+                            <img src="${receive_call_button_img_active}" />
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div id="footer">
+                <span><spring:message code="cockpit.footer.slogan" /></span>
+            </div>
         </body>
     </html>
 </jsp:root>

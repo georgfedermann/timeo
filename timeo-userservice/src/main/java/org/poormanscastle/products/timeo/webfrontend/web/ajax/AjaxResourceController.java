@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * Created by georg on 01/05/2017.
  */
-@RequestMapping("resource")
+@RequestMapping("/resource")
 @Controller
 public class AjaxResourceController {
 

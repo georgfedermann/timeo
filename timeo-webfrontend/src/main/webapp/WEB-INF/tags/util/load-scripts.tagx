@@ -7,7 +7,7 @@
     
     <spring:url value="/resources/styles/timeo_cockpit.css" var="timeo_css_url" />
     <spring:url value="/resources/js/jquery-3.1.1.js" var="jquery_url" />
-    
+    <spring:url value="/resources/js/timeo_cockpit.js" var="timeoscripts_url" />
     
     
     <link rel="stylesheet" type="text/css" href="${timeo_css_url}" />
@@ -18,5 +18,6 @@
     </c:set>
     
     <script src="${jquery_url}" type="text/javascript"><!-- required by FF3 and Opera --></script>
+    <script src="${timeoscripts_url}" type="text/javascript"><!-- required by FF3 and Opery --></script>
     
 </jsp:root>

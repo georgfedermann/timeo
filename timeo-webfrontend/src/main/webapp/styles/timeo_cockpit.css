@@ -24,10 +24,15 @@ div#header_panel {
 
 div#taskbrowser_container {
     display: flex;
+    padding-top: 60px;
 }
 
 div#taskbrowser_panel {
     width: 850px;
+    text-align: center;
+}
+
+div#taskbrowser_dummy {
 }
 
 div#toolbar {
@@ -44,4 +49,12 @@ div#footer {
     padding-top: 15px;
     padding-bottom: 15px;
     background-color: beige;
+}
+
+div.toolbar_button {
+    margin-top: 45px;
+}
+
+img.toolbar_button {
+    border: 2px solid transparent;
 }

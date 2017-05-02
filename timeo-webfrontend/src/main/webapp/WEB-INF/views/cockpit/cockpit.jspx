@@ -24,6 +24,10 @@
     <spring:url var="receive_call_button_img_inactive" value="/resources/images/phone_inactive.png" />
     <spring:url var="receive_call_button_img_mouseover" value="/resources/images/phone_mouseover.png" />
     <spring:url var="receive_call_button_img_selected" value="/resources/images/phone_selected.png" />
+    <spring:url var="watch_youtube_button_img_inactive" value="/resources/images/youtube_inactive.png" />
+    <spring:url var="pause_button_img_inactive" value="/resources/images/pause_inactive.png" />
+    
+    <spring:url var="task_browser_dummy" value="/resources/images/task_browser_dummy.png" />
     
     <html>
         <head>
@@ -38,19 +42,27 @@
             <div id="cockpit_panel">
                 
                 <div id="header_panel">
-                    <span><spring:message code="cockpit.salutation" arguments="${username}" />  </span>
+                    <span><spring:message code="cockpit.salutation" arguments="${username}" /></span>
                 </div>
                 
                 <div id="taskbrowser_container">
                     <div id="taskbrowser_panel">
-                        <jsp:text />
+                        <div id="taskbrowser_dummy">
+                            <img src="${task_browser_dummy}" />
+                        </div>
                     </div>
                     <div id="toolbar">
-                        <div id="profile_button">
-                            <img src="${profile_button_img_active}" />
+                        <div id="profile_button" class="toolbar_button">
+                            <img class="toolbar_button" src="${profile_button_img_active}" />
                         </div>
-                        <div id="receive_call_button">
-                            <img src="${receive_call_button_img_active}" />
+                        <div id="pause_button" class="toolbar_button">
+                            <img class="toolbar_button" src="${pause_button_img_inactive}" />
+                        </div>
+                        <div id="receive_call_button" class="toolbar_button">
+                            <img class="toolbar_button" src="${receive_call_button_img_active}" />
+                        </div>
+                        <div id="watch_youtube_button" class="toolbar_button">
+                            <img class="toolbar_button" src="${watch_youtube_button_img_inactive}" />
                         </div>
                     </div>
                 </div>
@@ -59,6 +71,16 @@
             <div id="footer">
                 <span><spring:message code="cockpit.footer.slogan" /></span>
             </div>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    console.log("cockpit loaded.");
+                    profileButton = new ProfileButton();
+                    profileButton.init();
+                    
+                    receiveCallButton = new ReceiveCallButton();
+                    receiveCallButton.init();
+                });
+            </script>
         </body>
     </html>
 </jsp:root>

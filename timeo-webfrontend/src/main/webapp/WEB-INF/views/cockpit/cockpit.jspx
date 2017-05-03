@@ -81,6 +81,13 @@
                     receiveCallButton.init();
                 });
             </script>
+            
+            <div id="profileContextMenu" class="profileContextMenuHidden">
+                <p><spring:message code="cockpit.userdialog.signedIn" /></p>
+                <p>${timeoUser.loginId}</p>
+                <hr />
+                <p class="profileContextMenuItem"><spring:message code="cockpit.userdialog.signOut" /></p>
+            </div>
         </body>
     </html>
 </jsp:root>

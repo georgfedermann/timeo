@@ -9,15 +9,27 @@
     <http auto-config="true" entry-point-ref="casEntryPoint" use-expressions="true">
         <custom-filter position="CAS_FILTER" ref="casFilter"/>
 
-        <logout logout-url="/resources/j_spring_security_logout" delete-cookies="JSESSIONID"/>
         <!-- Configure these elements to secure URIs in your application -->
         <intercept-url pattern="/cockpit/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/login/**" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
-        <logout invalidate-session="true" logout-url="/logout" logout-success-url="http://www.xkcd.com"
+        <logout invalidate-session="true" logout-url="/logout" logout-success-url="/triggerRequestSingleLogoutFilter"
                 delete-cookies="JSESSIONID"/>
+        <custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER" />
+        <custom-filter ref="singleLogoutFilter" before="CAS_FILTER" />
     </http>
+    
+    <!-- this filter handles a single logout reqeust from the CAS server -->
+    <beans:bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" />
+    
+    <beans:bean id="requestSingleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:constructor-arg value="${cas.logout.forward}" />
+        <beans:constructor-arg>
+            <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+        </beans:constructor-arg>
+        <beans:property name="filterProcessesUrl" value="/triggerRequestSingleLogoutFilter" />
+    </beans:bean>
 
     <!-- Configure Authentication mechanism -->
     <authentication-manager alias="authenticationManager">

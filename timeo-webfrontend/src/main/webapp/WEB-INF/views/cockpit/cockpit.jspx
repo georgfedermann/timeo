@@ -26,8 +26,8 @@
     <spring:url var="receive_call_button_img_selected" value="/resources/images/phone_selected.png" />
     <spring:url var="watch_youtube_button_img_inactive" value="/resources/images/youtube_inactive.png" />
     <spring:url var="pause_button_img_inactive" value="/resources/images/pause_inactive.png" />
-    
     <spring:url var="task_browser_dummy" value="/resources/images/task_browser_dummy.png" />
+    <spring:url var="logout_url" value="/logout" />
     
     <html>
         <head>
@@ -86,7 +86,7 @@
                 <p><spring:message code="cockpit.userdialog.signedIn" /></p>
                 <p>${timeoUser.loginId}</p>
                 <hr />
-                <p class="profileContextMenuItem"><spring:message code="cockpit.userdialog.signOut" /></p>
+                <p class="profileContextMenuItem"><a href="${logout_url}"><spring:message code="cockpit.userdialog.signOut" /></a></p>
             </div>
         </body>
     </html>

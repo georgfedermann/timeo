@@ -1,0 +1,45 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: georg
+  Date: 04/05/2017
+  Time: 15:32
+  To change this template use File | Settings | File Templates.
+-->
+<ul id="taskListForUser" class="taskCoverFlowContainer"
+     xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <c:forEach items="${tasks}" var="task" varStatus="varStatus">
+        <li class="taskCoverFlowListItem">
+            <div class="taskCoverFlowItem">
+                <div class="taskCoverFlowDescription">${task.description}</div>
+                <div style="display: flex">
+                    <div class="taskCoverFlowHeader">Project:</div>
+                    <div class="taskCoverFlowHeader">Due date:</div>
+                </div>
+                <div style="display: flex">
+                    <div class="taskCoverFlowData">${task.project.name}</div>
+                    <div class="taskCoverFlowData">${task.project.dueDate}</div>
+                </div>
+                <div style="display: flex">
+                    <div class="taskCoverFlowHeader">Priority:</div>
+                    <div class="taskCoverFlowHeader">Effort estd:</div>
+                </div>
+                <div style="display: flex">
+                    <div class="taskCoverFlowData">${task.priority.name}</div>
+                    <div class="taskCoverFlowData">${task.effortEstimation}</div>
+                </div>
+                <div style="display:flex">
+                    <div class="taskCoverFlowHeader">Investment so far:</div>
+                    <div class="taskCoverFlowHeader"><jsp:text /></div>
+                </div>
+                <div style="display: flex">
+                    <div class="taskCoverFlowData">--:--</div>
+                    <div class="taskCoverFlowData"><jsp:text /></div>
+                </div>
+            </div>
+        </li>
+    </c:forEach>
+
+</ul>

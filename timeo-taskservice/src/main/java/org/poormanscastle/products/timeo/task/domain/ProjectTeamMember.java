@@ -1,5 +1,4 @@
 package org.poormanscastle.products.timeo.task.domain;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -8,13 +7,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.serializable.RooSerializable;
 import org.springframework.roo.addon.tostring.RooToString;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
@@ -26,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @RooToString
 @RooSerializable
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"project", "resourceId", "role"})})
-@RooJpaActiveRecord(finders = {"findProjectTeamMembersByProject"})
+@RooJpaActiveRecord(finders = { "findProjectTeamMembersByProject", "findProjectTeamMembersByResourceIdEquals" })
 public class ProjectTeamMember {
 
     /**

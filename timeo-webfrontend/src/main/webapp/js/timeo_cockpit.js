@@ -4,13 +4,53 @@
  */
 $(document).ready(function(){
     console.log("cockpit loaded.");
+    
+    user = new User();
+    user.init();
+    
     profileButton = new ProfileButton();
     profileButton.init();
 
     receiveCallButton = new ReceiveCallButton();
     receiveCallButton.init();
+    
+    taskBrowser = new TaskBrowser();
+    taskBrowser.init();
+    
+    setTimeout(taskBrowser.refreshTasks(), 1000);
 
 });
+
+function User() {}
+User.prototype.init = function() {
+    this.masterKey = $("#userdata #masterKey").text();
+    this.email = $("#userdata #email").text();
+    this.phone = $("#userdata #phone").text();
+    this.businessAddress = $("#userdata #businessAddress").text();
+    this.loginId = $("#userdata #loginId").text();
+}
+
+/**
+ * Implements funcitonality for the TaskBrowser
+ * @constructor
+ */
+function TaskBrowser() {}
+
+TaskBrowser.prototype.init = function() {
+    this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.masterKey;
+}
+
+TaskBrowser.prototype.refreshTasks = function() {
+    $("div#taskbrowser_panel").remove();
+    $("div#taskbrowser_container").prepend($("<div id='taskbrowser_panel' class='my-flipster'></div>"));
+    $.get(
+        this.tasklistWebserviceUrl,
+        function(data){
+            $("div#taskbrowser_panel").empty();
+            $("div#taskbrowser_panel").append(data.firstChild);
+            $("#taskbrowser_panel").flipster();
+        });
+}
 
 /**
  * Implements functionality of the ProfileButton

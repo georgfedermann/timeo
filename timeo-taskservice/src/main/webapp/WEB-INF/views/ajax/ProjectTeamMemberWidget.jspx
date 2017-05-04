@@ -5,17 +5,17 @@
   Time: 19:12
   This is a simple widget displaying the list of project team members for a given project.
 -->
-    <div id="_c_org_poormanscastle_products_timeo_task_domain_Task_projectTeamMember_id"
-         xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
-         xmlns:spring="http://www.springframework.org/tags"
-         xmlns:c="http://java.sun.com/jsp/jstl/core">
-        <label for="_projectTeamMember_id">Project Team Member:</label>
-        <select id="_projectTeamMember_id" name="projectTeamMember">
-            <c:forEach items="${projectTeamMembers}" var="projectTeamMember" varStatus="varStatus">
-                <option value="${projectTeamMember.id}">${projectTeamMember.label}</option>
-            </c:forEach>
-        </select><br/>
-        <script type="text/javascript">
-            Spring.addDecoration(new Spring.ElementDecoration({elementId : '_projectTeamMember_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : true}})); 
-        </script>
-    </div>
+<div id="_c_org_poormanscastle_products_timeo_task_domain_Task_projectTeamMember_id"
+     xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <label for="_projectTeamMember_id">Project Team Member:</label>
+    <select id="_projectTeamMember_id" name="projectTeamMember">
+        <c:forEach items="${projectTeamMembers}" var="projectTeamMember" varStatus="varStatus">
+            <option value="${projectTeamMember.id}">${projectTeamMember.label}</option>
+        </c:forEach>
+    </select><br/>
+    <script type="text/javascript">
+        Spring.addDecoration(new Spring.ElementDecoration({elementId : '_projectTeamMember_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : true}})); 
+    </script>
+</div>

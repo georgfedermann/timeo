@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @RequestMapping("/projectTeamMember")
 @Controller
-public class AjaxController {
+public class AjaxProjectTeamMemberController {
 
-    final static Logger logger = Logger.getLogger(AjaxController.class);
+    final static Logger logger = Logger.getLogger(AjaxProjectTeamMemberController.class);
 
     @Autowired
     private ProjectTeamMemberService projectTeamMemberService;
@@ -42,5 +42,5 @@ public class AjaxController {
         modelUi.addAttribute("projectTeamMembers", projectTeamMemberService.getProjectTeamMembersForProject(projectId));
         return "ajax/ProjectTeamMemberWidget";
     }
-
+    
 }

@@ -46,7 +46,7 @@
                 </div>
                 
                 <div id="taskbrowser_container">
-                    <div id="taskbrowser_panel">
+                    <div id="taskbrowser_panel" class="my-flipster">
                         <!--
                         <div id="taskbrowser_dummy">
                             <img src="${task_browser_dummy}" />
@@ -81,6 +81,13 @@
                 <span><spring:message code="cockpit.footer.slogan" /></span>
             </div>
 
+            <div id="userdata" style="display: none">
+                <div id="masterKey">${timeoUser.masterKey}</div>
+                <div id="email">${timeoUser.email}</div>
+                <div id="phone">${timeoUser.phone}</div>
+                <div id="businessAddress">${timeoUser.businessAddress}</div>
+                <div id="loginId">${timeoUser.loginId}</div>
+            </div>
             <div id="profileContextMenu" class="profileContextMenuHidden">
                 <p><spring:message code="cockpit.userdialog.signedIn" /></p>
                 <p>${timeoUser.loginId}</p>

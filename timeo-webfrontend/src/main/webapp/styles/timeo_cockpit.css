@@ -94,3 +94,27 @@ div.phoneCallDialogVisible {
     background-color: tan;
     padding: 4px;
 }
+
+li.taskCoverFlowListItem {
+    width: 350px;
+    height: 350px;
+    padding: 10px;
+}
+
+li.flipster__item--current {
+    border: 2px dashed #606060;
+    background-color: floralwhite;
+}
+
+.taskCoverFlowHeader {
+    width: 50%;
+    text-align: left;
+    font-weight: bold;
+    padding: 10px 18px;
+}
+
+.taskCoverFlowData {
+    width: 50%;
+    text-align: left;
+    padding: 10px 18px;
+}

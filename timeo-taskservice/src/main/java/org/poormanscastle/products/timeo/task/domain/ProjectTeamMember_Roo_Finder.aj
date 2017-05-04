@@ -18,6 +18,14 @@ privileged aspect ProjectTeamMember_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
+    public static Long ProjectTeamMember.countFindProjectTeamMembersByResourceIdEquals(String resourceId) {
+        if (resourceId == null || resourceId.length() == 0) throw new IllegalArgumentException("The resourceId argument is required");
+        EntityManager em = ProjectTeamMember.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM ProjectTeamMember AS o WHERE o.resourceId = :resourceId", Long.class);
+        q.setParameter("resourceId", resourceId);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<ProjectTeamMember> ProjectTeamMember.findProjectTeamMembersByProject(Project project) {
         if (project == null) throw new IllegalArgumentException("The project argument is required");
         EntityManager em = ProjectTeamMember.entityManager();
@@ -38,6 +46,29 @@ privileged aspect ProjectTeamMember_Roo_Finder {
         }
         TypedQuery<ProjectTeamMember> q = em.createQuery(queryBuilder.toString(), ProjectTeamMember.class);
         q.setParameter("project", project);
+        return q;
+    }
+    
+    public static TypedQuery<ProjectTeamMember> ProjectTeamMember.findProjectTeamMembersByResourceIdEquals(String resourceId) {
+        if (resourceId == null || resourceId.length() == 0) throw new IllegalArgumentException("The resourceId argument is required");
+        EntityManager em = ProjectTeamMember.entityManager();
+        TypedQuery<ProjectTeamMember> q = em.createQuery("SELECT o FROM ProjectTeamMember AS o WHERE o.resourceId = :resourceId", ProjectTeamMember.class);
+        q.setParameter("resourceId", resourceId);
+        return q;
+    }
+    
+    public static TypedQuery<ProjectTeamMember> ProjectTeamMember.findProjectTeamMembersByResourceIdEquals(String resourceId, String sortFieldName, String sortOrder) {
+        if (resourceId == null || resourceId.length() == 0) throw new IllegalArgumentException("The resourceId argument is required");
+        EntityManager em = ProjectTeamMember.entityManager();
+        StringBuilder queryBuilder = new StringBuilder("SELECT o FROM ProjectTeamMember AS o WHERE o.resourceId = :resourceId");
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            queryBuilder.append(" ORDER BY ").append(sortFieldName);
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                queryBuilder.append(" ").append(sortOrder);
+            }
+        }
+        TypedQuery<ProjectTeamMember> q = em.createQuery(queryBuilder.toString(), ProjectTeamMember.class);
+        q.setParameter("resourceId", resourceId);
         return q;
     }
     

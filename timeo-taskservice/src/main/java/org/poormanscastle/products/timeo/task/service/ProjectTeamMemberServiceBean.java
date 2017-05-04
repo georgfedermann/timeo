@@ -22,7 +22,7 @@ public class ProjectTeamMemberServiceBean implements ProjectTeamMemberService {
 
     @Override
     public List<ProjectTeamMember> getProjectTeamMembersForProject(Project project) {
-        logger.info(StringUtils.join("Got a service request for the team memberos of the project ", project.toString(), "."));
+        logger.info(StringUtils.join("Got a service request for the team members of the project ", project.toString(), "."));
         List<ProjectTeamMember> projectTeamMembers = ProjectTeamMember.findProjectTeamMembersByProject(project).getResultList();
         projectTeamMembers.forEach((t) -> {
             t.setLabel(resourceService.loadResourceByMasterKey(t.getResourceId()).getEmail());

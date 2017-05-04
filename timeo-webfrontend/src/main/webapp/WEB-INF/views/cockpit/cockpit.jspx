@@ -47,9 +47,18 @@
                 
                 <div id="taskbrowser_container">
                     <div id="taskbrowser_panel">
+                        <!--
                         <div id="taskbrowser_dummy">
                             <img src="${task_browser_dummy}" />
                         </div>
+                        -->
+                        <ul>
+                            <li>Get this done</li>
+                            <li>Get that done</li>
+                            <li>Make it done</li>
+                            <li>Take care of it</li>
+                            <li>Is this done yet?</li>
+                        </ul>
                     </div>
                     <div id="toolbar">
                         <div id="profile_button" class="toolbar_button">
@@ -71,22 +80,15 @@
             <div id="footer">
                 <span><spring:message code="cockpit.footer.slogan" /></span>
             </div>
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    console.log("cockpit loaded.");
-                    profileButton = new ProfileButton();
-                    profileButton.init();
-                    
-                    receiveCallButton = new ReceiveCallButton();
-                    receiveCallButton.init();
-                });
-            </script>
-            
+
             <div id="profileContextMenu" class="profileContextMenuHidden">
                 <p><spring:message code="cockpit.userdialog.signedIn" /></p>
                 <p>${timeoUser.loginId}</p>
                 <hr />
                 <p class="profileContextMenuItem"><a href="${logout_url}"><spring:message code="cockpit.userdialog.signOut" /></a></p>
+            </div>
+            <div id="phoneCallDialog" class="phoneCallDialogHidden">
+                <p>You are not allowed to place a call, dude.</p>
             </div>
         </body>
     </html>

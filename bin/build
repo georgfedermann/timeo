@@ -105,7 +105,7 @@ bin/startup.sh
 popd
 
 # then, wait a second to let tomact expand the war files and then also copy the stakeholder thumb images to the stakeholder service
-echo "Wait a second to let tomcat expand the war files before copying additional resources to the then expanded webapps folder structute."
+echo "Wait a second to let tomcat expand the war files before copying additional resources to the then expanded webapps folder structure."
 sleep 3
 echo "Copying contact thumb images to stakeholder service using command cp -v ${loc_projects}stakeholders/* ${loc_tc_stakeholderservice}webapps/timeo-stakeholderservice/images/stakeholders/."
 cp -v ${loc_projects}stakeholders/* ${loc_tc_stakeholderservice}webapps/timeo-stakeholderservice/images/stakeholders/

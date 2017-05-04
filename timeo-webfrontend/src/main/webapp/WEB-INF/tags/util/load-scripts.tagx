@@ -6,11 +6,15 @@
     <jsp:output omit-xml-declaration="yes" />
     
     <spring:url value="/resources/styles/timeo_cockpit.css" var="timeo_css_url" />
-    <spring:url value="/resources/js/jquery-3.1.1.js" var="jquery_url" />
     <spring:url value="/resources/js/timeo_cockpit.js" var="timeoscripts_url" />
-    
-    
+
+    <spring:url value="/resources/js/jquery-3.1.1.js" var="jquery_url" />
+    <spring:url value="/resources/js/jquery.flipster.min.js" var="coverflow_js_url" />
+    <spring:url value="/resources/styles/jquery.flipster.css" var="coverflow_css_url" />
+
     <link rel="stylesheet" type="text/css" href="${timeo_css_url}" />
+    <link rel="stylesheet" type="text/css" href="${coverflow_css_url}" />
+    
     <!-- Get the user local from the page context (it was set be Spring MVC's locale resolver) -->
     <c:set var="userlocale">
         <c:set var="plocale">${pageContext.response.locale}</c:set>
@@ -18,6 +22,7 @@
     </c:set>
     
     <script src="${jquery_url}" type="text/javascript"><!-- required by FF3 and Opera --></script>
-    <script src="${timeoscripts_url}" type="text/javascript"><!-- required by FF3 and Opery --></script>
+    <script src="${timeoscripts_url}" type="text/javascript"><!-- required by FF3 and Opera --></script>
+    <script src="${coverflow_js_url}" type="text/javascript"><!-- required by FF3 and Opera --></script>
     
 </jsp:root>

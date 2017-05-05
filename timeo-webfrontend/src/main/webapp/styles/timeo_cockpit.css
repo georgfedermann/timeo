@@ -156,10 +156,12 @@ li.flipster__item--current .taskButton {
 }
 
 .flagTaskButton {
+    margin-left: 25%;
     background-image: url("../images/flagActive.png");
 }
 
 .flagTaskButton:hover {
+    margin-left: 25%;
     background-image: url("../images/flag_mouseover.png");
 }
 

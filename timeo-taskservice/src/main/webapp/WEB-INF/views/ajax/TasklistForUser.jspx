@@ -12,7 +12,13 @@
 
     <c:forEach items="${tasks}" var="task" varStatus="varStatus">
         <li class="taskCoverFlowListItem">
+            <div style="display: none;">
+                <div id="taskId">${task.id}</div>
+                <div id="taskName">${task.name}</div>
+                <div id="projectId">${task.project.id}</div>
+            </div>
             <div class="taskCoverFlowItem">
+                <div class="taskCoverFlowName">${task.name}</div>
                 <div class="taskCoverFlowDescription">${task.description}</div>
                 <div style="display: flex">
                     <div class="taskCoverFlowHeader">Project:</div>
@@ -36,10 +42,13 @@
                 </div>
                 <div style="display: flex">
                     <div class="taskCoverFlowData">--:--</div>
-                    <div class="taskCoverFlowData"><jsp:text /></div>
+                    <div class="taskCoverFlowData taskToolbar">
+                        <button id="acceptTaskButton" class="taskButton" >Accept</button>
+                        <button id="flagTaskButton" class="taskButton">Flag</button>
+                    </div>
                 </div>
             </div>
         </li>
     </c:forEach>
-
+    
 </ul>

@@ -81,12 +81,18 @@
                 <span><spring:message code="cockpit.footer.slogan" /></span>
             </div>
 
-            <div id="userdata" style="display: none">
+            <div id="userdata" class="resources">
                 <div id="masterKey">${timeoUser.masterKey}</div>
                 <div id="email">${timeoUser.email}</div>
                 <div id="phone">${timeoUser.phone}</div>
                 <div id="businessAddress">${timeoUser.businessAddress}</div>
                 <div id="loginId">${timeoUser.loginId}</div>
+            </div>
+            <div id="taskDialog" class="resources">
+                <div id="startActivityIconUrl"><spring:url value="/resources/images/startActivity.png" /></div>
+                <div id="pauseActivityIconUrl"><spring:url value="/resources/images/pauseActivity.png" /></div>
+                <div id="stopActivityIconUrl"><spring:url value="/resources/images/stopActivity.png" /></div>
+                <div id="flagIconUrl"><spring:url value="/resources/images/flag.png" /></div>
             </div>
             <div id="profileContextMenu" class="profileContextMenuHidden">
                 <p><spring:message code="cockpit.userdialog.signedIn" /></p>

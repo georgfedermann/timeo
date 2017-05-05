@@ -43,8 +43,8 @@
                 <div style="display: flex">
                     <div class="taskCoverFlowData">--:--</div>
                     <div class="taskCoverFlowData taskToolbar">
-                        <button id="acceptTaskButton" class="taskButton" >Accept</button>
-                        <button id="flagTaskButton" class="taskButton">Flag</button>
+                        <div class="acceptTaskButton taskButton"><jsp:text /></div>
+                        <div class="flagTaskButton taskButton"><jsp:text /></div>
                     </div>
                 </div>
             </div>

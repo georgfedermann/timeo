@@ -88,7 +88,7 @@
                 <div id="businessAddress">${timeoUser.businessAddress}</div>
                 <div id="loginId">${timeoUser.loginId}</div>
             </div>
-            <div id="taskDialog" class="resources">
+            <div id="taskDialogResources" class="resources">
                 <div id="startActivityIconUrl"><spring:url value="/resources/images/startActivity.png" /></div>
                 <div id="pauseActivityIconUrl"><spring:url value="/resources/images/pauseActivity.png" /></div>
                 <div id="stopActivityIconUrl"><spring:url value="/resources/images/stopActivity.png" /></div>

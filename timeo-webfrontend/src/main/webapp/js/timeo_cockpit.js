@@ -18,9 +18,12 @@ $(document).ready(function(){
     taskBrowser.init();
     
     setTimeout(taskBrowser.refreshTasks(), 1000);
-
 });
 
+/**
+ * user object holds all information about the authenticated user.
+ * information is shipped from the server inside some <div/> holding user data.
+ */
 function User() {}
 User.prototype.init = function() {
     this.masterKey = $("#userdata #masterKey").text();
@@ -31,7 +34,7 @@ User.prototype.init = function() {
 }
 
 /**
- * Implements funcitonality for the TaskBrowser
+ * Implements functionality for the TaskBrowser
  * @constructor
  */
 function TaskBrowser() {}
@@ -50,6 +53,10 @@ TaskBrowser.prototype.refreshTasks = function() {
             $("div#taskbrowser_panel").append(data.firstChild);
             $("#taskbrowser_panel").flipster();
         });
+}
+
+TaskBrowser.prototype.setButtonIcons = function() {
+    
 }
 
 /**

@@ -137,10 +137,30 @@ li.flipster__item--current {
 
 .taskButton {
     display: none;
+    width: 32px;
+    height: 32px;
 }
 
 li.flipster__item--current .taskButton {
     display: inline-block;
+    width: 32px;
+    height: 32px;
+}
+
+.acceptTaskButton {
+    background-image: url("../images/startActivityActive.png");
+}
+
+.acceptTaskButton:hover {
+    background-image: url("../images/startActivity_mouseover.png");
+}
+
+.flagTaskButton {
+    background-image: url("../images/flagActive.png");
+}
+
+.flagTaskButton:hover {
+    background-image: url("../images/flag_mouseover.png");
 }
 
 .resources {

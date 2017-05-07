@@ -44,19 +44,34 @@ TaskBrowser.prototype.init = function() {
 }
 
 TaskBrowser.prototype.refreshTasks = function() {
-    $("div#taskbrowser_panel").remove();
+    var me = this;
+    var taskbrowserPanel = $("div#taskbrowser_panel");
+    taskbrowserPanel.remove();
     $("div#taskbrowser_container").prepend($("<div id='taskbrowser_panel' class='my-flipster'></div>"));
     $.get(
         this.tasklistWebserviceUrl,
         function(data){
-            $("div#taskbrowser_panel").empty();
-            $("div#taskbrowser_panel").append(data.firstChild);
-            $("#taskbrowser_panel").flipster();
+            var taskbrowserPanel = $("div#taskbrowser_panel");
+            taskbrowserPanel.empty();
+            taskbrowserPanel.append(data.firstChild);
+            taskbrowserPanel.flipster();
+            me.registerButtonListeners();
         });
 }
 
-TaskBrowser.prototype.setButtonIcons = function() {
-    
+TaskBrowser.prototype.registerButtonListeners = function() {
+    $(".acceptTaskButton").on("click", taskBrowser.acceptTaskHandler.bind(this));
+    $(".flagTaskButton").on("click", taskBrowser.flagTaskHandler.bind(this));
+    // $(".acceptTaskButton").click(taskBrowser.acceptTaskHandler.bind(this));
+    // $(".flagTaskButton").click(taskBrowser.flagTaskHandler.bind(this));
+}
+
+TaskBrowser.prototype.acceptTaskHandler = function() {
+    alert("So you find yourself a task, right?");
+}
+
+TaskBrowser.prototype.flagTaskHandler = function(){
+    alert("So you don't like working, right?");
 }
 
 /**

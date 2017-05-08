@@ -67,10 +67,17 @@ TaskBrowser.prototype.registerButtonListeners = function() {
 };
 
 TaskBrowser.prototype.acceptTaskHandler = function() {
+    console.log("User is accepting task.");
     var acceptTaskButton = $("div.acceptTaskButton");
     // $("li.flipster__item--current").attr("style", "left: -240px; width: 100%; z-index: 100")
-    $("li.flipster__item--current").animate({left: "-240px", width: "100%", "z-index": 100});
+    var currentTaskHandle = $("li.flipster__item--current");
+    var taskBrowserPanel = $("div#taskbrowser_panel");
+    taskBrowserPanel.empty();
+    taskBrowserPanel.prepend(currentTaskHandle);
+    currentTaskHandle.animate({"margin-right": "0px", width: "823px"});
+    $("li.flipster__item--current div.acceptTaskButton").addClass("selected");
     
+    $("acceptTaskButton").off("click", taskBrowser.acceptTaskHandler);
 };
 
 TaskBrowser.prototype.flagTaskHandler = function(){

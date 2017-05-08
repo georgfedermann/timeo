@@ -71,6 +71,7 @@ div.profileContextMenuVisible {
     width:255px;
     background-color: tan;
     padding: 4px;
+    z-index: 20;
 }
 
 p.profileContextMenuItem:hover {
@@ -153,6 +154,14 @@ li.flipster__item--current .taskButton {
 
 .acceptTaskButton:hover {
     background-image: url("../images/startActivity_mouseover.png");
+}
+
+.acceptTaskButton.selected {
+    background-image: url("../images/stopActivityActive.png");
+}
+
+.acceptTaskButton.selected:hover {
+    background-image: url("../images/stopActivity_mouseover.png");
 }
 
 .flagTaskButton {

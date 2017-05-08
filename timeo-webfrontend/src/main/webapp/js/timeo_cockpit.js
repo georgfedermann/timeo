@@ -83,6 +83,10 @@ TaskBrowser.prototype.acceptTaskHandler = function() {
     var flagTaskButton = $("div.flagTaskButton");
     flagTaskButton.addClass("invisible");
     flagTaskButton.off("click", taskBrowser.flagTaskHandler);
+    
+    timer = new TimeoTimer();
+    timer.init();
+    timer.startClock();
 };
 
 TaskBrowser.prototype.stopTaskHandler = function() {
@@ -103,32 +107,47 @@ function TimeoTimer () {
     this.timePassed = 0;
     // status can be running or paused.
     // if paused, the timer will not count seconds, otherwise it will
-    this.status = paused;
+    this.status = "paused";
+    
+    this.intervalId;
 }
 
 TimeoTimer.prototype.init = function() {
     this.startTime = new Date();
 };
 
+TimeoTimer.prototype.updateTimeDisplay = function() {
+    console.log("Updating task clock display.");
+    var taskClock = $("div#taskClock");
+    taskClock.empty();
+    taskClock.append($("<span>" + this.getTime() + "</span>"));
+}
+
 TimeoTimer.prototype.startClock = function() {
+    console.log("Starting task clock.");
     this.startTime = new Date();
-    this.status = running;
+    this.status = "running";
+    this.intervalId = setInterval(this.updateTimeDisplay.bind(this), 100);
 };
 
 TimeoTimer.prototype.pauseClock = function() {
+    console.log("Pausing task clock.");
     this.timePassed = (new Date().getTime() - startDate.getTime()) / 1000;
-    this.status = paused;
+    this.status = "paused";
 };
 
 TimeoTimer.prototype.getTime = function() {
+    console.log("Creating a string containing the time passed since the tast was accepted.");
     var currentTime = new Date();
     var secondsPassed = this.status == "running" ?
-    ( currentTime.getTime() - startDate.getTime() ) / 1000 :
+    ( currentTime.getTime() - this.startTime.getTime() ) / 1000 :
         this.timePassed;
     var minutesPassed = Math.floor(secondsPassed / 60);
-    var secondsRemainder = secondsPassed % 60;
+    var secondsRemainder = Math.floor(secondsPassed % 60);
     var secondsOutput = secondsRemainder < 10 ? "0" + secondsRemainder : secondsRemainder;
-    return minutesPassed + ":" + secondsOutput;
+    var timeValue = minutesPassed + ":" + secondsOutput;
+    console.log("Delivering current task clock string: " + timeValue);
+    return timeValue;
 };
 
 /**

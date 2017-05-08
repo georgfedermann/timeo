@@ -43,7 +43,7 @@
                     <div class="taskCoverFlowHeader"><jsp:text /></div>
                 </div>
                 <div style="display: flex">
-                    <div class="taskCoverFlowData">--:--</div>
+                    <div id="taskClock" class="taskCoverFlowData">--:--</div>
                     <div class="taskCoverFlowData taskToolbar">
                         <div class="acceptTaskButton taskButton"><jsp:text /></div>
                         <div class="flagTaskButton taskButton"><jsp:text /></div>

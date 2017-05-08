@@ -31,7 +31,7 @@ User.prototype.init = function() {
     this.phone = $("#userdata #phone").text();
     this.businessAddress = $("#userdata #businessAddress").text();
     this.loginId = $("#userdata #loginId").text();
-}
+};
 
 /**
  * Implements functionality for the TaskBrowser
@@ -41,7 +41,7 @@ function TaskBrowser() {}
 
 TaskBrowser.prototype.init = function() {
     this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.masterKey;
-}
+};
 
 TaskBrowser.prototype.refreshTasks = function() {
     var me = this;
@@ -57,22 +57,63 @@ TaskBrowser.prototype.refreshTasks = function() {
             taskbrowserPanel.flipster();
             me.registerButtonListeners();
         });
-}
+};
 
 TaskBrowser.prototype.registerButtonListeners = function() {
     $(".acceptTaskButton").on("click", taskBrowser.acceptTaskHandler.bind(this));
     $(".flagTaskButton").on("click", taskBrowser.flagTaskHandler.bind(this));
     // $(".acceptTaskButton").click(taskBrowser.acceptTaskHandler.bind(this));
     // $(".flagTaskButton").click(taskBrowser.flagTaskHandler.bind(this));
-}
+};
 
 TaskBrowser.prototype.acceptTaskHandler = function() {
-    alert("So you find yourself a task, right?");
-}
+    var acceptTaskButton = $("div.acceptTaskButton");
+    // $("li.flipster__item--current").attr("style", "left: -240px; width: 100%; z-index: 100")
+    $("li.flipster__item--current").animate({left: "-240px", width: "100%", "z-index": 100});
+    
+};
 
 TaskBrowser.prototype.flagTaskHandler = function(){
     alert("So you don't like working, right?");
+};
+
+/**
+ * Implements a simple timer to capture the time invested
+ * into an activity
+ */
+function TimeoTimer () {
+    this.startTime = new Date();
+    // numbers of second passed when pauseClock was called
+    this.timePassed = 0;
+    // status can be running or paused.
+    // if paused, the timer will not count seconds, otherwise it will
+    this.status = paused;
 }
+
+TimeoTimer.prototype.init = function() {
+    this.startTime = new Date();
+};
+
+TimeoTimer.prototype.startClock = function() {
+    this.startTime = new Date();
+    this.status = running;
+};
+
+TimeoTimer.prototype.pauseClock = function() {
+    this.timePassed = (new Date().getTime() - startDate.getTime()) / 1000;
+    this.status = paused;
+};
+
+TimeoTimer.prototype.getTime = function() {
+    var currentTime = new Date();
+    var secondsPassed = this.status == "running" ?
+    ( currentTime.getTime() - startDate.getTime() ) / 1000 :
+        this.timePassed;
+    var minutesPassed = Math.floor(secondsPassed / 60);
+    var secondsRemainder = secondsPassed % 60;
+    var secondsOutput = secondsRemainder < 10 ? "0" + secondsRemainder : secondsRemainder;
+    return minutesPassed + ":" + secondsOutput;
+};
 
 /**
  * Implements functionality of the ProfileButton
@@ -93,14 +134,14 @@ ProfileButton.prototype.init = function() {
     image.mouseover(me.handleMouseover.bind(this));
     image.mouseout(me.handleMouseout.bind(this));
     image.click(me.handleMouseclick.bind(this));
-}
+};
 
 ProfileButton.prototype.handleMouseover = function() {
     console.log("Mouseover profile button.");
     var image = $("div#profile_button img");
     image.attr("src", image.attr("src").replace("active", "mouseover"));
     image.attr("style", "border: 2px solid #98050D;");
-}
+};
 
 ProfileButton.prototype.handleMouseout = function() {
     console.log("Mouseout profile button.");
@@ -109,7 +150,7 @@ ProfileButton.prototype.handleMouseout = function() {
         image.attr("src", image.attr("src").replace("mouseover", this.status));
         image.removeAttr("style");
     }
-}
+};
 
 ProfileButton.prototype.handleMouseclick = function() {
     console.log("Mouseclick on profile button.");
@@ -125,7 +166,7 @@ ProfileButton.prototype.handleMouseclick = function() {
     var left = right - contextMenu.width() - paddingSize;
     contextMenu.css("top", top);
     contextMenu.css("left", left);
-}
+};
 
 /**
  * Implements functionality of the ReceiveCallButton
@@ -142,14 +183,14 @@ ReceiveCallButton.prototype.init = function() {
     image.mouseover(me.handleMouseover.bind(this));
     image.mouseout(me.handleMouseout.bind(this));
     image.click(me.handleMouseclick.bind(this));
-}
+};
 
 ReceiveCallButton.prototype.handleMouseover = function() {
     console.log("Mouseover receive call button.");
     var image = $("div#receive_call_button img");
     image.attr("src", image.attr("src").replace("active", "mouseover"));
     image.attr("style", "border: 2px solid #98050D;");
-}
+};
 
 ReceiveCallButton.prototype.handleMouseout = function() {
     console.log("Mouseout receive call button.");
@@ -158,7 +199,7 @@ ReceiveCallButton.prototype.handleMouseout = function() {
         image.attr("src", image.attr("src").replace("mouseover", this.status));
         image.removeAttr("style");
     }
-}
+};
 
 ReceiveCallButton.prototype.handleMouseclick = function() {
     console.log("Mouseclick registered on phone button.");
@@ -172,5 +213,7 @@ ReceiveCallButton.prototype.handleMouseclick = function() {
     var left = right - phoneCallDialog.width() - paddingSize;
     phoneCallDialog.css("top", top);
     phoneCallDialog.css("left", left);
-}
+};
+
+
 

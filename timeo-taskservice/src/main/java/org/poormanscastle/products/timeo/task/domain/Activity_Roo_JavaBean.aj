@@ -18,6 +18,10 @@ privileged aspect Activity_Roo_JavaBean {
         this.id = id;
     }
     
+    public void Activity.setActivityStatus(Integer activityStatus) {
+        this.activityStatus = activityStatus;
+    }
+    
     public String Activity.getComment() {
         return this.comment;
     }
@@ -56,6 +60,14 @@ privileged aspect Activity_Roo_JavaBean {
     
     public void Activity.setTask(Task task) {
         this.task = task;
+    }
+    
+    public int Activity.getTimeInvested() {
+        return this.timeInvested;
+    }
+    
+    public void Activity.setTimeInvested(int timeInvested) {
+        this.timeInvested = timeInvested;
     }
     
 }

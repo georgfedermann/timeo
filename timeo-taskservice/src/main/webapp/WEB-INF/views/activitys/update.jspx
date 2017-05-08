@@ -5,8 +5,10 @@
     <form:update id="fu_org_poormanscastle_products_timeo_task_domain_Activity" modelAttribute="activity" path="/activitys" versionField="Version" z="3u7NYTAbnp+oMJ3b4jpE00ucsXU=">
         <field:input field="comment" id="c_org_poormanscastle_products_timeo_task_domain_Activity_comment" min="3" required="true" z="+Czz1o4cmgMmKTdGFcWaFL2ctwM="/>
         <field:datetime dateTimePattern="${activity_startdatetime_date_format}" field="startDateTime" id="c_org_poormanscastle_products_timeo_task_domain_Activity_startDateTime" required="true" z="a99RxWM2yhvraAKapvqBGMbnZT0="/>
-        <field:datetime dateTimePattern="${activity_enddatetime_date_format}" field="endDateTime" id="c_org_poormanscastle_products_timeo_task_domain_Activity_endDateTime" required="true" z="BL2DI4eHjuJBf0TKx9v8C9nNR7w="/>
+        <field:datetime dateTimePattern="${activity_enddatetime_date_format}" field="endDateTime" id="c_org_poormanscastle_products_timeo_task_domain_Activity_endDateTime" z="+KIqxD6ySOQEpXoxLtFdF71Pr7Y="/>
         <field:select field="projectTeamMember" id="c_org_poormanscastle_products_timeo_task_domain_Activity_projectTeamMember" itemValue="id" items="${projectteammembers}" path="/projectteammembers" required="true" z="hXgQNNO1Kq/cieD0cBrGD3YZgwk="/>
         <field:select field="task" id="c_org_poormanscastle_products_timeo_task_domain_Activity_task" itemValue="id" items="${tasks}" path="/tasks" required="true" z="XSaZd4KbAaE7sOpaOgBjhTKz5w0="/>
+        <field:input field="activityStatus" id="c_org_poormanscastle_products_timeo_task_domain_Activity_activityStatus" max="2" min="0" required="true" validationMessageCode="field_invalid_integer" z="tRrSfoji/bGleblM8NkNeYxWKXY="/>
+        <field:input field="timeInvested" id="c_org_poormanscastle_products_timeo_task_domain_Activity_timeInvested" min="0" required="true" z="LBLl9zXb5WjWKE7HGevN4eOGkrY="/>
     </form:update>
 </div>

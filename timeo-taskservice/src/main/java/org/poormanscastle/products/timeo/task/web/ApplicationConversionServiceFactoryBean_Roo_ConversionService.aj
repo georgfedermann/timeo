@@ -24,7 +24,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<Activity, String> ApplicationConversionServiceFactoryBean.getActivityToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<org.poormanscastle.products.timeo.task.domain.Activity, java.lang.String>() {
             public String convert(Activity activity) {
-                return new StringBuilder().append(activity.getComment()).append(' ').append(activity.getStartDateTime()).append(' ').append(activity.getEndDateTime()).toString();
+                return new StringBuilder().append(activity.getActivityStatus()).append(' ').append(activity.getComment()).append(' ').append(activity.getStartDateTime()).append(' ').append(activity.getEndDateTime()).toString();
             }
         };
     }

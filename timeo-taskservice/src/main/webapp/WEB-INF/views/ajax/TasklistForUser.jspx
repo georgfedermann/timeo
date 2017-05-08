@@ -16,6 +16,8 @@
                 <div id="taskId">${task.id}</div>
                 <div id="taskName">${task.name}</div>
                 <div id="projectId">${task.project.id}</div>
+                <div id="projectTeamMemberId">${task.projectTeamMember.id}</div>
+                <div id="currentActivityId"><jsp:text /></div>
             </div>
             <div class="taskCoverFlowItem">
                 <div class="taskCoverFlowName">${task.name}</div>

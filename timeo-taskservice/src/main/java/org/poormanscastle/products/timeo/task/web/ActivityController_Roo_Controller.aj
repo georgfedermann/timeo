@@ -5,10 +5,12 @@ package org.poormanscastle.products.timeo.task.web;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.poormanscastle.products.timeo.task.domain.Activity;
+import org.poormanscastle.products.timeo.task.domain.ActivityStatus;
 import org.poormanscastle.products.timeo.task.domain.ProjectTeamMember;
 import org.poormanscastle.products.timeo.task.domain.Task;
 import org.poormanscastle.products.timeo.task.web.ActivityController;
@@ -106,6 +108,7 @@ privileged aspect ActivityController_Roo_Controller {
     void ActivityController.populateEditForm(Model uiModel, Activity activity) {
         uiModel.addAttribute("activity", activity);
         addDateTimeFormatPatterns(uiModel);
+        uiModel.addAttribute("activitystatuses", Arrays.asList(ActivityStatus.values()));
         uiModel.addAttribute("projectteammembers", ProjectTeamMember.findAllProjectTeamMembers());
         uiModel.addAttribute("tasks", Task.findAllTasks());
     }

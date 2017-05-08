@@ -96,6 +96,7 @@ div.phoneCallDialogVisible {
     width: 255px;
     background-color: tan;
     padding: 4px;
+    z-index: 20;
 }
 
 li.taskCoverFlowListItem {

@@ -137,7 +137,7 @@ TimeoTimer.prototype.pauseClock = function() {
 };
 
 TimeoTimer.prototype.getTime = function() {
-    console.log("Creating a string containing the time passed since the tast was accepted.");
+    console.log("Creating a string containing the time passed since the task was accepted.");
     var currentTime = new Date();
     var secondsPassed = this.status == "running" ?
     ( currentTime.getTime() - this.startTime.getTime() ) / 1000 :

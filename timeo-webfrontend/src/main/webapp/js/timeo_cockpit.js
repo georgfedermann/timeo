@@ -41,6 +41,7 @@ function TaskBrowser() {}
 
 TaskBrowser.prototype.init = function() {
     this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.masterKey;
+    this.currentActivityId;
 };
 
 TaskBrowser.prototype.refreshTasks = function() {
@@ -132,7 +133,7 @@ TimeoTimer.prototype.startClock = function() {
 
 TimeoTimer.prototype.pauseClock = function() {
     console.log("Pausing task clock.");
-    this.timePassed = (new Date().getTime() - startDate.getTime()) / 1000;
+    this.timePassed = (new Date().getTime() - this.startTime.getTime()) / 1000;
     this.status = "paused";
 };
 

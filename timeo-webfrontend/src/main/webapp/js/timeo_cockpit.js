@@ -41,7 +41,7 @@ function TaskBrowser() {}
 
 TaskBrowser.prototype.init = function() {
     this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.masterKey;
-    this.currentActivityId;
+    this.currentActivityId = "dummy";
 };
 
 TaskBrowser.prototype.refreshTasks = function() {
@@ -85,6 +85,22 @@ TaskBrowser.prototype.acceptTaskHandler = function() {
     flagTaskButton.addClass("invisible");
     flagTaskButton.off("click", taskBrowser.flagTaskHandler);
     
+    // Inform server of new activity
+    var activityUrl = "${profile.taskservice.hostname}${profile.taskservice.registerActivity}";
+    activityUrl = activityUrl.replace("{taskId}", $("div#taskInfo > div#taskId").text())
+        .replace("{teamMemberId}", $("div#taskInfo > div#projectTeamMemberId").text());
+    console.log("Sending activity info to url " + activityUrl + ".");
+
+    var me = this;
+    $.ajax({
+        type: "GET",
+        url: activityUrl,
+        success: function(data){
+            me.currentActivityId = data;
+        },
+        dataType: "text"
+    });
+    
     timer = new TimeoTimer();
     timer.init();
     timer.startClock();
@@ -92,7 +108,7 @@ TaskBrowser.prototype.acceptTaskHandler = function() {
 
 TaskBrowser.prototype.stopTaskHandler = function() {
     console.log("User clicked stopTask");
-}
+};
 
 TaskBrowser.prototype.flagTaskHandler = function(){
     alert("So you don't like working, right?");
@@ -103,22 +119,23 @@ TaskBrowser.prototype.flagTaskHandler = function(){
  * into an activity
  */
 function TimeoTimer () {
+}
+
+TimeoTimer.prototype.init = function() {
     this.startTime = new Date();
     // numbers of second passed when pauseClock was called
     this.timePassed = 0;
     // status can be running or paused.
     // if paused, the timer will not count seconds, otherwise it will
     this.status = "paused";
-    
-    this.intervalId;
-}
-
-TimeoTimer.prototype.init = function() {
-    this.startTime = new Date();
+    // the timer will use JS function setInterval() to start counting
+    // the time intervals that pass. To be able to pause the timer again,
+    // it stores the intervalId in this instance variable.
+    this.intervalId = "";
 };
 
 TimeoTimer.prototype.updateTimeDisplay = function() {
-    console.log("Updating task clock display.");
+    // console.log("Updating task clock display.");
     var taskClock = $("div#taskClock");
     taskClock.empty();
     taskClock.append($("<span>" + this.getTime() + "</span>"));
@@ -138,7 +155,7 @@ TimeoTimer.prototype.pauseClock = function() {
 };
 
 TimeoTimer.prototype.getTime = function() {
-    console.log("Creating a string containing the time passed since the task was accepted.");
+    // console.log("Creating a string containing the time passed since the task was accepted.");
     var currentTime = new Date();
     var secondsPassed = this.status == "running" ?
     ( currentTime.getTime() - this.startTime.getTime() ) / 1000 :
@@ -147,7 +164,7 @@ TimeoTimer.prototype.getTime = function() {
     var secondsRemainder = Math.floor(secondsPassed % 60);
     var secondsOutput = secondsRemainder < 10 ? "0" + secondsRemainder : secondsRemainder;
     var timeValue = minutesPassed + ":" + secondsOutput;
-    console.log("Delivering current task clock string: " + timeValue);
+    // console.log("Delivering current task clock string: " + timeValue);
     return timeValue;
 };
 

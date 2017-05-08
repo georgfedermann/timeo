@@ -101,8 +101,8 @@ privileged aspect ActivityController_Roo_Controller {
     }
     
     void ActivityController.addDateTimeFormatPatterns(Model uiModel) {
-        uiModel.addAttribute("activity_startdatetime_date_format", "yyyy-MM-dd hh:mm:ss");
-        uiModel.addAttribute("activity_enddatetime_date_format", "yyyy-MM-dd hh:mm:ss");
+        uiModel.addAttribute("activity_startdatetime_date_format", "yyyy-MM-dd HH:mm:ss");
+        uiModel.addAttribute("activity_enddatetime_date_format", "yyyy-MM-dd HH:mm:ss");
     }
     
     void ActivityController.populateEditForm(Model uiModel, Activity activity) {

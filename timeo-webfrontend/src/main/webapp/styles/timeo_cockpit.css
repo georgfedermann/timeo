@@ -169,6 +169,10 @@ li.flipster__item--current .taskButton {
     background-image: url("../images/flagActive.png");
 }
 
+li.flipster__item--current div.flagTaskButton.invisible {
+    display: none;
+}
+
 .flagTaskButton:hover {
     margin-left: 25%;
     background-image: url("../images/flag_mouseover.png");

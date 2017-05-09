@@ -22,9 +22,7 @@ public class AjaxTaskController {
     private TaskService taskService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/registerActivity/{taskId}/{teamMemberId}")
-    public
-    @ResponseBody
-    String registerActivity(@PathVariable("taskId") String taskId, @PathVariable("teamMemberId") String teamMemberId) {
+    public @ResponseBody String registerActivity(@PathVariable("taskId") String taskId, @PathVariable("teamMemberId") String teamMemberId) {
         logger.info(StringUtils.join("Received request to create new activity for task ",
                 taskId, " and team member ", teamMemberId, "."));
         return taskService.createActivityForTask(taskId, teamMemberId);

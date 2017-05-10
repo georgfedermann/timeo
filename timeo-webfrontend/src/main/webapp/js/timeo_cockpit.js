@@ -42,6 +42,8 @@ function TaskBrowser() {}
 
 TaskBrowser.prototype.init = function() {
     this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.masterKey;
+    this.finishActivityFormUrl = "${profile.taskservice.hostname}${profile.taskservice.finishActivityForm}";
+    this.finishActivityUrl = "${profile.taskservice.registerActivity}${profile.taskservice.finishActivity}";
     this.currentActivityId = "dummy";
 };
 
@@ -79,7 +81,7 @@ TaskBrowser.prototype.acceptTaskHandler = function() {
 
     var acceptTaskButton = $("div.acceptTaskButton");
     acceptTaskButton.addClass("selected");
-    $("acceptTaskButton").off("click", taskBrowser.acceptTaskHandler);
+    acceptTaskButton.off("click", taskBrowser.acceptTaskHandler);
     acceptTaskButton.on("click", taskBrowser.stopTaskHandler.bind(this));
     
     var flagTaskButton = $("div.flagTaskButton");
@@ -103,13 +105,50 @@ TaskBrowser.prototype.acceptTaskHandler = function() {
         dataType: "text"
     });
     
-    timer = new TimeoTimer();
-    timer.init();
-    timer.startClock();
+    this.timer = new TimeoTimer();
+    this.timer.init();
+    this.timer.startClock();
 };
 
 TaskBrowser.prototype.stopTaskHandler = function() {
+    $("div.acceptTaskButton").off("click", taskBrowser.stopTaskHandler);
+    this.timer.pauseClock();
+    var me = this;
+    
     console.log("User clicked stopTask");
+    var finishActivityFormUrl = this.finishActivityFormUrl.replace("{activityId}", this.currentActivityId);
+    console.log("Retrieving finish-actitivity-form from this URL: " + finishActivityFormUrl);
+    $.ajax({
+        type: "GET",
+        url: finishActivityFormUrl,
+        success: function (data) {
+            var finishActivityFormContainer = $("div#finishActivityFormContainer");
+            finishActivityFormContainer.empty();
+            finishActivityFormContainer.prepend(data);
+            finishActivityFormContainer.toggleClass("visible invisible");
+
+            // update time investment field
+            var timeInvestedInputField = $("input[name='timeInvested']");
+            timeInvestedInputField.attr("value", Math.floor(me.timer.timePassed));
+            
+            // register custom submit handler
+            $("#finishActivityForm").submit(function(submitEvent){
+                // suppress redirect to server response
+                submitEvent.preventDefault();
+                var formUrl = $(this).closest("form").attr("action");
+                console.log("Found this action URL for the form: ", + formUrl);
+                $.ajax({
+                    url: formUrl,
+                    type: "post",
+                    data: $("#finishActivityForm").serialize(),
+                    success: function(data){
+                        alert("Server replied: " + data);
+                    }
+                });
+            });
+        },
+        dataType: "html"
+    });
 };
 
 TaskBrowser.prototype.flagTaskHandler = function(){
@@ -154,6 +193,7 @@ TimeoTimer.prototype.pauseClock = function() {
     console.log("Pausing task clock.");
     this.timePassed = (new Date().getTime() - this.startTime.getTime()) / 1000;
     this.status = "paused";
+    clearInterval(this.intervalId);
 };
 
 TimeoTimer.prototype.getTime = function() {
@@ -269,6 +309,3 @@ ReceiveCallButton.prototype.handleMouseclick = function() {
     phoneCallDialog.css("top", top);
     phoneCallDialog.css("left", left);
 };
-
-
-

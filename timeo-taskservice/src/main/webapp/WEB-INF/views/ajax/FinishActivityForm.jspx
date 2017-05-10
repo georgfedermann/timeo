@@ -11,6 +11,8 @@
      xmlns:spring="http://www.springframework.org/tags"
      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
+    <jsp:directive.page pageEncoding="UTF-8" />
+    <jsp:output omit-xml-declaration="yes" />
 
     <c:choose>
         <c:when test="${empty activity}">
@@ -21,20 +23,20 @@
                   action="${profile.task.webservice.hostname}${profile.task.webservice.finishActivity}">
                 <input type="hidden" name="activityId" value="${activityId}" />
                 <div class="formline">
-                    <div class="label"><spring:message code="finishActivityForm.investment.label" /></div>
-                    <div class="input"><input type="text" name="timeInvested" value="${activity.timeInvested}" /></div>
+                    <div class="formlabel"><spring:message code="finishActivityForm.investment.label" /></div>
+                    <div class="forminput"><input type="text" id="activityFormTimeInvested" name="timeInvested" value="${activity.timeInvested}" /></div>
                 </div>
                 <div class="formline">
-                    <div class="label"><spring:message code="finishActivityForm.startDate.label" /></div>
-                    <div class="input"><input type="datetime" name="startDateTime" value="${ajaxUtils.formatDate(activity.startDateTime)}"/></div>
+                    <div class="formlabel"><spring:message code="finishActivityForm.startDate.label" /></div>
+                    <div class="forminput"><input type="datetime" id="activityFormStartDateTime" name="startDateTime" value="${ajaxUtils.formatDate(activity.startDateTime)}"/></div>
                 </div>
                 <div class="formline">
-                    <div class="label"><spring:message code="finishActivityForm.endDate.label" /></div>
-                    <div class="input"><input type="datetime" name="endDateTime" value="${ajaxUtils.formatDate(activity.endDateTime)}" /></div>
+                    <div class="formlabel"><spring:message code="finishActivityForm.endDate.label" /></div>
+                    <div class="forminput"><input type="datetime" id="activityFormEndDateTime" name="endDateTime" value="${ajaxUtils.formatDate(activity.endDateTime)}" /></div>
                 </div>
                 <div class="formline">
-                    <div class="label"><spring:message code="finishActivityForm.newState.label" /></div>
-                    <div class="input"><select name="status" size="1">
+                    <div class="formlabel"><spring:message code="finishActivityForm.newState.label" /></div>
+                    <div class="forminput"><select name="status" id="activityFormStatus" size="1">
                         <option>Ringo</option>
                         <c:forEach var="status" items="${applicableStatusList}" varStatus="varStatus">
                             <c:choose>
@@ -45,8 +47,8 @@
                     </select></div>
                 </div>
                 <div class="formline">
-                    <div class="label"><spring:message code="finishActivityForm.comment.label" /></div>
-                    <div class="input"><textarea rows="4" cols="50" name="comment" />${activity.comment}</div>
+                    <div class="formlabel"><spring:message code="finishActivityForm.comment.label" /></div>
+                    <div class="forminput"><textarea rows="4" cols="50" name="comment" />${activity.comment}</div>
                 </div>
                 <div class="formline">
                     <spring:message code="finishActivityForm.cancelButton.label" var="cancelButtonLabel" />

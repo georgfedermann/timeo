@@ -103,6 +103,7 @@
             <div id="phoneCallDialog" class="phoneCallDialogHidden">
                 <p>You are not allowed to place a call, dude.</p>
             </div>
+            <div id="finishActivityFormContainer" class="invisible"><jsp:text /></div>
         </body>
     </html>
 </jsp:root>

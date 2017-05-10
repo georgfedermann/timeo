@@ -143,6 +143,9 @@ TaskBrowser.prototype.stopTaskHandler = function() {
                     data: $("#finishActivityForm").serialize(),
                     success: function(data){
                         alert("Server replied: " + data);
+                        finishActivityFormContainer.empty();
+                        finishActivityFormContainer.toggleClass("visible invisible");
+                        taskBrowser.refreshTasks();
                     }
                 });
             });

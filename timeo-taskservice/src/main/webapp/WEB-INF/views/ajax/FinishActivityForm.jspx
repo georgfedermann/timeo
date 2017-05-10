@@ -46,7 +46,7 @@
                 </div>
                 <div class="formline">
                     <div class="label"><spring:message code="finishActivityForm.comment.label" /></div>
-                    <div class="input"><input type="text" name="comment" value="${activity.comment}" /></div>
+                    <div class="input"><textarea rows="4" cols="50" name="comment" />${activity.comment}</div>
                 </div>
                 <div class="formline">
                     <spring:message code="finishActivityForm.cancelButton.label" var="cancelButtonLabel" />

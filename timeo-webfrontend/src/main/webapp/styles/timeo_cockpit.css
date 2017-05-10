@@ -225,3 +225,16 @@ div.formlabel {
 div.forminput {
     width: 50%;
 }
+
+div.formline.formbuttons {
+    margin-top: -35px;
+}
+
+#cancelbutton {
+    width: 66px;
+}
+
+#submitbutton {
+    width: 66px;
+    margin-left: 13px;
+}

@@ -1,11 +1,9 @@
 package org.poormanscastle.products.timeo.task.domain;
-
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
@@ -14,8 +12,8 @@ import org.springframework.roo.addon.tostring.RooToString;
 
 @RooJavaBean
 @RooToString
-@RooJpaActiveRecord
 @RooSerializable
+@RooJpaActiveRecord(finders = { "findStatusesByNameEquals" })
 public class Status {
 
     /**
@@ -40,5 +38,4 @@ public class Status {
     @NotNull
     @Size(min = 3)
     private String description;
-
 }

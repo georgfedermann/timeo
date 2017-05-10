@@ -48,3 +48,9 @@ finder list
 finder list
 finder add --finderName findTasksByProjectTeamMember
 // Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-05-08 15:33:38
+exit
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log closed at 2017-05-10 18:11:02
+// Spring Roo 1.3.2.RELEASE [rev 8387857] log opened at 2017-05-10 18:11:06
+focus --class ~.task.domain.Status
+finder list
+finder add --finderName findStatusesByNameEquals

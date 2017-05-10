@@ -1,11 +1,19 @@
 package org.poormanscastle.products.timeo.task.web.ajax;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.poormanscastle.products.timeo.task.domain.Activity;
+import org.poormanscastle.products.timeo.task.domain.ActivityStatus;
+import org.poormanscastle.products.timeo.task.domain.Status;
+import org.poormanscastle.products.timeo.task.domain.Task;
+import org.poormanscastle.products.timeo.task.exception.InvalidDateStringException;
 import org.poormanscastle.products.timeo.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,10 +56,49 @@ public class AjaxTaskController {
      *
      * @return a status message SUCCESS or ERROR
      */
+    @Transactional(propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.POST, value = "/finishActivity")
     public @ResponseBody String finishActivity(
-            @RequestParam("activityId") String activityId) {
-        logger.info(StringUtils.join("Received request to save activity with id ", activityId, "."));
+            @RequestParam("activityId") String activityId,
+            @RequestParam("timeInvested") int timeInvested,
+            @RequestParam("startDateTime") String startDateTime,
+            @RequestParam("endDateTime") String endDateTime,
+            @RequestParam("status") String status,
+            @RequestParam("comment") String comment) {
+        logger.info(StringUtils.join("Received request to save activity with following data: ",
+                "activityId: ", activityId, "; timeInvested: ", timeInvested,
+                "; startDateTime: ", startDateTime, "; endDateTime: ", endDateTime,
+                "; status: ", status, "; comment: ", comment, " - Done!"
+        ));
+        AjaxUtils ajaxUtils = new AjaxUtils();
+
+        if (StringUtils.isBlank(activityId)) {
+            return "FAILURE: activityId is empty!";
+        }
+        Activity activity = Activity.findActivity(activityId);
+        if (activity == null) {
+            return "FAILURE: activityId is invalid.";
+        }
+
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = ajaxUtils.parseDate(startDateTime);
+            endDate = ajaxUtils.parseDate(endDateTime);
+        } catch (InvalidDateStringException exception) {
+            return "FAILURE: the given startdate or enddate do not workout fine.";
+        }
+        // TODO add checks for all the other parameters
+        activity.setStartDateTime(startDate);
+        activity.setEndDateTime(endDate);
+        activity.setTimeInvested(timeInvested);
+        activity.setComment(comment);
+        activity.setActivityStatus(ActivityStatus.DONE);
+
+        Task task = Task.findTask(activity.getTask().getId());
+        Status newTaskStatus = Status.findStatus(status);
+        task.setStatus(newTaskStatus);
+
         return "SUCCESS";
     }
 

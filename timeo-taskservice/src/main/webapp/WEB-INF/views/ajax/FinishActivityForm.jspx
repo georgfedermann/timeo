@@ -50,11 +50,11 @@
                     <div class="formlabel"><spring:message code="finishActivityForm.comment.label" /></div>
                     <div class="forminput"><textarea rows="4" cols="50" name="comment" />${activity.comment}</div>
                 </div>
-                <div class="formline">
+                <div class="formline formbuttons">
                     <spring:message code="finishActivityForm.cancelButton.label" var="cancelButtonLabel" />
                     <spring:message code="finishActivityForm.doneButton.label" var="doneButtonLabel" />
-                    <div><input type="button" value="${cancelButtonLabel}" /></div>
-                    <div><input type="submit" value="${doneButtonLabel}" /></div>
+                    <div><input id="cancelbutton" type="button" value="${cancelButtonLabel}" /></div>
+                    <div><input id="submitbutton" type="submit" value="${doneButtonLabel}" /></div>
                 </div>
             </form>
         </c:otherwise>

@@ -112,6 +112,7 @@ TaskBrowser.prototype.acceptTaskHandler = function() {
 
 TaskBrowser.prototype.stopTaskHandler = function() {
     $("div.acceptTaskButton").off("click", taskBrowser.stopTaskHandler);
+
     this.timer.pauseClock();
     var me = this;
     

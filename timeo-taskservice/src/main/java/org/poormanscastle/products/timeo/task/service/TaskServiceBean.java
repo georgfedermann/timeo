@@ -14,6 +14,7 @@ import org.poormanscastle.products.timeo.task.domain.Activity;
 import org.poormanscastle.products.timeo.task.domain.ActivityStatus;
 import org.poormanscastle.products.timeo.task.domain.ProjectTeamMember;
 import org.poormanscastle.products.timeo.task.domain.Resource;
+import org.poormanscastle.products.timeo.task.domain.Status;
 import org.poormanscastle.products.timeo.task.domain.Task;
 import org.springframework.stereotype.Service;
 
@@ -109,4 +110,10 @@ public class TaskServiceBean implements TaskService {
         return taskList;
     }
 
+    @Override
+    public List<Status> getApplicableStatuslistForTask(Task task) {
+        // TODO obviously a rule engine needs to be implemented here
+        List<Status> statusList = Status.findAllStatuses();
+        return statusList;
+    }
 }

@@ -38,6 +38,7 @@ public class AjaxTaskController {
         model.addAttribute("activity", activity);
         model.addAttribute("activityId", activityId);
         model.addAttribute("ajaxUtils", new AjaxUtils());
+        model.addAttribute("applicableStatusList", taskService.getApplicableStatuslistForTask(activity.getTask()));
         return "ajax/FinishActivityForm";
     }
 

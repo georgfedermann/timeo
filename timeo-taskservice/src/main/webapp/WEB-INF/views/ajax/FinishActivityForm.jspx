@@ -34,7 +34,15 @@
                 </div>
                 <div class="formline">
                     <div class="label"><spring:message code="finishActivityForm.newState.label" /></div>
-                    <div class="input"><input type="text" name="newStatus" /></div>
+                    <div class="input"><select name="status" size="1">
+                        <option>Ringo</option>
+                        <c:forEach var="status" items="${applicableStatusList}" varStatus="varStatus">
+                            <c:choose>
+                                <c:when test="${status.name == activity.task.status.name}"><option selected="selected" value="${status.id}">${status.name}</option></c:when>
+                                <c:otherwise><option value="${status.id}">${status.name}</option></c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select></div>
                 </div>
                 <div class="formline">
                     <div class="label"><spring:message code="finishActivityForm.comment.label" /></div>

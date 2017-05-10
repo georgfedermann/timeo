@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.poormanscastle.products.timeo.task.domain.Activity;
 import org.poormanscastle.products.timeo.task.domain.Resource;
+import org.poormanscastle.products.timeo.task.domain.Status;
 import org.poormanscastle.products.timeo.task.domain.Task;
 
 /**
@@ -37,5 +38,15 @@ public interface TaskService {
      * {@code null} will be returned.
      */
     Activity getActivityForFinishForm(String activityId);
+
+    /**
+     * based on the current status of a given task this service returns
+     * a list of new status values the task can assume starting from its
+     * current status. This service should evaluate a set of business rules
+     * implementing a status state engine for the given system.
+     * @param task a task whose fate shall be decided here
+     * @return a list of applicable new status values for this task
+     */
+    List<Status> getApplicableStatuslistForTask(Task task);
 
 }

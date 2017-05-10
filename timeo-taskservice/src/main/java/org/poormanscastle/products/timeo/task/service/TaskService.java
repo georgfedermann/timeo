@@ -2,6 +2,7 @@ package org.poormanscastle.products.timeo.task.service;
 
 import java.util.List;
 
+import org.poormanscastle.products.timeo.task.domain.Activity;
 import org.poormanscastle.products.timeo.task.domain.Resource;
 import org.poormanscastle.products.timeo.task.domain.Task;
 
@@ -26,5 +27,15 @@ public interface TaskService {
      * @return the unique ID of the newly created activity
      */
     String createActivityForTask(String taskId, String projectTeamMemberId);
+
+    /**
+     * gets the activity identified by activityId from the repository and
+     * sets the end date for the activity. timeInvested will be set on client side
+     * with the value tracked by the user agent.
+     * @param activityId must be a valid activityId as listed in the repository
+     * @return the activity identified by the activityId. If no such activity can be found
+     * {@code null} will be returned.
+     */
+    Activity getActivityForFinishForm(String activityId);
 
 }

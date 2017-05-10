@@ -25,6 +25,7 @@ $(document).ready(function(){
  * information is shipped from the server inside some <div/> holding user data.
  */
 function User() {}
+
 User.prototype.init = function() {
     this.masterKey = $("#userdata #masterKey").text();
     this.email = $("#userdata #email").text();

@@ -2,6 +2,8 @@ package org.poormanscastle.products.timeo.task.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -56,6 +58,20 @@ public class TaskServiceBean implements TaskService {
 
         activity.persist();
         return activity.getId();
+    }
+
+    @Override
+    public Activity getActivityForFinishForm(String activityId) {
+        Activity activity = null;
+        if (!StringUtils.isBlank(activityId)) {
+            activity = Activity.findActivity(activityId);
+        }
+        if (activity == null) {
+            logger.error(StringUtils.join("For activityId '", activityId, "' no activity was found in repository."));
+            return null;
+        }
+        activity.setEndDateTime(new Date());        
+        return activity;
     }
 
     /**

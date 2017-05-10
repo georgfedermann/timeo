@@ -336,6 +336,7 @@
                             <includes>
                                 <include>js/businessCard.js</include>
                                 <include>js/createTask.js</include>
+                                <include>WEB-INF/views/ajax/FinishActivityForm.jspx</include>
                             </includes>
                         </resource>
                     </webResources>
@@ -584,8 +585,8 @@
             <id>georg.federmann</id>
             <name>Georg Federmann</name>
             <email>georg.federmann@gmail.com</email>
-            <organization>workingtitle</organization>
-            <organizationUrl>http://www.workingtitle.com</organizationUrl>
+            <organization>Poorman's Castle</organization>
+            <organizationUrl>http://www.poormanscastle.org</organizationUrl>
             <roles>
                 <role>architect</role>
                 <role>developer</role>

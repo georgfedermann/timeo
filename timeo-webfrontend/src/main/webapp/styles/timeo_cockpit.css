@@ -182,3 +182,16 @@ li.flipster__item--current div.flagTaskButton.invisible {
 .resources {
     display: none;
 }
+
+form > div.formline {
+    display: flex;
+}
+
+form > div.formline > div.label {
+    font-weight: bold;
+}
+
+div.errMsg {
+    font-weight: bold;
+    color: #98050D;
+}

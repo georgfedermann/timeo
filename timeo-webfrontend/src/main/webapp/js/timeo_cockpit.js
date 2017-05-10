@@ -98,6 +98,7 @@ TaskBrowser.prototype.acceptTaskHandler = function() {
         url: activityUrl,
         success: function(data){
             me.currentActivityId = data;
+            $("div#currentActivityId").html(data);
         },
         dataType: "text"
     });

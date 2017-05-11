@@ -1,20 +1,13 @@
 package org.poormanscastle.products.timeo.task.web.ajax;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.poormanscastle.products.timeo.task.domain.Activity;
-import org.poormanscastle.products.timeo.task.domain.ActivityStatus;
-import org.poormanscastle.products.timeo.task.domain.Status;
-import org.poormanscastle.products.timeo.task.domain.Task;
-import org.poormanscastle.products.timeo.task.exception.InvalidDateStringException;
-import org.poormanscastle.products.timeo.task.service.TaskServiceUtils;
+import org.poormanscastle.products.timeo.task.service.ActivityService;
 import org.poormanscastle.products.timeo.task.service.TaskService;
+import org.poormanscastle.products.timeo.task.service.TaskServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +25,13 @@ public class AjaxTaskController {
 
     @Autowired
     private TaskService taskService;
+    @Autowired
+    private ActivityService activityService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/registerActivity/{taskId}/{teamMemberId}")
-    public @ResponseBody String registerActivity(@PathVariable("taskId") String taskId, @PathVariable("teamMemberId") String teamMemberId) {
+    public
+    @ResponseBody
+    String registerActivity(@PathVariable("taskId") String taskId, @PathVariable("teamMemberId") String teamMemberId) {
         logger.info(StringUtils.join("Received request to create new activity for task ",
                 taskId, " and team member ", teamMemberId, "."));
         return taskService.createActivityForTask(taskId, teamMemberId);
@@ -57,9 +54,10 @@ public class AjaxTaskController {
      *
      * @return a status message SUCCESS or ERROR
      */
-    @Transactional(propagation = Propagation.REQUIRED)
     @RequestMapping(method = RequestMethod.POST, value = "/finishActivity")
-    public @ResponseBody String finishActivity(
+    public
+    @ResponseBody
+    String finishActivity(
             @RequestParam("activityId") String activityId,
             @RequestParam("timeInvested") int timeInvested,
             @RequestParam("startDateTime") String startDateTime,
@@ -71,36 +69,10 @@ public class AjaxTaskController {
                 "; startDateTime: ", startDateTime, "; endDateTime: ", endDateTime,
                 "; status: ", status, "; comment: ", comment, " - Done!"
         ));
-        TaskServiceUtils taskServiceUtils = new TaskServiceUtils();
 
-        if (StringUtils.isBlank(activityId)) {
-            return "FAILURE: activityId is empty!";
-        }
-        Activity activity = Activity.findActivity(activityId);
-        if (activity == null) {
-            return "FAILURE: activityId is invalid.";
-        }
 
-        Date startDate = null;
-        Date endDate = null;
-        try {
-            startDate = taskServiceUtils.parseDate(startDateTime);
-            endDate = taskServiceUtils.parseDate(endDateTime);
-        } catch (InvalidDateStringException exception) {
-            return "FAILURE: the given startdate or enddate do not workout fine.";
-        }
-        // TODO add checks for all the other parameters
-        activity.setStartDateTime(startDate);
-        activity.setEndDateTime(endDate);
-        activity.setTimeInvested(timeInvested);
-        activity.setComment(comment);
-        activity.setActivityStatus(ActivityStatus.DONE);
-
-        Task task = Task.findTask(activity.getTask().getId());
-        Status newTaskStatus = Status.findStatus(status);
-        task.setStatus(newTaskStatus);
-
-        return "SUCCESS";
+        return activityService.processAndStoreActivity(activityId, timeInvested,
+                startDateTime, endDateTime, status, comment);
     }
 
 }

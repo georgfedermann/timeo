@@ -19,11 +19,11 @@ public class TaskServiceUtils {
 
     final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public String formatDate(Date date) {
+    public static String formatDate(Date date) {
         return TaskServiceUtils.dateFormat.format(date);
     }
 
-    public Date parseDate(String dateString) {
+    public static Date parseDate(String dateString) {
         try {
             return TaskServiceUtils.dateFormat.parse(dateString);
         } catch (ParseException exception) {

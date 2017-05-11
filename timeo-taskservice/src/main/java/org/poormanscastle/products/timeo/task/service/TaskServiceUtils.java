@@ -1,4 +1,4 @@
-package org.poormanscastle.products.timeo.task.web.ajax;
+package org.poormanscastle.products.timeo.task.service;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,19 +13,19 @@ import org.poormanscastle.products.timeo.task.exception.InvalidDateStringExcepti
  * Implements logic that can be used in the WebServices, UIs, JSPs, etc.
  * Created by georg on 10/05/2017.
  */
-public class AjaxUtils {
+public class TaskServiceUtils {
 
-    final static Logger logger = Logger.getLogger(AjaxUtils.class);
+    final static Logger logger = Logger.getLogger(TaskServiceUtils.class);
 
     final static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public String formatDate(Date date) {
-        return AjaxUtils.dateFormat.format(date);
+        return TaskServiceUtils.dateFormat.format(date);
     }
 
     public Date parseDate(String dateString) {
         try {
-            return AjaxUtils.dateFormat.parse(dateString);
+            return TaskServiceUtils.dateFormat.parse(dateString);
         } catch (ParseException exception) {
             String errMsg = StringUtils.join("Could not parse date ", dateString,
                     ", because: ", exception.getMessage());

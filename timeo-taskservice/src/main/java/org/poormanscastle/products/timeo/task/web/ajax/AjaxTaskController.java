@@ -9,6 +9,7 @@ import org.poormanscastle.products.timeo.task.domain.ActivityStatus;
 import org.poormanscastle.products.timeo.task.domain.Status;
 import org.poormanscastle.products.timeo.task.domain.Task;
 import org.poormanscastle.products.timeo.task.exception.InvalidDateStringException;
+import org.poormanscastle.products.timeo.task.service.TaskServiceUtils;
 import org.poormanscastle.products.timeo.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class AjaxTaskController {
         Activity activity = taskService.getActivityForFinishForm(activityId);
         model.addAttribute("activity", activity);
         model.addAttribute("activityId", activityId);
-        model.addAttribute("ajaxUtils", new AjaxUtils());
+        model.addAttribute("ajaxUtils", new TaskServiceUtils());
         model.addAttribute("applicableStatusList", taskService.getApplicableStatuslistForTask(activity.getTask()));
         return "ajax/FinishActivityForm";
     }
@@ -65,12 +66,12 @@ public class AjaxTaskController {
             @RequestParam("endDateTime") String endDateTime,
             @RequestParam("status") String status,
             @RequestParam("comment") String comment) {
-        logger.info(StringUtils.join("Received request to save activity with following data: ",
+        logger.info(StringUtils.join("Received WS request to save activity with following data: ",
                 "activityId: ", activityId, "; timeInvested: ", timeInvested,
                 "; startDateTime: ", startDateTime, "; endDateTime: ", endDateTime,
                 "; status: ", status, "; comment: ", comment, " - Done!"
         ));
-        AjaxUtils ajaxUtils = new AjaxUtils();
+        TaskServiceUtils taskServiceUtils = new TaskServiceUtils();
 
         if (StringUtils.isBlank(activityId)) {
             return "FAILURE: activityId is empty!";
@@ -83,8 +84,8 @@ public class AjaxTaskController {
         Date startDate = null;
         Date endDate = null;
         try {
-            startDate = ajaxUtils.parseDate(startDateTime);
-            endDate = ajaxUtils.parseDate(endDateTime);
+            startDate = taskServiceUtils.parseDate(startDateTime);
+            endDate = taskServiceUtils.parseDate(endDateTime);
         } catch (InvalidDateStringException exception) {
             return "FAILURE: the given startdate or enddate do not workout fine.";
         }

@@ -28,11 +28,11 @@
                 </div>
                 <div class="formline">
                     <div class="formlabel"><spring:message code="finishActivityForm.startDate.label" /></div>
-                    <div class="forminput"><input type="datetime" id="activityFormStartDateTime" name="startDateTime" value="${ajaxUtils.formatDate(activity.startDateTime)}"/></div>
+                    <div class="forminput"><input type="datetime" id="activityFormStartDateTime" name="startDateTime" value="${taskServiceUtils.formatDate(activity.startDateTime)}"/></div>
                 </div>
                 <div class="formline">
                     <div class="formlabel"><spring:message code="finishActivityForm.endDate.label" /></div>
-                    <div class="forminput"><input type="datetime" id="activityFormEndDateTime" name="endDateTime" value="${ajaxUtils.formatDate(activity.endDateTime)}" /></div>
+                    <div class="forminput"><input type="datetime" id="activityFormEndDateTime" name="endDateTime" value="${taskServiceUtils.formatDate(activity.endDateTime)}" /></div>
                 </div>
                 <div class="formline">
                     <div class="formlabel"><spring:message code="finishActivityForm.newState.label" /></div>

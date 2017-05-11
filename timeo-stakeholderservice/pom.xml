@@ -329,6 +329,17 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
                 <!-- <configuration> <webXml>target/web.xml</webXml> </configuration> -->
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/main/webapp</directory>
+                            <includes>
+                                <include>WEB-INF/views/businesscard/businesscard.jspx</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

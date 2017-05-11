@@ -5,7 +5,7 @@ package org.poormanscastle.products.timeo.task.service;
  */
 public enum ActivityServiceStatusMessage {
 
-    SUCCESS("SUCCESS: "), FAILURE("FAILURE:");
+    SUCCESS("SUCCESS: "), FAILURE("FAILURE: ");
 
 
     private String message;

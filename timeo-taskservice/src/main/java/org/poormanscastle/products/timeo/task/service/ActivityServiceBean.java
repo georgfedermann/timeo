@@ -23,10 +23,10 @@ public class ActivityServiceBean implements ActivityService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public String processAndStoreActivity(String activityId, int timeInvestedInSeconds, String startDateTimeString,
+    public String processAndStoreActivity(String activityId, String timeInvestedInSecondsString, String startDateTimeString,
                                           String endDateTimeString, String newTaskStatusId, String comment) {
         logger.info(StringUtils.join("Received service request to save activity with following data: ",
-                "activityId: ", activityId, "; timeInvested: ", timeInvestedInSeconds,
+                "activityId: ", activityId, "; timeInvested: ", timeInvestedInSecondsString,
                 "; startDateTimeString: ", startDateTimeString, "; endDateTimeString: ", endDateTimeString,
                 "; newTaskStatusId: ", newTaskStatusId, "; comment: ", comment, " - Done!"
         ));
@@ -54,6 +54,11 @@ public class ActivityServiceBean implements ActivityService {
                     "the given end date/time should be of format: yyyy-mm-dd hh:mm:ss. Please adapt.");
         }
 
+        if (!StringUtils.isNumeric(timeInvestedInSecondsString)) {
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    "the given number of seconds invested in the activity should be a whole number. Please adapt.");
+        }
+
         Activity activity = Activity.findActivity(activityId);
         if (activity == null) {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
@@ -62,7 +67,7 @@ public class ActivityServiceBean implements ActivityService {
 
         activity.setStartDateTime(startDateTime);
         activity.setEndDateTime(endDateTime);
-        activity.setTimeInvested(timeInvestedInSeconds);
+        activity.setTimeInvested(Integer.parseInt(timeInvestedInSecondsString));
         activity.setComment(comment);
         activity.setActivityStatus(ActivityStatus.DONE);
 

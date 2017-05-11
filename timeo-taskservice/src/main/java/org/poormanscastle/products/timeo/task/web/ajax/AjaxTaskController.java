@@ -43,7 +43,7 @@ public class AjaxTaskController {
         Activity activity = taskService.getActivityForFinishForm(activityId);
         model.addAttribute("activity", activity);
         model.addAttribute("activityId", activityId);
-        model.addAttribute("ajaxUtils", new TaskServiceUtils());
+        model.addAttribute("taskServiceUtils", new TaskServiceUtils());
         model.addAttribute("applicableStatusList", taskService.getApplicableStatuslistForTask(activity.getTask()));
         return "ajax/FinishActivityForm";
     }
@@ -59,7 +59,7 @@ public class AjaxTaskController {
     @ResponseBody
     String finishActivity(
             @RequestParam("activityId") String activityId,
-            @RequestParam("timeInvested") int timeInvested,
+            @RequestParam("timeInvested") String timeInvested,
             @RequestParam("startDateTime") String startDateTime,
             @RequestParam("endDateTime") String endDateTime,
             @RequestParam("status") String status,

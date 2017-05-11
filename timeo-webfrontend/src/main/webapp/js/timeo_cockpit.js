@@ -143,10 +143,16 @@ TaskBrowser.prototype.stopTaskHandler = function() {
                     type: "post",
                     data: $("#finishActivityForm").serialize(),
                     success: function(data){
-                        alert("Server replied: " + data);
-                        finishActivityFormContainer.empty();
-                        finishActivityFormContainer.toggleClass("visible invisible");
-                        taskBrowser.refreshTasks();
+                        if(data.startsWith("SUCCESS: ")) {
+                            alert("Server replied: " + data);
+                            finishActivityFormContainer.empty();
+                            finishActivityFormContainer.toggleClass("visible invisible");
+                            taskBrowser.refreshTasks();
+                        } else if (data.startsWith("FAILURE: ")){
+                            alert("Server indicates an error: " + data);
+                        } else {
+                            alert("WARNING: server sent incomprehensible gibberish. Please contact your team lead or system administrator: " + data);
+                        }
                     }
                 });
             });

@@ -54,9 +54,10 @@ public class ActivityServiceBean implements ActivityService {
                     "the given end date/time should be of format: yyyy-mm-dd hh:mm:ss. Please adapt.");
         }
 
-        if (!StringUtils.isNumeric(timeInvestedInSecondsString)) {
+        int timeInvestedInSeconds = TaskServiceUtils.parseDurationString(timeInvestedInSecondsString);
+        if (timeInvestedInSeconds <= 0) {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
-                    "the given number of seconds invested in the activity should be a whole number. Please adapt.");
+                    "the given duration string was evaluated to 0. Please check again.");
         }
 
         Activity activity = Activity.findActivity(activityId);
@@ -67,7 +68,7 @@ public class ActivityServiceBean implements ActivityService {
 
         activity.setStartDateTime(startDateTime);
         activity.setEndDateTime(endDateTime);
-        activity.setTimeInvested(Integer.parseInt(timeInvestedInSecondsString));
+        activity.setTimeInvested(timeInvestedInSeconds);
         activity.setComment(comment);
         activity.setActivityStatus(ActivityStatus.DONE);
 

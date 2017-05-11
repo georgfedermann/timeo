@@ -40,11 +40,13 @@ public class TaskServiceUtilsTest {
 
     @Test
     public void testParseDurationString5() throws Exception {
+        // TODO this input shall fail because of missing unit
         assertEquals(0, utils.parseDurationString("48"));
     }
 
     @Test
     public void testParseDurationString6() throws Exception {
+        // TODO this input shall fail, utter gibberish
         assertEquals(0, utils.parseDurationString("Poorman's Castle rules!"));
     }
 

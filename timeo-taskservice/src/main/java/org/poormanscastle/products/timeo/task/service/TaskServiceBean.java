@@ -30,6 +30,8 @@ public class TaskServiceBean implements TaskService {
 
     @Override
     public String createActivityForTask(String taskId, String projectTeamMemberId) {
+        logger.info(StringUtils.join("Registered request for create activity for taskId ", taskId,
+                " and projectTeamMemberId ", projectTeamMemberId));
         Activity activity = new Activity();
 
         checkArgument(!StringUtils.isBlank(taskId), "A valid taskId must be stated.");

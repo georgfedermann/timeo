@@ -4,7 +4,7 @@
  */
 $(document).ready(function(){
     console.log("cockpit loaded.");
-    
+
     user = new User();
     user.init();
     

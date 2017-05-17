@@ -12,7 +12,7 @@
             <jsp:output omit-xml-declaration="yes"/>
 
             <div id="photo" style="float: left; width: 200px">
-                <img src="https://localhost:14443/timeo-stakeholderservice/images/stakeholders/${stakeholder.masterKey}.png" />
+                <img src="${profile.stakeholder.webservice.hostname}timeo-stakeholderservice/images/stakeholders/${stakeholder.masterKey}.png" />
             </div>
             <div id="data" style="float: left; width: 400px">
                 ${stakeholder.name} (${stakeholder.masterKey})

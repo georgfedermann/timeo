@@ -5,10 +5,11 @@
   Time: 15:32
   To change this template use File | Settings | File Templates.
 -->
-<ul id="taskListForUser" class="taskCoverFlowContainer"
-     xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:spring="http://www.springframework.org/tags"
-     xmlns:c="http://java.sun.com/jsp/jstl/core">
+<ul id="taskListForUser" class="taskCoverFlowContainer" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+    xmlns:spring="http://www.springframework.org/tags">
 
     <c:forEach items="${tasks}" var="task" varStatus="varStatus">
         <li class="taskCoverFlowListItem">
@@ -28,7 +29,7 @@
                 </div>
                 <div style="display: flex">
                     <div class="taskCoverFlowData">${task.project.name}</div>
-                    <div class="taskCoverFlowData">${task.project.dueDate}</div>
+                    <div class="taskCoverFlowData"><fmt:formatDate pattern="yyyy-MM-dd" value="${task.dueDate}" /></div>
                 </div>
                 <div style="display: flex">
                     <div class="taskCoverFlowHeader">Priority:</div>

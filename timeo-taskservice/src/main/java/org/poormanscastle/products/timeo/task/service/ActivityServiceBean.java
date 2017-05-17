@@ -1,14 +1,17 @@
 package org.poormanscastle.products.timeo.task.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.poormanscastle.products.timeo.task.domain.Activity;
 import org.poormanscastle.products.timeo.task.domain.ActivityStatus;
+import org.poormanscastle.products.timeo.task.domain.Resource;
 import org.poormanscastle.products.timeo.task.domain.Status;
 import org.poormanscastle.products.timeo.task.domain.Task;
 import org.poormanscastle.products.timeo.task.exception.InvalidDateStringException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ActivityServiceBean implements ActivityService {
 
     final static Logger logger = Logger.getLogger(ActivityServiceBean.class);
+
+    @Autowired
+    private ResourceService resourceService;
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
@@ -82,5 +88,29 @@ public class ActivityServiceBean implements ActivityService {
         return ActivityServiceStatusMessage.SUCCESS.getMessage();
     }
 
+    @Override
+    public List<Activity> getActivities(int firstResult, int sizeNo, String sortFieldName, String sortOrder) {
+        logger.info(StringUtils.join("Got a service request for ", sizeNo, " data sets of projects, starting with row ",
+                firstResult, ", sorted by ", sortFieldName, " ", sortOrder, "."));
+        List<Activity> activities = Activity.findActivityEntries(firstResult, sizeNo, sortFieldName, sortOrder);
+        activities.forEach((activity) -> setEmailForProjectTeamMemberOnActivity(activity));
+        return activities;
+    }
 
+    void setEmailForProjectTeamMemberOnActivity(Activity activity) {
+        Resource resource = resourceService.loadResourceByMasterKey(activity.getProjectTeamMember().getResourceId());
+        if (resource != null) {
+            activity.getProjectTeamMember().setLabel(resource.getEmail());
+        } else {
+            activity.getProjectTeamMember().setLabel(StringUtils.join("No email found for ", activity.getProjectTeamMember().getResourceId(), "."));
+        }
+    }
+
+    @Override
+    public List<Activity> getAllActivities(String sortFieldName, String sortOrder) {
+        logger.info(StringUtils.join("Got a service request for all projects sorted by ", sortFieldName, " ", sortOrder, "."));
+        List<Activity> activities = Activity.findAllActivitys(sortFieldName, sortOrder);
+        activities.forEach((activity) -> setEmailForProjectTeamMemberOnActivity(activity));
+        return activities;
+    }
 }

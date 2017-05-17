@@ -25,25 +25,24 @@ public class ProjectServiceBean implements ProjectService {
         logger.info(StringUtils.join("Got a service request for ", sizeNo, " data sets of projects, starting with row ",
                 firstResult, ", sorted by ", sortFieldName, " ", sortOrder, "."));
         List<Project> projects = Project.findProjectEntries(firstResult, sizeNo, sortFieldName, sortOrder);
-        projects.forEach((p) -> {
-            Resource resource = resourceService.loadResourceByMasterKey(p.getSpocMasterKey());
-            if (resource != null) {
-                p.setLabel(resource.getEmail());
-            }
-        });
+        projects.forEach((project) -> setSpocLabelOnProject(project));
         return projects;
+    }
+
+    void setSpocLabelOnProject(Project project) {
+        Resource resource = resourceService.loadResourceByMasterKey(project.getSpocMasterKey());
+        if (resource != null) {
+            project.setLabel(resource.getEmail());
+        } else {
+            project.setLabel(StringUtils.join("No email found for ", project.getSpocMasterKey(), "."));
+        }
     }
 
     @Override
     public List<Project> getAllProjects(String sortFieldName, String sortOrder) {
         logger.info(StringUtils.join("Got a service request for all projects sorted by ", sortFieldName, " ", sortOrder, "."));
         List<Project> projects = Project.findAllProjects(sortFieldName, sortOrder);
-        projects.forEach((p) -> {
-            Resource resource = resourceService.loadResourceByMasterKey(p.getSpocMasterKey());
-            if (resource != null) {
-                p.setLabel(resource.getEmail());
-            }
-        });
+        projects.forEach((project) -> setSpocLabelOnProject(project));
         return projects;
     }
 }

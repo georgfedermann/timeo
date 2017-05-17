@@ -1,5 +1,9 @@
 package org.poormanscastle.products.timeo.task.service;
 
+import java.util.List;
+
+import org.poormanscastle.products.timeo.task.domain.Activity;
+
 /**
  * Created by georg on 11/05/2017.
  */
@@ -22,5 +26,9 @@ public interface ActivityService {
     String processAndStoreActivity(String activityId, String timeInvestedInSeconds,
                                    String startDateTime, String endDateTime, String newTaskStatus,
                                    String comment);
+
+    List<Activity> getActivities(int firstResult, int sizeNo, String sortFieldName, String sortOrder);
+
+    List<Activity> getAllActivities(String sortFieldName, String sortOrder);
 
 }

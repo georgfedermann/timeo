@@ -9,13 +9,7 @@ $(document).mousemove(function (e) {
     mouseY = e.pageY;
 });
 
-$(document).ready(findStakeholderRefs);
-
-function findStakeholderRefs() {
-    // find DIVs annotated with class stakeholderRef
-    // console.log("Initialize stakeholderRef event handlers.");
-    $("td.stakeholderRef").each(addBusinessCardMouseOver);
-}
+$(document).ready(addBusinessCardMouseOver);
 
 function addBusinessCardMouseOver() {
     // console.log("adding BusinessCard mouseOver event handler");

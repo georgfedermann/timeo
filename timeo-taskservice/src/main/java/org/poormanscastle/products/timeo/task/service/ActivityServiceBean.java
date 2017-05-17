@@ -93,7 +93,7 @@ public class ActivityServiceBean implements ActivityService {
         logger.info(StringUtils.join("Got a service request for ", sizeNo, " data sets of projects, starting with row ",
                 firstResult, ", sorted by ", sortFieldName, " ", sortOrder, "."));
         List<Activity> activities = Activity.findActivityEntries(firstResult, sizeNo, sortFieldName, sortOrder);
-        activities.forEach((activity) -> setEmailForProjectTeamMemberOnActivity(activity));
+        activities.forEach(activity -> setEmailForProjectTeamMemberOnActivity(activity));
         return activities;
     }
 
@@ -110,7 +110,7 @@ public class ActivityServiceBean implements ActivityService {
     public List<Activity> getAllActivities(String sortFieldName, String sortOrder) {
         logger.info(StringUtils.join("Got a service request for all projects sorted by ", sortFieldName, " ", sortOrder, "."));
         List<Activity> activities = Activity.findAllActivitys(sortFieldName, sortOrder);
-        activities.forEach((activity) -> setEmailForProjectTeamMemberOnActivity(activity));
+        activities.forEach(activity -> setEmailForProjectTeamMemberOnActivity(activity));
         return activities;
     }
 }

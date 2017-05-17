@@ -49,4 +49,24 @@ public interface TaskService {
      */
     List<Status> getApplicableStatuslistForTask(Task task);
 
+    /**
+     * probably mostlry used by the Spring MVC TaskController, this service returns a list of all Task entries
+     * as specified by the method parameters.
+     * @param firstResult
+     * @param sizeNo
+     * @param sortFieldName
+     * @param sortOrder
+     * @return
+     */
+    List<Task> getTasks(int firstResult, int sizeNo, String sortFieldName, String sortOrder);
+
+    /**
+     * probably mostly used by the Spring MVC TaskController, this service returns a list of all Task entries
+     * in the repository sorted as specified by the method parameters.
+     * @param sortFieldName
+     * @param sortOrder
+     * @return
+     */
+    List<Task> getAllTasks(String sortFieldName, String sortOrder);
+    
 }

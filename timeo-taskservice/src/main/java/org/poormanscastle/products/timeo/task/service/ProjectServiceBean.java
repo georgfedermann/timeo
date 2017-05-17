@@ -25,7 +25,7 @@ public class ProjectServiceBean implements ProjectService {
         logger.info(StringUtils.join("Got a service request for ", sizeNo, " data sets of projects, starting with row ",
                 firstResult, ", sorted by ", sortFieldName, " ", sortOrder, "."));
         List<Project> projects = Project.findProjectEntries(firstResult, sizeNo, sortFieldName, sortOrder);
-        projects.forEach((project) -> setSpocLabelOnProject(project));
+        projects.forEach(project -> setSpocLabelOnProject(project));
         return projects;
     }
 
@@ -42,7 +42,7 @@ public class ProjectServiceBean implements ProjectService {
     public List<Project> getAllProjects(String sortFieldName, String sortOrder) {
         logger.info(StringUtils.join("Got a service request for all projects sorted by ", sortFieldName, " ", sortOrder, "."));
         List<Project> projects = Project.findAllProjects(sortFieldName, sortOrder);
-        projects.forEach((project) -> setSpocLabelOnProject(project));
+        projects.forEach(project -> setSpocLabelOnProject(project));
         return projects;
     }
 }

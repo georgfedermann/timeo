@@ -2,8 +2,6 @@ package org.poormanscastle.products.timeo.task.service;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +14,7 @@ import org.poormanscastle.products.timeo.task.domain.ProjectTeamMember;
 import org.poormanscastle.products.timeo.task.domain.Resource;
 import org.poormanscastle.products.timeo.task.domain.Status;
 import org.poormanscastle.products.timeo.task.domain.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,6 +26,9 @@ public class TaskServiceBean implements TaskService {
     final static Logger logger = Logger.getLogger(TaskService.class);
     final static boolean info = TaskServiceBean.logger.isInfoEnabled();
     final static boolean debug = TaskServiceBean.logger.isDebugEnabled();
+
+    @Autowired
+    private ResourceService resourceService;
 
     @Override
     public String createActivityForTask(String taskId, String projectTeamMemberId) {
@@ -51,9 +53,9 @@ public class TaskServiceBean implements TaskService {
             logger.error(errMsg);
             return errMsg;
         }
-        
+
         // TODO check whether the teamMember's resource is active in some other activity at the time?
-        
+
         activity.setActivityStatus(ActivityStatus.ONGOING);
         activity.setStartDateTime(new Date());
         activity.setProjectTeamMember(projectTeamMember);
@@ -73,7 +75,7 @@ public class TaskServiceBean implements TaskService {
             logger.error(StringUtils.join("For activityId '", activityId, "' no activity was found in repository."));
             return null;
         }
-        activity.setEndDateTime(new Date());        
+        activity.setEndDateTime(new Date());
         return activity;
     }
 
@@ -118,4 +120,32 @@ public class TaskServiceBean implements TaskService {
         List<Status> statusList = Status.findAllStatuses();
         return statusList;
     }
+
+    @Override
+    public List<Task> getTasks(int firstResult, int sizeNo, String sortFieldName, String sortOrder) {
+        logger.info(StringUtils.join("Got a service request for ", sizeNo, " data sets of tasks, starting with row ",
+                firstResult, ", sorted by ", sortFieldName, " ", sortOrder, "."));
+        List<Task> tasks = Task.findTaskEntries(firstResult, sizeNo, sortFieldName, sortOrder);
+        tasks.forEach(task -> setEmailForProjectTeamMemberOnTask(task));
+        return tasks;
+    }
+
+    void setEmailForProjectTeamMemberOnTask(Task task) {
+        Resource resource = resourceService.loadResourceByMasterKey(task.getProjectTeamMember().getResourceId());
+        if (resource != null) {
+            task.getProjectTeamMember().setLabel(resource.getEmail());
+        } else {
+            task.getProjectTeamMember().setLabel(StringUtils.join("No email found for ",
+                    task.getProjectTeamMember().getResourceId(), "."));
+        }
+    }
+
+    @Override
+    public List<Task> getAllTasks(String sortFieldName, String sortOrder) {
+        logger.info(StringUtils.join("Got a service request for all tasks sorted by ", sortFieldName, " ", sortOrder, "."));
+        List<Task> tasks = Task.findAllTasks(sortFieldName, sortOrder);
+        tasks.forEach(task -> setEmailForProjectTeamMemberOnTask(task));
+        return tasks;
+    }
+
 }

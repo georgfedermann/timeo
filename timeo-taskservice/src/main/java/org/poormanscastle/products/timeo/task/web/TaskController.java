@@ -14,12 +14,14 @@ import org.poormanscastle.products.timeo.task.domain.Status;
 import org.poormanscastle.products.timeo.task.domain.Task;
 import org.poormanscastle.products.timeo.task.service.ProjectTeamMemberService;
 import org.poormanscastle.products.timeo.task.service.ResourceService;
+import org.poormanscastle.products.timeo.task.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.scaffold.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/tasks")
 @Controller
@@ -32,7 +34,25 @@ public class TaskController {
     private ProjectTeamMemberService projectTeamMemberService;
 
     @Autowired
+    private TaskService taskService;
+
+    @Autowired
     private ResourceService resourceService;
+
+    @RequestMapping(produces = "text/html")
+    public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, @RequestParam(value = "sortFieldName", required = false) String sortFieldName, @RequestParam(value = "sortOrder", required = false) String sortOrder, Model uiModel) {
+        if (page != null || size != null) {
+            int sizeNo = size == null ? 10 : size.intValue();
+            final int firstResult = page == null ? 0 : (page.intValue() - 1) * sizeNo;
+            uiModel.addAttribute("tasks", taskService.getTasks(firstResult, sizeNo, sortFieldName, sortOrder));
+            float nrOfPages = (float) Task.countTasks() / sizeNo;
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        } else {
+            uiModel.addAttribute("tasks", taskService.getAllTasks(sortFieldName, sortOrder));
+        }
+        addDateTimeFormatPatterns(uiModel);
+        return "tasks/list";
+    }
 
     @RequestMapping(params = "form", produces = "text/html")
     public String createForm(Model uiModel) {
@@ -63,7 +83,7 @@ public class TaskController {
         addDateTimeFormatPatterns(uiModel);
         Task task = Task.findTask(id);
         Resource resource = resourceService.loadResourceByMasterKey(task.getProjectTeamMember().getResourceId());
-        task.getProjectTeamMember().setLabel(resourceService.loadResourceByMasterKey(task.getProjectTeamMember().getResourceId()).getEmail());
+        task.getProjectTeamMember().setLabel(resource.getEmail());
         uiModel.addAttribute("task", task);
         uiModel.addAttribute("itemId", id);
         uiModel.addAttribute("resource", resource);
@@ -76,7 +96,7 @@ public class TaskController {
         uiModel.addAttribute("goals", Goal.findAllGoals());
         uiModel.addAttribute("prioritys", Priority.findAllPrioritys());
         uiModel.addAttribute("projects", Project.findAllProjects());
-        uiModel.addAttribute("projectteammembers", projectTeamMemberService.getAllProjectTeamMembers("project", "asc"));
+        uiModel.addAttribute("projectteammembers", new ArrayList<ProjectTeamMember>());
         uiModel.addAttribute("statuses", Status.findAllStatuses());
     }
 

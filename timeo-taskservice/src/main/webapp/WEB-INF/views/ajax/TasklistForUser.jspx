@@ -41,10 +41,13 @@
                 </div>
                 <div style="display:flex">
                     <div class="taskCoverFlowHeader">Investment so far:</div>
-                    <div class="taskCoverFlowHeader"><jsp:text /></div>
+                    <div class="taskCoverFlowHeader">Current status:</div>
                 </div>
                 <div style="display: flex">
                     <div id="taskClock" class="taskCoverFlowData">--:--</div>
+                    <div class="taskCoverFlowData">${task.status.name}</div>
+                </div>
+                <div style="display: flex">
                     <div class="taskCoverFlowData taskToolbar">
                         <div class="acceptTaskButton taskButton"><jsp:text /></div>
                         <div class="flagTaskButton taskButton"><jsp:text /></div>

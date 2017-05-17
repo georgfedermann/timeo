@@ -100,8 +100,8 @@ div.phoneCallDialogVisible {
 }
 
 li.taskCoverFlowListItem {
-    width: 350px;
-    height: 350px;
+    width: 370px;
+    height: 370px;
     padding: 10px;
 }
 
@@ -135,6 +135,11 @@ li.flipster__item--current {
     width: 50%;
     text-align: left;
     padding: 10px 18px;
+}
+
+.taskCoverFlowData.taskToolbar {
+    position: absolute;
+    left: 192px;
 }
 
 .taskButton {

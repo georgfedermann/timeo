@@ -5,6 +5,13 @@
 $(document).ready(function(){
     console.log("cockpit loaded.");
 
+    if (!String.prototype.startsWith) {
+        String.prototype.startsWith = function(searchString, position){
+            position = position || 0;
+            return this.substr(position, searchString.length) === searchString;
+        };
+    }
+
     user = new User();
     user.init();
     

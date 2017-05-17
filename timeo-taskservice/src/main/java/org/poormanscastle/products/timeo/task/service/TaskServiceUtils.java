@@ -39,7 +39,6 @@ public class TaskServiceUtils {
     private final static Pattern grepMinutesPattern = Pattern.compile("(\\d+)m");
     private final static Pattern grepSecondsPattern = Pattern.compile("(\\d+)s");
 
-
     public static int parseDurationString(String durationString) {
         // TODO implement some logic to reject invalid duration strings
         int numberOfSeconds = 0;
@@ -65,6 +64,24 @@ public class TaskServiceUtils {
         }
 
         return numberOfSeconds;
+    }
+
+    public static String createDurationStringFromSeconds(int secondsInput) {
+        StringBuilder builder = new StringBuilder();
+
+        int days = secondsInput / (8 * 3600);
+        int remainder = secondsInput % (8 * 3600);
+        int hours = remainder / 3600;
+        remainder = remainder % 3600;
+        int minutes = remainder / 60;
+        int seconds = remainder % 60;
+
+        builder.append(days == 0 ? "" : days + "d")
+                .append(hours == 0 ? "" : hours + "h")
+                .append(minutes == 0 ? "" : minutes + "m")
+                .append(seconds == 0 ? "" : seconds + "s");
+
+        return builder.toString();
     }
 
     public static String formatDate(Date date) {

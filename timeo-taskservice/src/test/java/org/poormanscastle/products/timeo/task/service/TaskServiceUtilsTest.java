@@ -50,4 +50,29 @@ public class TaskServiceUtilsTest {
         assertEquals(0, utils.parseDurationString("Poorman's Castle rules!"));
     }
 
+    @Test
+    public void testDurationString1() throws Exception {
+        assertEquals("59s", utils.createDurationStringFromSeconds(59));
+    }
+
+    @Test
+    public void testDurationString2() throws Exception {
+        assertEquals("1m1s", utils.createDurationStringFromSeconds(61));
+    }
+
+    @Test
+    public void testDurationString3() throws Exception {
+        assertEquals("1h1m1s", utils.createDurationStringFromSeconds(3661));
+    }
+
+    @Test
+    public void testDurationString4() throws Exception {
+        assertEquals("1d", utils.createDurationStringFromSeconds(28800));
+    }
+
+    @Test
+    public void testDurationString5() throws Exception {
+        assertEquals("1h1s", utils.createDurationStringFromSeconds(3601));
+    }
+
 }

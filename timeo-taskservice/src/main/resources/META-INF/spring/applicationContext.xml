@@ -50,11 +50,7 @@
         <context:exclude-filter expression=".*_Roo_.*" type="regex"/>
         <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
     </context:component-scan>
-    
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-    
+
     <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
         <property name="driverClassName" value="${database.driverClassName}"/>
         <property name="url" value="${database.url}"/>

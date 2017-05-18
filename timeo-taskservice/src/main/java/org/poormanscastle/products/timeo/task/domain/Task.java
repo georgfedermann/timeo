@@ -1,5 +1,7 @@
 package org.poormanscastle.products.timeo.task.domain;
+
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,6 +11,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -61,10 +64,11 @@ public class Task {
     private Long effortEstimation;
 
     /**
-     * An additive value resulting from all reported actual efforts
+     * An additive value resulting from all reported actual efforts.
+     * this is calculated JIT when it's needed and only cached for short term
+     * periods to avoid problems with stale values.
+     * TODO make this field transient and update the database schema. caveat: old database export become incompatible.
      */
-    @NotNull
-    @Min(0L)
     private Long effortMeasured;
 
     /**

@@ -1,5 +1,7 @@
 package org.poormanscastle.products.timeo.task.service;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,15 +68,22 @@ public class TaskServiceUtils {
         return numberOfSeconds;
     }
 
-    public static String createDurationStringFromSeconds(int secondsInput) {
+    public static String createDurationStringFromSeconds(long secondsInput) {
+        checkArgument(secondsInput >= 0, StringUtils.join("time invested must be greater or equal 0 but was ",
+                secondsInput, "."));
+        
+        if (secondsInput == 0) {
+            return "0s";
+        }
+
         StringBuilder builder = new StringBuilder();
 
-        int days = secondsInput / (8 * 3600);
-        int remainder = secondsInput % (8 * 3600);
-        int hours = remainder / 3600;
+        long days = secondsInput / (8 * 3600);
+        long remainder = secondsInput % (8 * 3600);
+        long hours = remainder / 3600;
         remainder = remainder % 3600;
-        int minutes = remainder / 60;
-        int seconds = remainder % 60;
+        long minutes = remainder / 60;
+        long seconds = remainder % 60;
 
         builder.append(days == 0 ? "" : days + "d")
                 .append(hours == 0 ? "" : hours + "h")

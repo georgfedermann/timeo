@@ -3,8 +3,11 @@ package org.poormanscastle.products.timeo.task.service;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -15,6 +18,7 @@ import org.poormanscastle.products.timeo.task.domain.Resource;
 import org.poormanscastle.products.timeo.task.domain.Status;
 import org.poormanscastle.products.timeo.task.domain.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,6 +33,14 @@ public class TaskServiceBean implements TaskService {
 
     @Autowired
     private ResourceService resourceService;
+
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public void setDataSource(DataSource dataSource) {
+        logger.info("setDataSource is being called.");
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
 
     @Override
     public String createActivityForTask(String taskId, String projectTeamMemberId) {
@@ -111,6 +123,7 @@ public class TaskServiceBean implements TaskService {
         for (ProjectTeamMember projectTeamMember : projectTeamMemberList) {
             taskList.addAll(Task.findTasksByProjectTeamMember(projectTeamMember).getResultList());
         }
+        taskList.forEach(task -> task.setEffortMeasured(getTimeInvestedInTask(task)));
         return taskList;
     }
 
@@ -118,6 +131,7 @@ public class TaskServiceBean implements TaskService {
     public List<Status> getApplicableStatuslistForTask(Task task) {
         // TODO obviously a rule engine needs to be implemented here
         List<Status> statusList = Status.findAllStatuses();
+        Collections.sort(statusList, (status1, status2) -> status1.getName().compareTo(status2.getName()));
         return statusList;
     }
 
@@ -134,6 +148,7 @@ public class TaskServiceBean implements TaskService {
         Resource resource = resourceService.loadResourceByMasterKey(task.getProjectTeamMember().getResourceId());
         if (resource != null) {
             task.getProjectTeamMember().setLabel(resource.getEmail());
+            task.setEffortMeasured(getTimeInvestedInTask(task));
         } else {
             task.getProjectTeamMember().setLabel(StringUtils.join("No email found for ",
                     task.getProjectTeamMember().getResourceId(), "."));
@@ -146,6 +161,17 @@ public class TaskServiceBean implements TaskService {
         List<Task> tasks = Task.findAllTasks(sortFieldName, sortOrder);
         tasks.forEach(task -> setEmailForProjectTeamMemberOnTask(task));
         return tasks;
+    }
+
+    @Override
+    public long getTimeInvestedInTask(Task task) {
+        if (jdbcTemplate == null) {
+            logger.error("JdbcTemplate has not been initialized!");
+        }
+        Long result = jdbcTemplate.queryForObject(
+                "select sum(a.time_invested) as efforts from activity as a inner join task as t on a.task = t.id where t.id = ?",
+                Long.class, task.getId());
+        return result == null ? 0 : result;
     }
 
 }

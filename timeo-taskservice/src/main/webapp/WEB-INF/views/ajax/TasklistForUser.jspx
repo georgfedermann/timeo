@@ -44,7 +44,7 @@
                     <div class="taskCoverFlowHeader">Current status:</div>
                 </div>
                 <div style="display: flex">
-                    <div id="taskClock" class="taskCoverFlowData">--:--</div>
+                    <div id="taskClock" class="taskCoverFlowData">${taskUtils.createDurationStringFromSeconds(task.getEffortMeasured())}</div>
                     <div class="taskCoverFlowData">${task.status.name}</div>
                 </div>
                 <div style="display: flex">

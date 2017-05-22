@@ -29,9 +29,7 @@ public class AjaxTaskController {
     private ActivityService activityService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/registerActivity/{taskId}/{teamMemberId}")
-    public
-    @ResponseBody
-    String registerActivity(@PathVariable("taskId") String taskId, @PathVariable("teamMemberId") String teamMemberId) {
+    public @ResponseBody String registerActivity(@PathVariable("taskId") String taskId, @PathVariable("teamMemberId") String teamMemberId) {
         logger.info(StringUtils.join("Received request to create new activity for task ",
                 taskId, " and team member ", teamMemberId, "."));
         return taskService.createActivityForTask(taskId, teamMemberId);
@@ -55,9 +53,7 @@ public class AjaxTaskController {
      * @return a status message SUCCESS or ERROR
      */
     @RequestMapping(method = RequestMethod.POST, value = "/finishActivity")
-    public
-    @ResponseBody
-    String finishActivity(
+    public @ResponseBody String finishActivity(
             @RequestParam("activityId") String activityId,
             @RequestParam("timeInvested") String timeInvested,
             @RequestParam("startDateTime") String startDateTime,
@@ -69,8 +65,7 @@ public class AjaxTaskController {
                 "; startDateTime: ", startDateTime, "; endDateTime: ", endDateTime,
                 "; status: ", status, "; comment: ", comment, " - Done!"
         ));
-
-
+        
         return activityService.processAndStoreActivity(activityId, timeInvested,
                 startDateTime, endDateTime, status, comment);
     }

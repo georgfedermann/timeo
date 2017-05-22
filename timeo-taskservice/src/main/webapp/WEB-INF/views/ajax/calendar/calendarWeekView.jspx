@@ -6,14 +6,105 @@
   To change this template use File | Settings | File Templates.
 -->
 
-<div id="calendarPanel">
+<div id="calendarPanel" xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <jsp:output omit-xml-declaration="true"/>
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:directive.page pageEncoding="UTF-8"/>
+
+    <div id="calendarData" style="display: none;">
+        <div id="calendarYear">${year}</div>
+        <div id="calendarWeek">${calendarWeek}</div>
+    </div>
     <div id="calendarToolBar">
-        <div>Previous week</div>
-        <div>Today</div>
-        <div>Next week</div>
+        <div id="calendarBackButton">
+            <jsp:text/>
+        </div>
+        <div id="calendarTodayButton">
+            <jsp:text/>
+        </div>
+        <div id="calendarForwardButton">
+            <jsp:text/>
+        </div>
     </div>
     <div id="calendarWeekViewPanel">
-        
-        
+        <div class="timePanel" id="timePanel">
+            <div class="timePanelHeader">
+                <jsp:text/>
+            </div>
+            <c:set var="timeValues" value="${['00:00', '01:00', '02:00', '03:00', '04:00', '05:00',
+                '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
+                '15:00', '16:00' ,'17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
+            ]}" scope="page" />
+            <c:forEach items="${timeValues}" var="timeValue" varStatus="varStatus">
+                <div class="timePanelLabel">${timeValue}</div>
+            </c:forEach>
+        </div>
+        <div class="weekDayPanel" id="weekDayPanelMonday">
+            <div class="weekDayHeader">
+                <spring:message code="calendar.dayPanel.monday.label"/><br/>
+                ${weekDays.get(0).toString("yyyy-MM-dd")}
+            </div>
+            <div class="weekDayContent">
+                <jsp:text />
+            </div>
+        </div>
+        <div class="weekDayPanel" id="weekDayPanelTuesday">
+            <div class="weekDayHeader">
+                <spring:message code="calendar.dayPanel.tuesday.label"/><br/>
+                ${weekDays.get(1).toString("yyyy-MM-dd")}
+            </div>
+            <div class="weekDayContent">
+                <jsp:text />
+            </div>
+        </div>
+        <div class="weekDayPanel" id="weekDayPanelWednesday">
+            <div class="weekDayHeader">
+                <spring:message code="calendar.dayPanel.wednesday.label"/><br/>
+                ${weekDays.get(2).toString("yyyy-MM-dd")}
+            </div>
+            <div class="weekDayContent">
+                <jsp:text />
+            </div>
+        </div>
+        <div class="weekDayPanel" id="weekDayPanelThursday">
+            <div class="weekDayHeader">
+                <spring:message code="calendar.dayPanel.thursday.label"/><br/>
+                ${weekDays.get(3).toString("yyyy-MM-dd")}
+            </div>
+            <div class="weekDayContent">
+                <jsp:text />
+            </div>
+        </div>
+        <div class="weekDayPanel" id="weekDayPanelFriday">
+            <div class="weekDayHeader">
+                <spring:message code="calendar.dayPanel.friday.label"/><br/>
+                ${weekDays.get(4).toString("yyyy-MM-dd")}
+            </div>
+            <div class="weekDayContent">
+                <jsp:text />
+            </div>
+        </div>
+        <div class="weekDayPanel" id="weekDayPanelSaturday">
+            <div class="weekDayHeader">
+                <spring:message code="calendar.dayPanel.saturday.label"/><br/>
+                ${weekDays.get(5).toString("yyyy-MM-dd")}
+            </div>
+            <div class="weekDayContent">
+                <jsp:text />
+            </div>
+        </div>
+        <div class="weekDayPanel" id="weekDayPanelSunday">
+            <div class="weekDayHeader">
+                <spring:message code="calendar.dayPanel.sunday.label"/><br/>
+                ${weekDays.get(6).toString("yyyy-MM-dd")}
+            </div>
+            <div class="weekDayContent">
+                <jsp:text />
+            </div>
+        </div>
     </div>
 </div>

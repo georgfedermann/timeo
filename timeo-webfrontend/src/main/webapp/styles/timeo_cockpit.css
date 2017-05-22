@@ -57,6 +57,7 @@ div#footer {
     padding-top: 15px;
     padding-bottom: 15px;
     background-color: beige;
+    z-index: 100;
 }
 
 
@@ -242,4 +243,94 @@ div.formline.formbuttons {
 #submitbutton {
     width: 66px;
     margin-left: 13px;
+}
+
+div#timeoCalendar {
+    margin-top: 250px;
+    width: 100%;
+    height: 1000px;
+}
+
+div#calendarPanel {
+    position: absolute;
+    left: 250px;
+    text-align: center;
+}
+
+div#calendarWeekViewPanel {
+    display: flex;
+    width: 1200px;
+    box-shadow: 3px 3px 10px 3px rgba(50, 50, 50, 0.95);
+}
+
+div.weekDayPanel:hover {
+    background-color: azure;
+}
+
+div.weekDayPanel {
+    background-color: aliceblue;
+    border: solid 1px #A0A0A0;
+    width: 12.5%;
+}
+
+div.weekDayHeader {
+    border-bottom: 1px dashed #A0A0A0;
+    height: 42px;
+    padding-top: 8px;
+}
+
+div.weekDayContent {
+    height: calc(100% - 50px);
+}
+
+div.timePanel {
+    background-color: aliceblue;
+    width: 12.5%;
+    border: solid 1px #A0A0A0;
+}
+
+div.timePanelHeader {
+    height: 50px;
+    border-bottom: 1px solid #A0A0A0;
+    margin-bottom: 5px;
+}
+
+div.timePanelLabel {
+    height: 25px;
+}
+
+div#calendarBackButton {
+    background: url("../images/calendarBack.png") no-repeat;
+    height: 48px;
+    width: 48px;
+}
+
+div#calendarBackButton:hover {
+    background: url("../images/calendarBack_mouseover.png") no-repeat;
+    height: 48px;
+    width: 48px;
+}
+
+div#calendarTodayButton {
+    background: url("../images/calendarToday.png") no-repeat;
+    height: 48px;
+    width: 48px;
+}
+
+div#calendarTodayButton:hover {
+    background: url("../images/calendarToday_mouseover.png") no-repeat;
+    height: 48px;
+    width: 48px;
+}
+
+div#calendarForwardButton {
+    background: url("../images/calendarForward.png") no-repeat;
+    height: 48px;
+    width: 48px;
+}
+
+div#calendarForwardButton:hover {
+    background: url("../images/calendarForward_mouseover.png") no-repeat;
+    height: 48px;
+    width: 48px;
 }

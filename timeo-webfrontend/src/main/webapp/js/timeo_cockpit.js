@@ -24,14 +24,18 @@ $(document).ready(function(){
     taskBrowser = new TaskBrowser();
     taskBrowser.init();
     
-    setTimeout(taskBrowser.refreshTasks(), 1000);
+    timeoCalendar = new TimeoCalendar();
+    timeoCalendar.init();
+    
+    setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
+    setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
 });
 
 /**
  * user object holds all information about the authenticated user.
  * information is shipped from the server inside some <div/> holding user data.
  */
-function User() {}
+function User() {};
 
 User.prototype.init = function() {
     this.masterKey = $("#userdata #masterKey").text();
@@ -41,11 +45,47 @@ User.prototype.init = function() {
     this.loginId = $("#userdata #loginId").text();
 };
 
+function TimeoCalendar (){};
+
+TimeoCalendar.prototype.init = function() {
+    this.wsUrlCalendarForYearAndCalendarWeek = "${profile.taskservice.hostname}${profile.taskservice.calendarForYearAndCalendarWeek}";
+    this.wsUrlCalendarForCurrentDate = "${profile.taskservice.hostname}${profile.taskservice.calendarForCurrentDate}"
+    // when the user selects a year or calendar week, set these values accordingly
+    // -1 means: the values have not been set and the calendar for the current date shall be loaded.
+    this.year = -1;
+    this.calendarWeek = -1;
+};
+
+TimeoCalendar.prototype.reloadCalendarView = function() {
+    var me = this;
+
+    var localWsUrl = "";
+    if(this.year == -1 || this.calendarWeek == -1){
+        // load calendar week for current date
+        localWsUrl = this.wsUrlCalendarForCurrentDate.replace("{masterKey}", $("div#userdata > div#masterKey").text());
+    } else {
+        // since year and calendar week have been defined, use them to load the calendar week view
+        localWsUrl = this.wsUrlCalendarForYearAndCalendarWeek.replace("{teamMemberId}", $("div#userdata > div#masterKey").text())
+            .replace("{year}", $("div#calendarData > div#calendarYear"))
+            .replace("{calendarWeekNumber}", $("div#calendarData > div#calenderWeek").text());
+    }
+    console.log("Loading calendar week view from url " + localWsUrl + ".");
+    
+    $.ajax({
+        type: "GET",
+        url: localWsUrl,
+        success: function(data){
+            $("div#timeoCalendar").html(data);
+        },
+        dataType: "text"
+    });
+};
+
 /**
  * Implements functionality for the TaskBrowser
  * @constructor
  */
-function TaskBrowser() {}
+function TaskBrowser() {};
 
 TaskBrowser.prototype.init = function() {
     this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.masterKey;

@@ -5,12 +5,16 @@ import static com.google.common.base.Preconditions.checkArgument;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.poormanscastle.products.timeo.task.exception.InvalidDateStringException;
 
 /**
@@ -71,7 +75,7 @@ public class TaskServiceUtils {
     public static String createDurationStringFromSeconds(long secondsInput) {
         checkArgument(secondsInput >= 0, StringUtils.join("time invested must be greater or equal 0 but was ",
                 secondsInput, "."));
-        
+
         if (secondsInput == 0) {
             return "0s";
         }
@@ -115,5 +119,22 @@ public class TaskServiceUtils {
             logger.error(errMsg, exception);
             throw new InvalidDateStringException(errMsg, exception);
         }
+    }
+
+    /**
+     * delivers a list of 7 days Monday through Sunday for the given year and calendar week.
+     * @param year
+     * @param calendarWeek
+     * @return
+     */
+    public static List<DateTime> getCalendarWeek(int year, int calendarWeek) {
+        List<DateTime> result = new ArrayList<>();
+        DateTime dateTime = new DateTime().withYear(year).withWeekOfWeekyear(calendarWeek).withDayOfWeek(DateTimeConstants.MONDAY);
+        result.add(dateTime);
+        for (int c = 1; c <= 6; c++) {
+            result.add(dateTime.plusDays(c));
+        }
+
+        return result;
     }
 }

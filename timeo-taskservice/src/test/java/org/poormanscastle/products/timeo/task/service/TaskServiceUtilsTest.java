@@ -1,7 +1,11 @@
 package org.poormanscastle.products.timeo.task.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,6 +77,17 @@ public class TaskServiceUtilsTest {
     @Test
     public void testDurationString5() throws Exception {
         assertEquals("1h1s", utils.createDurationStringFromSeconds(3601));
+    }
+
+    @Test
+    public void testGetCalendarWeek1() throws Exception {
+        List<DateTime> calWeek2017_21 = TaskServiceUtils.getCalendarWeek(2017, 21);
+        assertNotNull(calWeek2017_21);
+        assertEquals(7, calWeek2017_21.size());
+        assertEquals(1, calWeek2017_21.get(0).getDayOfWeek());
+        assertEquals(7, calWeek2017_21.get(6).getDayOfWeek());
+        assertEquals(22, calWeek2017_21.get(0).getDayOfMonth());
+        assertEquals(5, calWeek2017_21.get(0).getMonthOfYear());
     }
 
 }

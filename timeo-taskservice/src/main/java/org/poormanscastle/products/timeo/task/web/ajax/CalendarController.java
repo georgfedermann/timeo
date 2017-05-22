@@ -13,13 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class CalendarController {
-    
+
     final static Logger logger = Logger.getLogger(CalendarController.class);
-    
-    @RequestMapping(method = RequestMethod.GET, value = "/getCalendarView/{teamMemberId}")
-    public String getCalendarView(@PathVariable("teamMemberId") String teamMemberId, Model model){
+
+    @RequestMapping(method = RequestMethod.GET, value = "/getCalendarWeekView/{calendarWeekNumber}/{teamMemberId}")
+    public String getCalendarView(@PathVariable("teamMemberId") String teamMemberId,
+                                  @PathVariable("calendarWeekNumber") String calendarWeekNumber, Model model) {
         
-        return "ajax/calendar/calendarView";
+        return "ajax/calendar/calendarWeekView";
     }
-    
+
 }

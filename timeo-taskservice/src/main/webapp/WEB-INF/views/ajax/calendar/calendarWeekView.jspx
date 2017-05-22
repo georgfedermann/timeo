@@ -1,0 +1,19 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: georg
+  Date: 22/05/2017
+  Time: 12:38
+  To change this template use File | Settings | File Templates.
+-->
+
+<div id="calendarPanel">
+    <div id="calendarToolBar">
+        <div>Previous week</div>
+        <div>Today</div>
+        <div>Next week</div>
+    </div>
+    <div id="calendarWeekViewPanel">
+        
+        
+    </div>
+</div>

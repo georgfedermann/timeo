@@ -257,6 +257,20 @@ div#calendarPanel {
     text-align: center;
 }
 
+div#activityCalendarConsole {
+    display: flex;
+}
+
+div#calendarWeekInfo {
+    width: calc(100% - 150px);
+    text-align: left;
+}
+
+div#calendarToolBar {
+    display: flex;
+    width: 150px;
+}
+
 div#calendarWeekViewPanel {
     display: flex;
     width: 1200px;

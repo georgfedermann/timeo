@@ -19,15 +19,19 @@
         <div id="calendarYear">${year}</div>
         <div id="calendarWeek">${calendarWeek}</div>
     </div>
-    <div id="calendarToolBar">
-        <div id="calendarBackButton">
-            <jsp:text/>
-        </div>
-        <div id="calendarTodayButton">
-            <jsp:text/>
-        </div>
-        <div id="calendarForwardButton">
-            <jsp:text/>
+    <div id="activityCalendarConsole">
+        <div id="calendarWeekInfo"><spring:message code="calendar.activityCalendarConsole.calendarWeekInfo"
+            arguments="${calendarWeek},${weekDays[0].toString('yyyy-MM-dd')},${weekDays[6].toString('yyyy-MM-dd')}" /></div>
+        <div id="calendarToolBar">
+            <div id="calendarBackButton">
+                <jsp:text/>
+            </div>
+            <div id="calendarTodayButton">
+                <jsp:text/>
+            </div>
+            <div id="calendarForwardButton">
+                <jsp:text/>
+            </div>
         </div>
     </div>
     <div id="calendarWeekViewPanel">

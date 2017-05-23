@@ -348,3 +348,12 @@ div#calendarForwardButton:hover {
     height: 48px;
     width: 48px;
 }
+
+div.activityPanel {
+    position: relative;
+    display: block;
+    width: 93%;
+    font-size: 8px;
+    background: powderblue;
+    padding: 2px;
+}

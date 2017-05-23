@@ -137,4 +137,11 @@ public class TaskServiceUtils {
 
         return result;
     }
+
+    public static int getSecondsFromMidnight(Date startDateTime) {
+        int result = new DateTime(startDateTime).getSecondOfDay();
+        logger.info("Seconds form midnight=" + result + " for startDateTime " + 
+                new DateTime(startDateTime).toString("hh:mm:ss"));
+        return result;
+    }
 }

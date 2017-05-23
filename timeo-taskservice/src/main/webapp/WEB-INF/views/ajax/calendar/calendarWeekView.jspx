@@ -43,6 +43,8 @@
                 '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
                 '15:00', '16:00' ,'17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
             ]}" scope="page" />
+            <c:set var="scale" value="602" />
+            <c:set var="offset" value="0" />
             <c:forEach items="${timeValues}" var="timeValue" varStatus="varStatus">
                 <div class="timePanelLabel">${timeValue}</div>
             </c:forEach>
@@ -53,7 +55,9 @@
                 ${weekDays.get(0).toString("yyyy-MM-dd")}
             </div>
             <div class="weekDayContent">
-                <jsp:text />
+                <c:forEach items="${activities[0]}" var="activity" varStatus="varStatus">
+                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                </c:forEach>
             </div>
         </div>
         <div class="weekDayPanel" id="weekDayPanelTuesday">
@@ -62,7 +66,9 @@
                 ${weekDays.get(1).toString("yyyy-MM-dd")}
             </div>
             <div class="weekDayContent">
-                <jsp:text />
+                <c:forEach items="${activities[1]}" var="activity" varStatus="varStatus">
+                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                </c:forEach>
             </div>
         </div>
         <div class="weekDayPanel" id="weekDayPanelWednesday">
@@ -71,7 +77,9 @@
                 ${weekDays.get(2).toString("yyyy-MM-dd")}
             </div>
             <div class="weekDayContent">
-                <jsp:text />
+                <c:forEach items="${activities[2]}" var="activity" varStatus="varStatus">
+                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                </c:forEach>
             </div>
         </div>
         <div class="weekDayPanel" id="weekDayPanelThursday">
@@ -80,7 +88,9 @@
                 ${weekDays.get(3).toString("yyyy-MM-dd")}
             </div>
             <div class="weekDayContent">
-                <jsp:text />
+                <c:forEach items="${activities[3]}" var="activity" varStatus="varStatus">
+                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                </c:forEach>
             </div>
         </div>
         <div class="weekDayPanel" id="weekDayPanelFriday">
@@ -89,7 +99,9 @@
                 ${weekDays.get(4).toString("yyyy-MM-dd")}
             </div>
             <div class="weekDayContent">
-                <jsp:text />
+                <c:forEach items="${activities[4]}" var="activity" varStatus="varStatus">
+                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                </c:forEach>
             </div>
         </div>
         <div class="weekDayPanel" id="weekDayPanelSaturday">
@@ -98,7 +110,9 @@
                 ${weekDays.get(5).toString("yyyy-MM-dd")}
             </div>
             <div class="weekDayContent">
-                <jsp:text />
+                <c:forEach items="${activities[5]}" var="activity" varStatus="varStatus">
+                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                </c:forEach>
             </div>
         </div>
         <div class="weekDayPanel" id="weekDayPanelSunday">
@@ -107,7 +121,9 @@
                 ${weekDays.get(6).toString("yyyy-MM-dd")}
             </div>
             <div class="weekDayContent">
-                <jsp:text />
+                <c:forEach items="${activities[6]}" var="activity" varStatus="varStatus">
+                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                </c:forEach>
             </div>
         </div>
     </div>

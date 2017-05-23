@@ -2,6 +2,7 @@ package org.poormanscastle.products.timeo.task.service;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.poormanscastle.products.timeo.task.domain.Activity;
 
 /**
@@ -30,6 +31,7 @@ public interface ActivityService {
     /**
      * probably mostly used by the Spring MVC ActivityController, this service returns a subset of the Activity entries
      * in the repository as specified by the method parameters.
+     *
      * @param firstResult
      * @param sizeNo
      * @param sortFieldName
@@ -41,10 +43,31 @@ public interface ActivityService {
     /**
      * probably mostly used by the Spring MVC ActivityController, this services returns a list of all Activity
      * entries in the repository sorted as specified by the method parameters.
+     *
      * @param sortFieldName
      * @param sortOrder
      * @return
      */
     List<Activity> getAllActivities(String sortFieldName, String sortOrder);
+
+    /**
+     * delivers a list of all activities that the given person did no the given day.
+     * Relevant whether an activity was performed on a given day is whether the start date
+     * occurred on that day.
+     *
+     * @param masterKey
+     * @param day
+     * @return
+     */
+    List<Activity> getActivitiesForStakeholderAndDay(String masterKey, DateTime day);
+
+    /**
+     * delivers a list of lists of activities, one list of activities for each day
+     * in this calendar week.
+     * @param masterKey
+     * @param calendarWeek
+     * @return
+     */
+    List<List<Activity>> getActivitiesForStakeholderAndCalendarWeek(String masterKey, int year, int calendarWeek);
 
 }

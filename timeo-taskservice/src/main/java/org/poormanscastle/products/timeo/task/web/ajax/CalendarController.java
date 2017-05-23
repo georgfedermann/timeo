@@ -3,7 +3,9 @@ package org.poormanscastle.products.timeo.task.web.ajax;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.poormanscastle.products.timeo.task.service.ActivityService;
 import org.poormanscastle.products.timeo.task.service.TaskServiceUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CalendarController {
 
     final static Logger logger = Logger.getLogger(CalendarController.class);
+    
+    @Autowired
+    private ActivityService activityService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/getCalendarWeekViewByYearAndCalendarWeek/{year}/{calendarWeekNumber}/{masterKey}")
     public String getCalendarView(@PathVariable("masterKey") String masterKey,
@@ -39,6 +44,10 @@ public class CalendarController {
         model.addAttribute("weekDays", TaskServiceUtils.getCalendarWeek(today.getYear(), today.getWeekOfWeekyear()));
         model.addAttribute("year", today.getYear());
         model.addAttribute("calendarWeek", today.getWeekOfWeekyear());
+        
+        model.addAttribute("activities", activityService.getActivitiesForStakeholderAndCalendarWeek(masterKey, 
+                today.getYear(), today.getWeekOfWeekyear()));
+        
         return "ajax/calendar/calendarWeekView";
     }
 

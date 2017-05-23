@@ -8,8 +8,8 @@
             <table:column date="true" dateTimePattern="${activity_startdatetime_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Activity_startDateTime" property="startDateTime" z="8Cl/V/nHixGfCIgTdrWwXXWr9Ts="/>
             <table:column date="true" dateTimePattern="${activity_enddatetime_date_format}" id="c_org_poormanscastle_products_timeo_task_domain_Activity_endDateTime" property="endDateTime" z="fKmci94ucGyDqviesfIv3L7kGcc="/>
             <table:column id="c_org_poormanscastle_products_timeo_task_domain_Activity_projectTeamMember" property="projectTeamMember.label" stakeholderRef="true" z="user-managed"/>
-            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Activity_task" property="task" z="3bHwCEvYTTQhXHw3ytHEwjLSSGM="/>
             <table:column id="c_org_poormanscastle_products_timeo_task_domain_Activity_activityStatus" property="activityStatus" z="CiNEWkRIoLH59jwe4nHi5Arm+Xg="/>
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Activity_startTimeSecondsFromMidnight" property="startTimeSecondsFromMidnight" render="false" z="user-managed"/>
         </table:table>
     </page:list>
 </div>

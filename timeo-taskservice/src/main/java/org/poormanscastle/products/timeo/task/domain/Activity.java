@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -76,6 +77,14 @@ public class Activity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDateTime;
 
+    /**
+     * this value shall be calculated JIT when needed. E.g. by the
+     * ActivityController before the activity is shipped to the JSP
+     * rendering the activity calendar for the timeo cockpit.
+     */
+    @Transient
+    private int startTimeSecondsFromMidnight;
+    
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDateTime;
@@ -89,7 +98,7 @@ public class Activity {
     private Task task;
 
     /**
-     * time in minutes invested into this activity.
+     * time in seconds invested into this activity.
      */
     @NotNull
     @Min(0L)

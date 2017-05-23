@@ -89,5 +89,10 @@ public class TaskServiceUtilsTest {
         assertEquals(22, calWeek2017_21.get(0).getDayOfMonth());
         assertEquals(5, calWeek2017_21.get(0).getMonthOfYear());
     }
-
+    
+    @Test
+    public void testGetSecondsFromMidnight() throws Exception {
+        DateTime dateTime = new DateTime().withTime(1,0,0,0);
+        assertEquals(3600, TaskServiceUtils.getSecondsFromMidnight(dateTime.toDate()));
+    }
 }

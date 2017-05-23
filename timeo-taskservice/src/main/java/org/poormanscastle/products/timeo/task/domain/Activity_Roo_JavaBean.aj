@@ -38,6 +38,14 @@ privileged aspect Activity_Roo_JavaBean {
         this.startDateTime = startDateTime;
     }
     
+    public int Activity.getStartTimeSecondsFromMidnight() {
+        return this.startTimeSecondsFromMidnight;
+    }
+    
+    public void Activity.setStartTimeSecondsFromMidnight(int startTimeSecondsFromMidnight) {
+        this.startTimeSecondsFromMidnight = startTimeSecondsFromMidnight;
+    }
+    
     public Date Activity.getEndDateTime() {
         return this.endDateTime;
     }

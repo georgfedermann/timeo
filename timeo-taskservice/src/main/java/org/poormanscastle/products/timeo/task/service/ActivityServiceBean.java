@@ -1,10 +1,18 @@
 package org.poormanscastle.products.timeo.task.service;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.poormanscastle.products.timeo.task.domain.Activity;
 import org.poormanscastle.products.timeo.task.domain.ActivityStatus;
 import org.poormanscastle.products.timeo.task.domain.Resource;
@@ -112,5 +120,27 @@ public class ActivityServiceBean implements ActivityService {
         List<Activity> activities = Activity.findAllActivitys(sortFieldName, sortOrder);
         activities.forEach(activity -> setEmailForProjectTeamMemberOnActivity(activity));
         return activities;
+    }
+
+    @Override
+    public List<Activity> getActivitiesForStakeholderAndDay(String masterKey, DateTime day) {
+        checkArgument(!StringUtils.isBlank(masterKey), "MasterKey is required!");
+        checkNotNull(day, "Day is required!");
+        EntityManager em = Activity.entityManager();
+        TypedQuery<Activity> query = em.createQuery("SELECT a FROM Activity AS a INNER JOIN a.projectTeamMember AS ptm WHERE date(a.startDateTime) = date(:myDate) and ptm.resourceId = :masterKey", Activity.class);
+        query.setParameter("myDate", day.toDate());
+        query.setParameter("masterKey", masterKey);
+        List<Activity> result = query.getResultList();
+        result.forEach(a -> a.setStartTimeSecondsFromMidnight(
+                TaskServiceUtils.getSecondsFromMidnight(a.getStartDateTime())));
+        return result;
+    }
+
+    @Override
+    public List<List<Activity>> getActivitiesForStakeholderAndCalendarWeek(String masterKey, int year, int calendarWeek) {
+        List<List<Activity>> workWeek = new LinkedList<>();
+        List<DateTime> calendarWeekDays = TaskServiceUtils.getCalendarWeek(year, calendarWeek);
+        calendarWeekDays.forEach(day -> workWeek.add(getActivitiesForStakeholderAndDay(masterKey, day)));
+        return workWeek;
     }
 }

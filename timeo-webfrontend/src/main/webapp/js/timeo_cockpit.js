@@ -36,18 +36,94 @@ $(document).ready(function(){
 });
 
 /**
- * user object holds all information about the authenticated user.
- * information is shipped from the server inside some <div/> holding user data.
+ * keep information about the mouse and its movements here.
  */
-function User() {};
+var MouseData = (function closure(){
+    var mouseX = 0;
+    var mouseY = 0;
+    var currentMouseEvent = null;
+    
+    function getMouseX() {
+        return mouseX;
+    }
+    
+    function setMouseX(mouseXin) {
+        mouseX = mouseXin;
+    }
+    
+    function getMouseY() {
+        return mouseY;
+    }
+    
+    function setMouseY(mouseYin) {
+        mouseY = mouseYin;
+    }
+    
+    function setCurrentMouseEvent(event) {
+        currentMouseEvent = event;
+    }
+    
+    function getCurrentMouseEvent() {
+        return currentMouseEvent;
+    }
+    
+    function printMessage() {
+        console.log("This is a message for you.");
+        return 0;
+    }
+    
+    function MouseData() {}
+    
+    MouseData.publicPrintMessage = printMessage;
+    return MouseData;
+    
+})();
 
-User.prototype.init = function() {
-    this.masterKey = $("#userdata #masterKey").text();
-    this.email = $("#userdata #email").text();
-    this.phone = $("#userdata #phone").text();
-    this.businessAddress = $("#userdata #businessAddress").text();
-    this.loginId = $("#userdata #loginId").text();
-};
+/**
+ * The user object holds all information about the authenticated user.
+ * Information is shipped from the service inside some <div></div> holding user data.
+ */
+var User = (function closure(){
+    
+    function User() {
+        var masterKey;
+        var email;
+        var phone;
+        var businessAddress;
+        var loginId;
+        
+        this.init = function(){
+            masterKey = $("#userdata #masterKey").text();
+            email = $("#userdata #email").text();
+            phone = $("#userdata #phone").text();
+            businessAddress = $("#userdata #businessAddress").text();
+            loginId = $("#userdata #loginId").text();
+        };
+        
+        this.getMasterKey = function() {
+            return masterKey;
+        }
+        
+        this.getEmail = function() {
+            return email;
+        }
+        
+        this.getPhone = function() {
+            return phone;
+        }
+        
+        this.getBusinessAddress = function() {
+            return businessAddress;
+        }
+        
+        this.getLoginId = function() {
+            return logindId;
+        }
+    }
+    
+    return User;
+    
+})();
 
 function TimeoCalendar (){};
 
@@ -62,11 +138,10 @@ TimeoCalendar.prototype.init = function() {
 
 TimeoCalendar.prototype.reloadCalendarView = function() {
     var me = this;
-
     var localWsUrl = "";
     if(this.year == -1 || this.calendarWeek == -1){
         // load calendar week for current date
-        localWsUrl = this.wsUrlCalendarForCurrentDate.replace("{masterKey}", $("div#userdata > div#masterKey").text());
+        localWsUrl = this.wsUrlCalendarForCurrentDate.replace("{masterKey}", user.getMasterKey());
     } else {
         // since year and calendar week have been defined, use them to load the calendar week view
         localWsUrl = this.wsUrlCalendarForYearAndCalendarWeek.replace("{teamMemberId}", $("div#userdata > div#masterKey").text())
@@ -78,9 +153,24 @@ TimeoCalendar.prototype.reloadCalendarView = function() {
         url: localWsUrl,
         success: function(data){
             $("div#timeoCalendar").html(data);
+            setTimeout(me.registerActivityHoverHandler.bind(me), 1000);
         },
         dataType: "text"
     });
+};
+
+TimeoCalendar.prototype.registerActivityHoverHandler = function() {
+    var me = this;
+    $("div.activityPanel").on("mouseenter", me.activityMouseEnter.bind(me));
+    $("div.activityPanel").on("mouseleave", me.activityMouseLeave.bind(me));
+};
+
+TimeoCalendar.prototype.activityMouseEnter = function(event) {
+    var activityId = $(event.target).attr("id");
+};
+
+TimeoCalendar.prototype.activityMouseLeave = function(event) {
+    console.log("Mouse just left");
 };
 
 /**
@@ -90,7 +180,7 @@ TimeoCalendar.prototype.reloadCalendarView = function() {
 function TaskBrowser() {};
 
 TaskBrowser.prototype.init = function() {
-    this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.masterKey;
+    this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.getMasterKey();
     this.finishActivityFormUrl = "${profile.taskservice.hostname}${profile.taskservice.finishActivityForm}";
     this.finishActivityUrl = "${profile.taskservice.registerActivity}${profile.taskservice.finishActivity}";
     this.currentActivityId = "dummy";

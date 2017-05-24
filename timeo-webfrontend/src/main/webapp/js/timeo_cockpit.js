@@ -28,8 +28,7 @@ $(document).ready(function(){
     taskBrowser = new TaskBrowser();
     taskBrowser.init();
     
-    timeoCalendar = new TimeoCalendar();
-    timeoCalendar.init();
+    timeoCalendar = new TimeoCalendar;
 
     setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
     setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
@@ -125,53 +124,57 @@ var User = (function closure(){
     
 })();
 
-function TimeoCalendar (){};
 
-TimeoCalendar.prototype.init = function() {
-    this.wsUrlCalendarForYearAndCalendarWeek = "${profile.taskservice.hostname}${profile.taskservice.calendarForYearAndCalendarWeek}";
-    this.wsUrlCalendarForCurrentDate = "${profile.taskservice.hostname}${profile.taskservice.calendarForCurrentDate}"
-    // when the user selects a year or calendar week, set these values accordingly
-    // -1 means: the values have not been set and the calendar for the current date shall be loaded.
-    this.year = -1;
-    this.calendarWeek = -1;
-};
+var TimeoCalendar = (function closure(){
+   
+    function TimeoCalendar() {
+        var wsUrlCalendarForYearAndCalendarWeek = 
+            "${profile.taskservice.hostname}${profile.taskservice.calendarForYearAndCalendarWeek}";
+        var wsUrlCalendarForCurrentDate = 
+            "${profile.taskservice.hostname}${profile.taskservice.calendarForCurrentDate}";
+        var year = -1;
+        var calendarWeek = -1;
 
-TimeoCalendar.prototype.reloadCalendarView = function() {
-    var me = this;
-    var localWsUrl = "";
-    if(this.year == -1 || this.calendarWeek == -1){
-        // load calendar week for current date
-        localWsUrl = this.wsUrlCalendarForCurrentDate.replace("{masterKey}", user.getMasterKey());
-    } else {
-        // since year and calendar week have been defined, use them to load the calendar week view
-        localWsUrl = this.wsUrlCalendarForYearAndCalendarWeek.replace("{teamMemberId}", $("div#userdata > div#masterKey").text())
-            .replace("{year}", $("div#calendarData > div#calendarYear"))
-            .replace("{calendarWeekNumber}", $("div#calendarData > div#calenderWeek").text());
+        this.reloadCalendarView = function() {
+            var me = this;
+            var localWsUrl = "";
+            if(year == -1 || calendarWeek == -1){
+                // load calendar week for current date
+                localWsUrl = wsUrlCalendarForCurrentDate.replace("{masterKey}", user.getMasterKey());
+            } else {
+                // since year and calendar week have been defined, use them to load the calendar week view
+                localWsUrl = this.wsUrlCalendarForYearAndCalendarWeek.replace("{teamMemberId}", user.getMasterKey())
+                    .replace("{year}", $("div#calendarData > div#calendarYear"))
+                    .replace("{calendarWeekNumber}", $("div#calendarData > div#calenderWeek").text());
+            }
+            $.ajax({
+                type: "GET",
+                url: localWsUrl,
+                success: function(data){
+                    $("div#timeoCalendar").html(data);
+                    setTimeout(me.registerActivityHoverHandler.bind(me), 1000);
+                },
+                dataType: "text"
+            });
+        };
+        
+        this.registerActivityHoverHandler = function() {
+            $("div.activityPanel").on("mouseenter", this.activityMouseEnter.bind(this));
+            $("div.activityPanel").on("mouseleave", this.activityMouseLeave.bind(this));
+        };
+        
+        this.activityMouseEnter = function(event) {
+            var activityId = $(event.target).attr("id");
+        };
+        
+        this.activityMouseLeave = function(event) {
+            console.log("Mouse just left");
+        };
+
     }
-    $.ajax({
-        type: "GET",
-        url: localWsUrl,
-        success: function(data){
-            $("div#timeoCalendar").html(data);
-            setTimeout(me.registerActivityHoverHandler.bind(me), 1000);
-        },
-        dataType: "text"
-    });
-};
-
-TimeoCalendar.prototype.registerActivityHoverHandler = function() {
-    var me = this;
-    $("div.activityPanel").on("mouseenter", me.activityMouseEnter.bind(me));
-    $("div.activityPanel").on("mouseleave", me.activityMouseLeave.bind(me));
-};
-
-TimeoCalendar.prototype.activityMouseEnter = function(event) {
-    var activityId = $(event.target).attr("id");
-};
-
-TimeoCalendar.prototype.activityMouseLeave = function(event) {
-    console.log("Mouse just left");
-};
+    
+    return TimeoCalendar;
+})();
 
 /**
  * Implements functionality for the TaskBrowser

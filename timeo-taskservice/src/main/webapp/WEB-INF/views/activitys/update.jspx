@@ -10,6 +10,6 @@
         <field:select field="task" id="c_org_poormanscastle_products_timeo_task_domain_Activity_task" itemValue="id" items="${tasks}" path="/tasks" required="true" z="XSaZd4KbAaE7sOpaOgBjhTKz5w0="/>
         <field:input field="activityStatus" id="c_org_poormanscastle_products_timeo_task_domain_Activity_activityStatus" max="2" min="0" required="true" validationMessageCode="field_invalid_integer" z="tRrSfoji/bGleblM8NkNeYxWKXY="/>
         <field:input field="timeInvested" id="c_org_poormanscastle_products_timeo_task_domain_Activity_timeInvested" min="0" required="true" z="LBLl9zXb5WjWKE7HGevN4eOGkrY="/>
-        <field:input render="false" field="startTimeSecondsFromMidnight" id="c_org_poormanscastle_products_timeo_task_domain_Activity_startTimeSecondsFromMidnight" z="JxGJsdhlITyv0H/GSY3bHcuZU9A="/>
+        <field:input field="startTimeSecondsFromMidnight" id="c_org_poormanscastle_products_timeo_task_domain_Activity_startTimeSecondsFromMidnight" render="false" z="user-managed"/>
     </form:update>
 </div>

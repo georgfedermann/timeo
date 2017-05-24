@@ -294,7 +294,8 @@ div.weekDayHeader {
 }
 
 div.weekDayContent {
-    height: calc(100% - 50px);
+    height: 631px;
+    position: absolute;
 }
 
 div.timePanel {
@@ -350,10 +351,19 @@ div#calendarForwardButton:hover {
 }
 
 div.activityPanel {
-    position: relative;
+    position: absolute;
     display: block;
-    width: 93%;
+    width: 140px;
     font-size: 8px;
-    background: powderblue;
+    background-color: powderblue;
     padding: 2px;
+    // use border-box to limit div to the border dimensions
+    // thus taking the padding out of the equation of div size
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+div.activityPanel:hover {
+    background-color: aqua;
 }

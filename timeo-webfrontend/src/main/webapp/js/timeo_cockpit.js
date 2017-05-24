@@ -4,6 +4,10 @@
  */
 $(document).ready(function(){
     console.log("cockpit loaded.");
+    // suppress caching behavior for ajax calls.
+    // the conversation with the server is about dynamic contents; no static
+    // resources are being queried by the cockpit
+    $.ajaxSetup({ cache: false });
 
     if (!String.prototype.startsWith) {
         String.prototype.startsWith = function(searchString, position){
@@ -26,7 +30,7 @@ $(document).ready(function(){
     
     timeoCalendar = new TimeoCalendar();
     timeoCalendar.init();
-    
+
     setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
     setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
 });
@@ -69,8 +73,6 @@ TimeoCalendar.prototype.reloadCalendarView = function() {
             .replace("{year}", $("div#calendarData > div#calendarYear"))
             .replace("{calendarWeekNumber}", $("div#calendarData > div#calenderWeek").text());
     }
-    console.log("Loading calendar week view from url " + localWsUrl + ".");
-    
     $.ajax({
         type: "GET",
         url: localWsUrl,

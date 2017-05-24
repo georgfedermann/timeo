@@ -10,6 +10,6 @@
         <field:display field="task" id="s_org_poormanscastle_products_timeo_task_domain_Activity_task" object="${activity}" z="3HN156znaCf4p6ZsNPEklbYP/os="/>
         <field:display field="activityStatus" id="s_org_poormanscastle_products_timeo_task_domain_Activity_activityStatus" object="${activity}" z="UaicqnkntYRUYK2jJBR94I2Ti4w="/>
         <field:display field="timeInvested" id="s_org_poormanscastle_products_timeo_task_domain_Activity_timeInvested" object="${activity}" z="ITozkEkjf1nh+c3zhNxrcRiU4Ms="/>
-        <field:display render="false" field="startTimeSecondsFromMidnight" id="s_org_poormanscastle_products_timeo_task_domain_Activity_startTimeSecondsFromMidnight" object="${activity}" z="fDVjGWSBxk2Q683223FWlvznQlY="/>
+        <field:display field="startTimeSecondsFromMidnight" id="s_org_poormanscastle_products_timeo_task_domain_Activity_startTimeSecondsFromMidnight" object="${activity}" render="false" z="user-managed"/>
     </page:show>
 </div>

@@ -43,8 +43,8 @@
                 '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00',
                 '15:00', '16:00' ,'17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '24:00'
             ]}" scope="page" />
-            <c:set var="scale" value="602" />
-            <c:set var="offset" value="0" />
+            <c:set var="scale" value="600" />
+            <c:set var="offset" value="15" />
             <c:forEach items="${timeValues}" var="timeValue" varStatus="varStatus">
                 <div class="timePanelLabel">${timeValue}</div>
             </c:forEach>

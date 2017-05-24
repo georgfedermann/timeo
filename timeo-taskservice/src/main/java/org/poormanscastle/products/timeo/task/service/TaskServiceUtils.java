@@ -24,6 +24,8 @@ import org.poormanscastle.products.timeo.task.exception.InvalidDateStringExcepti
 public class TaskServiceUtils {
 
     final static Logger logger = Logger.getLogger(TaskServiceUtils.class);
+    final static boolean debug = logger.isDebugEnabled();
+    final static boolean info = logger.isInfoEnabled();
 
     /**
      * Dates in the task service are formatted using this pattern:
@@ -123,6 +125,7 @@ public class TaskServiceUtils {
 
     /**
      * delivers a list of 7 days Monday through Sunday for the given year and calendar week.
+     *
      * @param year
      * @param calendarWeek
      * @return
@@ -140,8 +143,10 @@ public class TaskServiceUtils {
 
     public static int getSecondsFromMidnight(Date startDateTime) {
         int result = new DateTime(startDateTime).getSecondOfDay();
-        logger.info("Seconds form midnight=" + result + " for startDateTime " + 
-                new DateTime(startDateTime).toString("hh:mm:ss"));
+        if (logger.isDebugEnabled()) {
+            logger.debug("Seconds form midnight=" + result + " for startDateTime " +
+                    new DateTime(startDateTime).toString("hh:mm:ss"));
+        }
         return result;
     }
 }

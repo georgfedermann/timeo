@@ -2,15 +2,15 @@
  * on page load initiate diverse JavaScript objects to handle
  * logic to be performed within the cockpit
  */
-$(document).ready(function(){
+$(document).ready(function () {
     console.log("cockpit loaded.");
     // suppress caching behavior for ajax calls.
     // the conversation with the server is about dynamic contents; no static
     // resources are being queried by the cockpit
-    $.ajaxSetup({ cache: false });
+    $.ajaxSetup({cache: false});
 
     if (!String.prototype.startsWith) {
-        String.prototype.startsWith = function(searchString, position){
+        String.prototype.startsWith = function (searchString, position) {
             position = position || 0;
             return this.substr(position, searchString.length) === searchString;
         };
@@ -18,17 +18,18 @@ $(document).ready(function(){
 
     user = new User();
     user.init();
-    
+
     profileButton = new ProfileButton();
     profileButton.init();
 
     receiveCallButton = new ReceiveCallButton();
     receiveCallButton.init();
-    
+
     taskBrowser = new TaskBrowser();
     taskBrowser.init();
-    
-    timeoCalendar = new TimeoCalendar;
+
+    timeoCalendar = new TimeoCalendar();
+    timeoCalendar.init();
 
     setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
     setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
@@ -37,108 +38,107 @@ $(document).ready(function(){
 /**
  * keep information about the mouse and its movements here.
  */
-var MouseData = (function closure(){
+var MouseData = (function closure() {
     var mouseX = 0;
     var mouseY = 0;
     var currentMouseEvent = null;
-    
+
     function getMouseX() {
         return mouseX;
     }
-    
+
     function setMouseX(mouseXin) {
         mouseX = mouseXin;
     }
-    
+
     function getMouseY() {
         return mouseY;
     }
-    
+
     function setMouseY(mouseYin) {
         mouseY = mouseYin;
     }
-    
+
     function setCurrentMouseEvent(event) {
         currentMouseEvent = event;
     }
-    
+
     function getCurrentMouseEvent() {
         return currentMouseEvent;
     }
-    
+
     function printMessage() {
         console.log("This is a message for you.");
         return 0;
     }
-    
-    function MouseData() {}
-    
+
+    function MouseData() {
+    }
+
     MouseData.publicPrintMessage = printMessage;
     return MouseData;
-    
+
 })();
 
 /**
  * The user object holds all information about the authenticated user.
  * Information is shipped from the service inside some <div></div> holding user data.
  */
-var User = (function closure(){
-    
+var User = (function closure() {
+
     function User() {
         var masterKey;
         var email;
         var phone;
         var businessAddress;
         var loginId;
-        
-        this.init = function(){
+
+        this.init = function () {
             masterKey = $("#userdata #masterKey").text();
             email = $("#userdata #email").text();
             phone = $("#userdata #phone").text();
             businessAddress = $("#userdata #businessAddress").text();
             loginId = $("#userdata #loginId").text();
         };
-        
-        this.getMasterKey = function() {
+
+        this.getMasterKey = function () {
             return masterKey;
-        }
-        
-        this.getEmail = function() {
+        };
+
+        this.getEmail = function () {
             return email;
-        }
-        
-        this.getPhone = function() {
+        };
+
+        this.getPhone = function () {
             return phone;
-        }
-        
-        this.getBusinessAddress = function() {
+        };
+
+        this.getBusinessAddress = function () {
             return businessAddress;
-        }
-        
-        this.getLoginId = function() {
+        };
+
+        this.getLoginId = function () {
             return logindId;
-        }
+        };
     }
-    
+
     return User;
-    
+
 })();
 
 
-var TimeoCalendar = (function closure(){
-   
+var TimeoCalendar = (function closure() {
+
     function TimeoCalendar() {
-        var wsUrlCalendarForYearAndCalendarWeek = 
-            "${profile.taskservice.hostname}${profile.taskservice.calendarForYearAndCalendarWeek}";
-        var wsUrlCalendarForCurrentDate = 
-            "${profile.taskservice.hostname}${profile.taskservice.calendarForCurrentDate}";
+        var wsUrlCalendarForYearAndCalendarWeek = null;
+        var wsUrlCalendarForCurrentDate = null;
         var year = -1;
         var calendarWeek = -1;
 
-        this.reloadCalendarView = function() {
+        this.reloadCalendarView = function () {
             var me = this;
             var localWsUrl = "";
-            if(year == -1 || calendarWeek == -1){
+            if (year == -1 || calendarWeek == -1) {
                 // load calendar week for current date
                 localWsUrl = wsUrlCalendarForCurrentDate.replace("{masterKey}", user.getMasterKey());
             } else {
@@ -150,217 +150,260 @@ var TimeoCalendar = (function closure(){
             $.ajax({
                 type: "GET",
                 url: localWsUrl,
-                success: function(data){
+                success: function (data) {
                     $("div#timeoCalendar").html(data);
                     setTimeout(me.registerActivityHoverHandler.bind(me), 1000);
                 },
                 dataType: "text"
             });
         };
-        
-        this.registerActivityHoverHandler = function() {
+
+        this.init = function () {
+            wsUrlCalendarForYearAndCalendarWeek =
+                "${profile.taskservice.hostname}${profile.taskservice.calendarForYearAndCalendarWeek}";
+            wsUrlCalendarForCurrentDate =
+                "${profile.taskservice.hostname}${profile.taskservice.calendarForCurrentDate}";
+            year = -1;
+            calendarWeek = -1;
+        }
+
+        this.registerActivityHoverHandler = function () {
             $("div.activityPanel").on("mouseenter", this.activityMouseEnter.bind(this));
             $("div.activityPanel").on("mouseleave", this.activityMouseLeave.bind(this));
         };
-        
-        this.activityMouseEnter = function(event) {
+
+        this.activityMouseEnter = function (event) {
+            // TODO implement the rest of this method.
             var activityId = $(event.target).attr("id");
         };
-        
-        this.activityMouseLeave = function(event) {
+
+        this.activityMouseLeave = function (event) {
             console.log("Mouse just left");
         };
 
     }
-    
+
     return TimeoCalendar;
+    
 })();
 
 /**
  * Implements functionality for the TaskBrowser
  * @constructor
  */
-function TaskBrowser() {};
+var TaskBrowser = (function closure() {
 
-TaskBrowser.prototype.init = function() {
-    this.tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.getMasterKey();
-    this.finishActivityFormUrl = "${profile.taskservice.hostname}${profile.taskservice.finishActivityForm}";
-    this.finishActivityUrl = "${profile.taskservice.registerActivity}${profile.taskservice.finishActivity}";
-    this.currentActivityId = "dummy";
-};
+    function TaskBrowser() {
+        var tasklistWebserviceUrl = null;
+        var finishActivityFormUrl = null;
+        var finishActivityUrl = null;
+        var currentActivityId = null;
+        var timer = new TimeoTimer();
 
-TaskBrowser.prototype.refreshTasks = function() {
-    var me = this;
-    var taskbrowserPanel = $("div#taskbrowser_panel");
-    taskbrowserPanel.remove();
-    $("div#taskbrowser_container").prepend($("<div id='taskbrowser_panel' class='my-flipster'></div>"));
-    $.get(
-        this.tasklistWebserviceUrl,
-        function(data){
+        this.refreshTasks = function () {
             var taskbrowserPanel = $("div#taskbrowser_panel");
-            taskbrowserPanel.empty();
-            taskbrowserPanel.append(data.firstChild);
-            taskbrowserPanel.flipster();
-            me.registerButtonListeners();
-        });
-};
-
-TaskBrowser.prototype.registerButtonListeners = function() {
-    $(".acceptTaskButton").on("click", taskBrowser.acceptTaskHandler.bind(this));
-    $(".flagTaskButton").on("click", taskBrowser.flagTaskHandler.bind(this));
-    // $(".acceptTaskButton").click(taskBrowser.acceptTaskHandler.bind(this));
-    // $(".flagTaskButton").click(taskBrowser.flagTaskHandler.bind(this));
-};
-
-TaskBrowser.prototype.acceptTaskHandler = function() {
-    console.log("User is accepting task.");
-    // $("li.flipster__item--current").attr("style", "left: -240px; width: 100%; z-index: 100")
-    var currentTaskHandle = $("li.flipster__item--current");
-    var taskBrowserPanel = $("div#taskbrowser_panel");
-    taskBrowserPanel.empty();
-    taskBrowserPanel.prepend(currentTaskHandle);
-    currentTaskHandle.animate({"margin-right": "0px", width: "823px"});
-
-    var acceptTaskButton = $("div.acceptTaskButton");
-    acceptTaskButton.addClass("selected");
-    acceptTaskButton.off("click", taskBrowser.acceptTaskHandler);
-    acceptTaskButton.on("click", taskBrowser.stopTaskHandler.bind(this));
-    
-    var flagTaskButton = $("div.flagTaskButton");
-    flagTaskButton.addClass("invisible");
-    flagTaskButton.off("click", taskBrowser.flagTaskHandler);
-    
-    // Inform server of new activity
-    var activityUrl = "${profile.taskservice.hostname}${profile.taskservice.registerActivity}";
-    activityUrl = activityUrl.replace("{taskId}", $("div#taskInfo > div#taskId").text())
-        .replace("{teamMemberId}", $("div#taskInfo > div#projectTeamMemberId").text());
-    console.log("Sending activity info to url " + activityUrl + ".");
-
-    var me = this;
-    $.ajax({
-        type: "GET",
-        url: activityUrl,
-        success: function(data){
-            me.currentActivityId = data;
-            $("div#currentActivityId").html(data);
-        },
-        dataType: "text"
-    });
-    
-    this.timer = new TimeoTimer();
-    this.timer.init();
-    this.timer.startClock();
-};
-
-TaskBrowser.prototype.stopTaskHandler = function() {
-    $("div.acceptTaskButton").off("click", taskBrowser.stopTaskHandler);
-
-    this.timer.pauseClock();
-    var me = this;
-    
-    console.log("User clicked stopTask");
-    var finishActivityFormUrl = this.finishActivityFormUrl.replace("{activityId}", this.currentActivityId);
-    console.log("Retrieving finish-actitivity-form from this URL: " + finishActivityFormUrl);
-    $.ajax({
-        type: "GET",
-        url: finishActivityFormUrl,
-        success: function (data) {
-            var finishActivityFormContainer = $("div#finishActivityFormContainer");
-            finishActivityFormContainer.empty();
-            finishActivityFormContainer.prepend(data);
-            finishActivityFormContainer.toggleClass("visible invisible");
-
-            // update time investment field
-            var timeInvestedInputField = $("input[name='timeInvested']");
-            timeInvestedInputField.attr("value", Math.floor(me.timer.timePassed));
+            taskbrowserPanel.remove();
+            $("div#taskbrowser_container").prepend($("<div id='taskbrowser_panel' class='my-flipster'></div>"));
             
-            // register custom submit handler
-            $("#finishActivityForm").submit(function(submitEvent){
-                // suppress redirect to server response
-                submitEvent.preventDefault();
-                var formUrl = $(this).closest("form").attr("action");
-                console.log("Found this action URL for the form: ", + formUrl);
-                $.ajax({
-                    url: formUrl,
-                    type: "post",
-                    data: $("#finishActivityForm").serialize(),
-                    success: function(data){
-                        if(data.startsWith("SUCCESS: ")) {
-                            alert("Server replied: " + data);
-                            finishActivityFormContainer.empty();
-                            finishActivityFormContainer.toggleClass("visible invisible");
-                            taskBrowser.refreshTasks();
-                        } else if (data.startsWith("FAILURE: ")){
-                            alert("Server indicates an error: " + data);
-                        } else {
-                            alert("WARNING: server sent incomprehensible gibberish. Please contact your team lead or system administrator: " + data);
-                        }
-                    }
+            var me = this;
+            $.get(
+                tasklistWebserviceUrl,
+                function (data) {
+                    var taskbrowserPanel = $("div#taskbrowser_panel");
+                    taskbrowserPanel.empty();
+                    taskbrowserPanel.append(data.firstChild);
+                    taskbrowserPanel.flipster();
+                    me.registerButtonListeners();
                 });
-            });
-        },
-        dataType: "html"
-    });
-};
+        };
+        
+        this.init = function() {
+            tasklistWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.tasklist.path}" + user.getMasterKey();
+            finishActivityFormUrl = "${profile.taskservice.hostname}${profile.taskservice.finishActivityForm}";
+            finishActivityUrl = "${profile.taskservice.registerActivity}${profile.taskservice.finishActivity}";
+            currentActivityId = "dummy";
+            timer = new TimeoTimer;
+        }
 
-TaskBrowser.prototype.flagTaskHandler = function(){
-    alert("So you don't like working, right?");
-};
+        this.registerButtonListeners = function () {
+            $(".acceptTaskButton").on("click", taskBrowser.acceptTaskHandler.bind(this));
+            $(".flagTaskButton").on("click", taskBrowser.flagTaskHandler.bind(this));
+        };
+
+        this.acceptTaskHandler = function () {
+            console.log("User is accepting task.");
+            // $("li.flipster__item--current").attr("style", "left: -240px; width: 100%; z-index: 100")
+            var currentTaskHandle = $("li.flipster__item--current");
+            var taskBrowserPanel = $("div#taskbrowser_panel");
+            taskBrowserPanel.empty();
+            taskBrowserPanel.prepend(currentTaskHandle);
+            currentTaskHandle.animate({"margin-right": "0px", width: "823px"});
+
+            var acceptTaskButton = $("div.acceptTaskButton");
+            acceptTaskButton.addClass("selected");
+            acceptTaskButton.off("click", taskBrowser.acceptTaskHandler);
+            acceptTaskButton.on("click", taskBrowser.stopTaskHandler.bind(this));
+
+            var flagTaskButton = $("div.flagTaskButton");
+            flagTaskButton.addClass("invisible");
+            flagTaskButton.off("click", taskBrowser.flagTaskHandler);
+
+            // Inform server of new activity
+            var activityUrl = "${profile.taskservice.hostname}${profile.taskservice.registerActivity}";
+            activityUrl = activityUrl.replace("{taskId}", $("div#taskInfo > div#taskId").text())
+                .replace("{teamMemberId}", $("div#taskInfo > div#projectTeamMemberId").text());
+            console.log("Sending activity info to url " + activityUrl + ".");
+
+            $.ajax({
+                type: "GET",
+                url: activityUrl,
+                success: function (data) {
+                    currentActivityId = data;
+                    $("div#currentActivityId").html(data);
+                },
+                dataType: "text"
+            });
+
+            timer = new TimeoTimer();
+            timer.init();
+            timer.startClock();
+        };
+
+        this.stopTaskHandler = function () {
+            $("div.acceptTaskButton").off("click", taskBrowser.stopTaskHandler);
+
+            timer.pauseClock();
+
+            console.log("User clicked stopTask");
+            var finishActivityFormUrlLocal = finishActivityFormUrl.replace("{activityId}", currentActivityId);
+            console.log("Retrieving finish-actitivity-form from this URL: " + finishActivityFormUrlLocal);
+            $.ajax({
+                type: "GET",
+                url: finishActivityFormUrlLocal,
+                success: function (data) {
+                    var finishActivityFormContainer = $("div#finishActivityFormContainer");
+                    finishActivityFormContainer.empty();
+                    finishActivityFormContainer.prepend(data);
+                    finishActivityFormContainer.toggleClass("visible invisible");
+
+                    // update time investment field
+                    var timeInvestedInputField = $("input[name='timeInvested']");
+                    timeInvestedInputField.attr("value", Math.floor(timer.getTimePassed()) + "s");
+
+                    // register custom submit handler
+                    $("#finishActivityForm").submit(function (submitEvent) {
+                        // suppress redirect to server response
+                        submitEvent.preventDefault();
+                        var formUrl = $(this).closest("form").attr("action");
+                        console.log("Found this action URL for the form: ", +formUrl);
+                        $.ajax({
+                            url: formUrl,
+                            type: "post",
+                            data: $("#finishActivityForm").serialize(),
+                            success: function (data) {
+                                if (data.startsWith("SUCCESS: ")) {
+                                    alert("Server replied: " + data);
+                                    finishActivityFormContainer.empty();
+                                    finishActivityFormContainer.toggleClass("visible invisible");
+                                    taskBrowser.refreshTasks();
+                                } else if (data.startsWith("FAILURE: ")) {
+                                    alert("Server indicates an error: " + data);
+                                } else {
+                                    alert("WARNING: server sent incomprehensible gibberish. Please contact your team lead or system administrator: " + data);
+                                }
+                            }
+                        });
+                    });
+                },
+                dataType: "html"
+            });
+        };
+
+        this.flagTaskHandler = function () {
+            alert("So you don't like working, right?");
+        };
+    }
+
+    return TaskBrowser;
+
+})();
 
 /**
  * Implements a simple timer to capture the time invested
  * into an activity
  */
-function TimeoTimer () {
-}
+var TimeoTimer = (function closure(){
+    
+    function TimeoTimer() {
+        // the time when the timer was started for the current interval
+        var startTime = null;
+        // number of seconds passed when pauseClock was called
+        var timePassed = 0;
+        // status can have one of two values: running, paused.
+        // if paused, the timer will not count seconds. When running, the timer will
+        // count seconds onto the current amount.
+        var status = null;
+        // the timer will use JS function setInterval() to start counting
+        // the time intervals that pass. To be able to pause the timer again,
+        // it stores the intervalId in this instance variable.
+        var intervalId = null;
+        
+        this.init = function() {
+            startTime = new Date();
+            // numbers of second passed when pauseClock was called
+            timePassed = 0;
+            // status can be running or paused.
+            // if paused, the timer will not count seconds, otherwise it will
+            status = "paused";
+            // the timer will use JS function setInterval() to start counting
+            // the time intervals that pass. To be able to pause the timer again,
+            // it stores the intervalId in this instance variable.
+            intervalId = "";
+        }
+        
+        // updates the timer display with the current time
+        this.updateTimeDisplay = function() {
+            var taskClock = $("div#taskClock");
+            taskClock.empty();
+            taskClock.append($("<span>" + this.getTime() + "</span>"));
+        }
+        
+        // start the clock and let it count the time
+        this.startClock = function() {
+            console.log("Starting task clock.");
+            startTime = new Date();
+            status = "running";
+            intervalId = setInterval(this.updateTimeDisplay.bind(this), 100);
+        }
+        
+        // pause the clock and stop it from counting the time
+        this.pauseClock = function() {
+            timePassed = (new Date().getTime() - startTime.getTime()) / 1000;
+            status = "paused";
+            clearInterval(intervalId);
+        }
+        
+        this.getTime = function() {
+            var currentTime = new Date();
+            var secondsPassed = status == "running" ?
+            ( currentTime.getTime() - startTime.getTime() ) / 1000 : timePassed;
+            var minutesPassed = Math.floor(secondsPassed / 60);
+            var secondsRemainder = Math.floor(secondsPassed % 60);
+            var secondsOutput = secondsRemainder < 10 ? "0" + secondsRemainder : secondsRemainder;
+            var timeValue = minutesPassed + ":" + secondsOutput;
+            return timeValue;
+        }
 
-TimeoTimer.prototype.init = function() {
-    this.startTime = new Date();
-    // numbers of second passed when pauseClock was called
-    this.timePassed = 0;
-    // status can be running or paused.
-    // if paused, the timer will not count seconds, otherwise it will
-    this.status = "paused";
-    // the timer will use JS function setInterval() to start counting
-    // the time intervals that pass. To be able to pause the timer again,
-    // it stores the intervalId in this instance variable.
-    this.intervalId = "";
-};
+        this.getTimePassed = function() {
+            return timePassed;
+        }
 
-TimeoTimer.prototype.updateTimeDisplay = function() {
-    // console.log("Updating task clock display.");
-    var taskClock = $("div#taskClock");
-    taskClock.empty();
-    taskClock.append($("<span>" + this.getTime() + "</span>"));
-}
+    }
+    
+    return TimeoTimer;
+    
+})();
 
-TimeoTimer.prototype.startClock = function() {
-    console.log("Starting task clock.");
-    this.startTime = new Date();
-    this.status = "running";
-    this.intervalId = setInterval(this.updateTimeDisplay.bind(this), 100);
-};
-
-TimeoTimer.prototype.pauseClock = function() {
-    console.log("Pausing task clock.");
-    this.timePassed = (new Date().getTime() - this.startTime.getTime()) / 1000;
-    this.status = "paused";
-    clearInterval(this.intervalId);
-};
-
-TimeoTimer.prototype.getTime = function() {
-    // console.log("Creating a string containing the time passed since the task was accepted.");
-    var currentTime = new Date();
-    var secondsPassed = this.status == "running" ?
-    ( currentTime.getTime() - this.startTime.getTime() ) / 1000 :
-        this.timePassed;
-    var minutesPassed = Math.floor(secondsPassed / 60);
-    var secondsRemainder = Math.floor(secondsPassed % 60);
-    var secondsOutput = secondsRemainder < 10 ? "0" + secondsRemainder : secondsRemainder;
-    var timeValue = minutesPassed + ":" + secondsOutput;
-    // console.log("Delivering current task clock string: " + timeValue);
-    return timeValue;
-};
 
 /**
  * Implements functionality of the ProfileButton
@@ -374,7 +417,7 @@ function ProfileButton() {
 /**
  * initializes the UserButton handler
  */
-ProfileButton.prototype.init = function() {
+ProfileButton.prototype.init = function () {
     var me = this;
     var profileButton = $("div#profile_button");
     var image = $("div#profile_button img");
@@ -383,27 +426,27 @@ ProfileButton.prototype.init = function() {
     image.click(me.handleMouseclick.bind(this));
 };
 
-ProfileButton.prototype.handleMouseover = function() {
+ProfileButton.prototype.handleMouseover = function () {
     console.log("Mouseover profile button.");
     var image = $("div#profile_button img");
     image.attr("src", image.attr("src").replace("active", "mouseover"));
     image.attr("style", "border: 2px solid #98050D;");
 };
 
-ProfileButton.prototype.handleMouseout = function() {
+ProfileButton.prototype.handleMouseout = function () {
     console.log("Mouseout profile button.");
-    if(this.status != "selected") {
+    if (this.status != "selected") {
         var image = $("div#profile_button img");
         image.attr("src", image.attr("src").replace("mouseover", this.status));
         image.removeAttr("style");
     }
 };
 
-ProfileButton.prototype.handleMouseclick = function() {
+ProfileButton.prototype.handleMouseclick = function () {
     console.log("Mouseclick on profile button.");
     this.status = this.status == "active" ? "selected" : "active";
     console.log("Switched ProfileButton status to " + this.status);
-    var image=$("div#profile_button img");
+    var image = $("div#profile_button img");
     var contextMenu = $("div#profileContextMenu");
     contextMenu.toggleClass("profileContextMenuHidden profileContextMenuVisible");
     // contextMenu.attr("class", "profileContextMenuVisible");
@@ -423,32 +466,32 @@ function ReceiveCallButton() {
     this.status = "active";
 }
 
-ReceiveCallButton.prototype.init = function() {
+ReceiveCallButton.prototype.init = function () {
     var me = this;
     var receiveCallButton = $("div#receive_call_button");
-    var image = $("div#receive_call_button img"); 
+    var image = $("div#receive_call_button img");
     image.mouseover(me.handleMouseover.bind(this));
     image.mouseout(me.handleMouseout.bind(this));
     image.click(me.handleMouseclick.bind(this));
 };
 
-ReceiveCallButton.prototype.handleMouseover = function() {
+ReceiveCallButton.prototype.handleMouseover = function () {
     console.log("Mouseover receive call button.");
     var image = $("div#receive_call_button img");
     image.attr("src", image.attr("src").replace("active", "mouseover"));
     image.attr("style", "border: 2px solid #98050D;");
 };
 
-ReceiveCallButton.prototype.handleMouseout = function() {
+ReceiveCallButton.prototype.handleMouseout = function () {
     console.log("Mouseout receive call button.");
-    if(this.status != "selected") {
+    if (this.status != "selected") {
         var image = $("div#receive_call_button img");
         image.attr("src", image.attr("src").replace("mouseover", this.status));
         image.removeAttr("style");
     }
 };
 
-ReceiveCallButton.prototype.handleMouseclick = function() {
+ReceiveCallButton.prototype.handleMouseclick = function () {
     console.log("Mouseclick registered on phone button.");
     this.status = this.status == "active" ? "selected" : "active";
     var image = $("div#receive_call_button img");

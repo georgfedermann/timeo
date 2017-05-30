@@ -33,6 +33,11 @@ $(document).ready(function () {
 
     setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
     setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
+    
+    $(document).mousemove(function(event){
+        MouseData.setMouseX(event.pageX);
+        MouseData.setMouseY(event.pageY);
+    });
 });
 
 /**
@@ -76,6 +81,10 @@ var MouseData = (function closure() {
     }
 
     MouseData.publicPrintMessage = printMessage;
+    MouseData.setMouseX = setMouseX;
+    MouseData.getMouseX = getMouseX;
+    MouseData.setMouseY = setMouseY;
+    MouseData.getMouseY = getMouseY;
     return MouseData;
 
 })();
@@ -132,6 +141,8 @@ var TimeoCalendar = (function closure() {
     function TimeoCalendar() {
         var wsUrlCalendarForYearAndCalendarWeek = null;
         var wsUrlCalendarForCurrentDate = null;
+        var wsUrlGetActivityForm = null;
+        var wsUrlSubmitActivityForm = null;
         var year = -1;
         var calendarWeek = -1;
 
@@ -163,6 +174,10 @@ var TimeoCalendar = (function closure() {
                 "${profile.taskservice.hostname}${profile.taskservice.calendarForYearAndCalendarWeek}";
             wsUrlCalendarForCurrentDate =
                 "${profile.taskservice.hostname}${profile.taskservice.calendarForCurrentDate}";
+            wsUrlGetActivityForm =
+                "${profile.taskservice.hostname}${profile.taskservice.finishActivityForm}";
+            wsUrlSubmitActivityForm =
+                "${profile.taskservice.registerActivity}${profile.taskservice.finishActivity}";
             year = -1;
             calendarWeek = -1;
         }
@@ -170,16 +185,63 @@ var TimeoCalendar = (function closure() {
         this.registerActivityHoverHandler = function () {
             $("div.activityPanel").on("mouseenter", this.activityMouseEnter.bind(this));
             $("div.activityPanel").on("mouseleave", this.activityMouseLeave.bind(this));
+            $("div.activityPanel").on("click", this.activityMouseClick.bind(this));
         };
 
-        this.activityMouseEnter = function (event) {
-            // TODO implement the rest of this method.
-            var activityId = $(event.target).attr("id");
+        this.activityMouseEnter = function(event) {
+            console.log("Mouse just entered");
         };
 
-        this.activityMouseLeave = function (event) {
+        this.activityMouseLeave = function(event) {
             console.log("Mouse just left");
         };
+        
+        this.activityMouseClick = function(event) {
+            var activityId = $(event.target).attr("data-activityId");
+            console.log("User clicked activity with id " + activityId );
+            var wsUrlGetActivityFormLocal = wsUrlGetActivityForm.replace("{activityId}", activityId);
+            $.ajax({
+                type: "GET",
+                url: wsUrlGetActivityFormLocal,
+                success: function(data) {
+                    var activityFormContainer = $("div.activityFormContainer");
+                    activityFormContainer.empty();
+                    activityFormContainer.prepend(data);
+                    activityFormContainer.toggleClass("visible invisible");
+                    
+                    // register custom submit handler
+                    $("#finishActivityForm").submit(function(submitEvent){
+                        // suppress redirect to server response
+                        submitEvent.preventDefault();
+                        var formUrl = $(this).closest("form").attr("action");
+                        console.log("Found this action URL for activityForm: " + formUrl);
+                        $.ajax({
+                            url: formUrl,
+                            type: "post",
+                            data: $("#finishActivityForm").serialize(),
+                            success: function(data) {
+                                if(data.startsWith("SUCCESS: ")){
+                                    alert("Server replied: " + data);
+                                    activityFormContainer.empty();
+                                    activityFormContainer.toggleClass("visible invisible");
+                                    timeoCalendar.reloadCalendarView();
+                                } else if (data.startsWith("FAILURE: ")) {
+                                    alert("Server indicates an error: " + data);
+                                } else {
+                                    alert("WARNING: server sent incomprehensible gibberish. Please contact your team lead or system administrator: " + data);
+                                }
+                            }
+                        });
+                    });
+                },
+                dataType: "html"
+            });
+            $("div#cancelbutton").on("click",function(event){
+                var activityFormContainer = $("div.activityFormContainer");
+                activityFormContainer.empty();
+                activityFormContainer.toggleClass("visible invisible");
+            });
+        }
 
     }
 
@@ -295,7 +357,7 @@ var TaskBrowser = (function closure() {
                         // suppress redirect to server response
                         submitEvent.preventDefault();
                         var formUrl = $(this).closest("form").attr("action");
-                        console.log("Found this action URL for the form: ", +formUrl);
+                        console.log("Found this action URL for the form: " + formUrl);
                         $.ajax({
                             url: formUrl,
                             type: "post",

@@ -53,7 +53,7 @@
                 <div class="timePanelLabel">${timeValue}</div>
             </c:forEach>
         </div>
-        <div class="weekDayPanel" id="weekDayPanelMonday">
+        <div class="weekDayPanel" id="weekDayPanelMonday" data-date="${weekDays.get(0).toString('yyyy-MM-dd')">
             <div class="weekDayHeader">
                 <spring:message code="calendar.dayPanel.monday.label"/><br/>
                 ${weekDays.get(0).toString("yyyy-MM-dd")}
@@ -64,7 +64,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="weekDayPanel" id="weekDayPanelTuesday">
+        <div class="weekDayPanel" id="weekDayPanelTuesday" data-date="${weekDays.get(1).toString('yyyy-MM-dd')">
             <div class="weekDayHeader">
                 <spring:message code="calendar.dayPanel.tuesday.label"/><br/>
                 ${weekDays.get(1).toString("yyyy-MM-dd")}
@@ -75,7 +75,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="weekDayPanel" id="weekDayPanelWednesday">
+        <div class="weekDayPanel" id="weekDayPanelWednesday" data-date="${weekDays.get(2).toString('yyyy-MM-dd')">
             <div class="weekDayHeader">
                 <spring:message code="calendar.dayPanel.wednesday.label"/><br/>
                 ${weekDays.get(2).toString("yyyy-MM-dd")}
@@ -86,7 +86,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="weekDayPanel" id="weekDayPanelThursday">
+        <div class="weekDayPanel" id="weekDayPanelThursday" data-date="${weekDays.get(3).toString('yyyy-MM-dd')">
             <div class="weekDayHeader">
                 <spring:message code="calendar.dayPanel.thursday.label"/><br/>
                 ${weekDays.get(3).toString("yyyy-MM-dd")}
@@ -97,7 +97,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="weekDayPanel" id="weekDayPanelFriday">
+        <div class="weekDayPanel" id="weekDayPanelFriday" data-date="${weekDays.get(4).toString('yyyy-MM-dd')">
             <div class="weekDayHeader">
                 <spring:message code="calendar.dayPanel.friday.label"/><br/>
                 ${weekDays.get(4).toString("yyyy-MM-dd")}
@@ -108,7 +108,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="weekDayPanel" id="weekDayPanelSaturday">
+        <div class="weekDayPanel" id="weekDayPanelSaturday" data-date="${weekDays.get(5).toString('yyyy-MM-dd')">
             <div class="weekDayHeader">
                 <spring:message code="calendar.dayPanel.saturday.label"/><br/>
                 ${weekDays.get(5).toString("yyyy-MM-dd")}
@@ -119,7 +119,7 @@
                 </c:forEach>
             </div>
         </div>
-        <div class="weekDayPanel" id="weekDayPanelSunday">
+        <div class="weekDayPanel" id="weekDayPanelSunday" data-date="${weekDays.get(6).toString('yyyy-MM-dd')">
             <div class="weekDayHeader">
                 <spring:message code="calendar.dayPanel.sunday.label"/><br/>
                 ${weekDays.get(6).toString("yyyy-MM-dd")}

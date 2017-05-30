@@ -163,7 +163,7 @@ var TimeoCalendar = (function closure() {
                 url: localWsUrl,
                 success: function (data) {
                     $("div#timeoCalendar").html(data);
-                    setTimeout(me.registerActivityHoverHandler.bind(me), 1000);
+                    setTimeout(me.registerActivityMouseHandler.bind(me), 1000);
                 },
                 dataType: "text"
             });
@@ -182,11 +182,17 @@ var TimeoCalendar = (function closure() {
             calendarWeek = -1;
         }
 
-        this.registerActivityHoverHandler = function () {
-            $("div.activityPanel").on("mouseenter", this.activityMouseEnter.bind(this));
-            $("div.activityPanel").on("mouseleave", this.activityMouseLeave.bind(this));
+        this.registerActivityMouseHandler = function () {
+            // $("div.activityPanel").on("mouseenter", this.activityMouseEnter.bind(this));
+            // $("div.activityPanel").on("mouseleave", this.activityMouseLeave.bind(this));
             $("div.activityPanel").on("click", this.activityMouseClick.bind(this));
+            $("div.weekDayPanel").on("click", this.weekDayPanelClick.bind(this));
         };
+        
+        this.weekDayPanelClick = function(event) {
+            console.log("User clicked weekDayPanel");
+            
+        }
 
         this.activityMouseEnter = function(event) {
             console.log("Mouse just entered");
@@ -245,7 +251,6 @@ var TimeoCalendar = (function closure() {
                 dataType: "html"
             });
         }
-
     }
 
     return TimeoCalendar;

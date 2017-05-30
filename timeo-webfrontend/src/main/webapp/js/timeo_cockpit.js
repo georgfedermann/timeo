@@ -211,8 +211,8 @@ var TimeoCalendar = (function closure() {
                     activityFormContainer.toggleClass("visible invisible");
                     activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
 
-                    $("div#activityFormContainer div#cancelbutton").on("click",function(event){
-                        var activityFormContainer = $("div.activityFormContainer");
+                    $("div#activityFormContainer input#cancelbutton").on("click",function(event){
+                        var activityFormContainer = $("div#activityFormContainer");
                         activityFormContainer.empty();
                         activityFormContainer.toggleClass("visible invisible");
                     });

@@ -204,11 +204,19 @@ var TimeoCalendar = (function closure() {
                 type: "GET",
                 url: wsUrlGetActivityFormLocal,
                 success: function(data) {
-                    var activityFormContainer = $("div.activityFormContainer");
+                    console.log("loaded activityForm from server and going to display it on web page")
+                    var activityFormContainer = $("div#activityFormContainer");
                     activityFormContainer.empty();
                     activityFormContainer.prepend(data);
                     activityFormContainer.toggleClass("visible invisible");
-                    
+                    activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
+
+                    $("div#activityFormContainer div#cancelbutton").on("click",function(event){
+                        var activityFormContainer = $("div.activityFormContainer");
+                        activityFormContainer.empty();
+                        activityFormContainer.toggleClass("visible invisible");
+                    });
+
                     // register custom submit handler
                     $("#finishActivityForm").submit(function(submitEvent){
                         // suppress redirect to server response
@@ -235,11 +243,6 @@ var TimeoCalendar = (function closure() {
                     });
                 },
                 dataType: "html"
-            });
-            $("div#cancelbutton").on("click",function(event){
-                var activityFormContainer = $("div.activityFormContainer");
-                activityFormContainer.empty();
-                activityFormContainer.toggleClass("visible invisible");
             });
         }
 

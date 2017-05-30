@@ -87,7 +87,9 @@ public class TaskServiceBean implements TaskService {
             logger.error(StringUtils.join("For activityId '", activityId, "' no activity was found in repository."));
             return null;
         }
-        activity.setEndDateTime(new Date());
+        if (activity.getEndDateTime() == null) {
+            activity.setEndDateTime(new Date());
+        }
         return activity;
     }
 

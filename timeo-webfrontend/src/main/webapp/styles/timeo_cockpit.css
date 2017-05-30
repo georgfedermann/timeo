@@ -367,3 +367,7 @@ div.activityPanel {
 div.activityPanel:hover {
     background-color: aqua;
 }
+
+div.invisible {
+    display: none;
+}

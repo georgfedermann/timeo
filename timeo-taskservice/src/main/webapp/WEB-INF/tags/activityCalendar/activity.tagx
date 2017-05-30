@@ -1,0 +1,16 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:spring="http://www.springframework.org/tags"
+          version="2.0">
+    
+    <jsp:directive.attribute name="activity" type="org.poormanscastle.products.timeo.task.domain.Activity" required="true" rtexprvalue="true" description="The activity that shall be displayed in the calendar." />
+    <jsp:directive.attribute name="scale" type="java.lang.String" required="false" rtexprvalue="true" description="To position the activity on the dayPanel, it is necessary to know how many seconds a pixel corresponds to" />
+    <jsp:directive.attribute name="offset" type="java.lang.String" required="false" rtexprvalue="true" description="The offset defines the zero base where the time for each day starts within the dayPanel." />
+    
+    <c:set var="scale" value="${(empty scale) ? '600' : scale}" />
+    <c:set var="offset" value="${(empty offset) ? '15' : offset}" />
+
+    <div data-activityId="${activity.id}" class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+    
+</jsp:root>

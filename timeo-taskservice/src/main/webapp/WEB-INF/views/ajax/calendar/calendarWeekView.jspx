@@ -9,7 +9,8 @@
 <div id="calendarPanel"
      xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:spring="http://www.springframework.org/tags"
-     xmlns:c="http://java.sun.com/jsp/jstl/core">
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:timeo="urn:jsptagdir:/WEB-INF/tags/activityCalendar">
 
     <jsp:output omit-xml-declaration="true"/>
     <jsp:directive.page contentType="text/html; charset=UTF-8"/>
@@ -59,7 +60,7 @@
             </div>
             <div class="weekDayContent">
                 <c:forEach items="${activities[0]}" var="activity" varStatus="varStatus">
-                    <div class="activityPanel" id="${activity.id}" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                    <timeo:activity activity="${activity}" />
                 </c:forEach>
             </div>
         </div>
@@ -70,7 +71,7 @@
             </div>
             <div class="weekDayContent">
                 <c:forEach items="${activities[1]}" var="activity" varStatus="varStatus">
-                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                    <timeo:activity activity="${activity}" />
                 </c:forEach>
             </div>
         </div>
@@ -81,7 +82,7 @@
             </div>
             <div class="weekDayContent">
                 <c:forEach items="${activities[2]}" var="activity" varStatus="varStatus">
-                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                    <timeo:activity activity="${activity}" />
                 </c:forEach>
             </div>
         </div>
@@ -92,7 +93,7 @@
             </div>
             <div class="weekDayContent">
                 <c:forEach items="${activities[3]}" var="activity" varStatus="varStatus">
-                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                    <timeo:activity activity="${activity}" />
                 </c:forEach>
             </div>
         </div>
@@ -103,7 +104,7 @@
             </div>
             <div class="weekDayContent">
                 <c:forEach items="${activities[4]}" var="activity" varStatus="varStatus">
-                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                    <timeo:activity activity="${activity}" />
                 </c:forEach>
             </div>
         </div>
@@ -114,7 +115,7 @@
             </div>
             <div class="weekDayContent">
                 <c:forEach items="${activities[5]}" var="activity" varStatus="varStatus">
-                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                    <timeo:activity activity="${activity}" />
                 </c:forEach>
             </div>
         </div>
@@ -125,7 +126,7 @@
             </div>
             <div class="weekDayContent">
                 <c:forEach items="${activities[6]}" var="activity" varStatus="varStatus">
-                    <div class="activityPanel" style="top: ${offset + scale / 86400 * activity.startTimeSecondsFromMidnight}px; height: ${scale / 86400 * activity.timeInvested}px;">${activity.comment}</div>
+                    <timeo:activity activity="${activity}" />
                 </c:forEach>
             </div>
         </div>

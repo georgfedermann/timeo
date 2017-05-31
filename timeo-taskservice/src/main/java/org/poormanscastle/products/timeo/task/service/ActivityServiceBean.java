@@ -127,7 +127,8 @@ public class ActivityServiceBean implements ActivityService {
         checkArgument(!StringUtils.isBlank(masterKey), "MasterKey is required!");
         checkNotNull(day, "Day is required!");
         EntityManager em = Activity.entityManager();
-        TypedQuery<Activity> query = em.createQuery("SELECT a FROM Activity AS a INNER JOIN a.projectTeamMember AS ptm WHERE date(a.startDateTime) = date(:myDate) and ptm.resourceId = :masterKey", Activity.class);
+        TypedQuery<Activity> query = em.createQuery(
+                "SELECT a FROM Activity AS a INNER JOIN a.projectTeamMember AS ptm WHERE date(a.startDateTime) = date(:myDate) and ptm.resourceId = :masterKey", Activity.class);
         query.setParameter("myDate", day.toDate());
         query.setParameter("masterKey", masterKey);
         List<Activity> result = query.getResultList();

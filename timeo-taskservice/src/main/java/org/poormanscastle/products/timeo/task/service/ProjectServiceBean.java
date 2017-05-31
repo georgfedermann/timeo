@@ -1,6 +1,11 @@
 package org.poormanscastle.products.timeo.task.service;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
@@ -45,4 +50,18 @@ public class ProjectServiceBean implements ProjectService {
         projects.forEach(project -> setSpocLabelOnProject(project));
         return projects;
     }
+
+    @Override
+    public List<Project> getProjectsForUser(String masterKey) {
+        checkArgument(!StringUtils.isBlank(masterKey), "MasterKey is required!");
+        EntityManager em = Project.entityManager();
+        TypedQuery<Project> query = em.createQuery(
+                "SELECT p FROM Project AS p INNER JOIN p.projectTeamMembers AS ptm WHERE ptm.resourceId = :masterKey", 
+                Project.class);
+        query.setParameter("masterKey", masterKey);
+        List<Project> resultList = query.getResultList();
+        
+        return resultList;
+    }
+    
 }

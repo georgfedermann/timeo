@@ -12,5 +12,7 @@ public interface ProjectService {
     List<Project> getProjects(int firstResult, int sizeNo, String sortFieldName, String sortOrder);
 
     List<Project> getAllProjects(String sortFieldName, String sortOrder);
+    
+    List<Project> getProjectsForUser(String masterKey);
 
 }

@@ -13,7 +13,8 @@
         <field:datetime dateTimePattern="${project_duedate_date_format}" field="dueDate" id="c_org_poormanscastle_products_timeo_task_domain_Project_dueDate" z="JAM8GDaX9u1qFGXMDWb269Khpkg="/>
         <field:datetime dateTimePattern="${project_startdate_date_format}" field="startDate" id="c_org_poormanscastle_products_timeo_task_domain_Project_startDate" z="r7Y+CLicI56MOtUsR6fbzcYzWKs="/>
         <field:datetime dateTimePattern="${project_donedate_date_format}" field="doneDate" id="c_org_poormanscastle_products_timeo_task_domain_Project_doneDate" z="/xRljOyJM1LNmC9yb2Pba9/ybWY="/>
-        <field:input render="false" field="label" id="c_org_poormanscastle_products_timeo_task_domain_Project_label" z="user-managed"/>
+        <field:input field="label" id="c_org_poormanscastle_products_timeo_task_domain_Project_label" render="false" z="user-managed"/>
+        <field:simple field="projectTeamMembers" id="c_org_poormanscastle_products_timeo_task_domain_Project_projectTeamMembers" messageCode="entity_reference_not_managed" messageCodeAttribute="Project Team Member" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_poormanscastle_products_timeo_task_domain_Project" render="${not empty dependencies}" z="W3qFWQl5DiteLJERsaAnGdF+2WU="/>
 </div>

@@ -1,9 +1,13 @@
 package org.poormanscastle.products.timeo.task.web.ajax;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.poormanscastle.products.timeo.task.domain.Activity;
+import org.poormanscastle.products.timeo.task.domain.Project;
 import org.poormanscastle.products.timeo.task.service.ActivityService;
+import org.poormanscastle.products.timeo.task.service.ProjectService;
 import org.poormanscastle.products.timeo.task.service.TaskService;
 import org.poormanscastle.products.timeo.task.service.TaskServiceUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +31,17 @@ public class AjaxTaskController {
     private TaskService taskService;
     @Autowired
     private ActivityService activityService;
+    @Autowired
+    private ProjectService projectService;
 
+    /**
+     * On accepting a task in the task browser a new activity is registered with the server. The idea is: if the
+     * web session gets interrupted and the user looses the activity information, she can login again and will then be
+     * presented with the activity she was working on before everything went south.
+     * @param taskId
+     * @param teamMemberId
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/registerActivity/{taskId}/{teamMemberId}")
     public @ResponseBody String registerActivity(@PathVariable("taskId") String taskId, @PathVariable("teamMemberId") String teamMemberId) {
         logger.info(StringUtils.join("Received request to create new activity for task ",
@@ -35,6 +49,13 @@ public class AjaxTaskController {
         return taskService.createActivityForTask(taskId, teamMemberId);
     }
 
+    /**
+     * When working on an activity which was initiated in the task browser, this ws can be
+     * used to finish the respective activity.
+     * @param activityId
+     * @param model
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/getFinishActivityForm/{activityId}")
     public String getFinishActivityForm(@PathVariable("activityId") String activityId, Model model) {
         logger.info(StringUtils.join("Received request to create finishActivityForm for activityId ", activityId, "."));
@@ -68,6 +89,12 @@ public class AjaxTaskController {
         
         return activityService.processAndStoreActivity(activityId, timeInvested,
                 startDateTime, endDateTime, status, comment);
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/createNewActivityForm/{masterKey}")
+    public String createnewActivityForm(@PathVariable("masterKey") String masterKey, Model model){
+        model.addAttribute("projectListForUser", projectService.getProjectsForUser(masterKey));
+        return "ajax/CreateNewActivityForm";
     }
 
 }

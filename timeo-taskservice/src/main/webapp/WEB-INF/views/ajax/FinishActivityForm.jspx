@@ -38,7 +38,6 @@
                 <div class="formline">
                     <div class="formlabel"><spring:message code="finishActivityForm.newState.label" /></div>
                     <div class="forminput"><select name="status" id="activityFormStatus" size="1">
-                        <option>Ringo</option>
                         <c:forEach var="status" items="${applicableStatusList}" varStatus="varStatus">
                             <c:choose>
                                 <c:when test="${status.name == activity.task.status.name}"><option selected="selected" value="${status.id}">${status.name}</option></c:when>

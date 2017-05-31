@@ -142,7 +142,8 @@ var TimeoCalendar = (function closure() {
         var wsUrlCalendarForYearAndCalendarWeek = null;
         var wsUrlCalendarForCurrentDate = null;
         var wsUrlGetActivityForm = null;
-        var wsUrlSubmitActivityForm = null;
+        var wsUrlCreateNewActivityForm = null;
+        var wsUrlCreateNewActivity = null;
         var year = -1;
         var calendarWeek = -1;
 
@@ -176,8 +177,10 @@ var TimeoCalendar = (function closure() {
                 "${profile.taskservice.hostname}${profile.taskservice.calendarForCurrentDate}";
             wsUrlGetActivityForm =
                 "${profile.taskservice.hostname}${profile.taskservice.finishActivityForm}";
-            wsUrlSubmitActivityForm =
-                "${profile.taskservice.registerActivity}${profile.taskservice.finishActivity}";
+            wsUrlCreateNewActivityForm =
+                "${profile.taskservice.hostname}${profile.taskservice.createActivityForm}";
+            wsUrlCreateNewActivity =
+                "${profile.taskservice.hostname}${profile.taskservice.createActivity}";
             year = -1;
             calendarWeek = -1;
         }
@@ -191,7 +194,31 @@ var TimeoCalendar = (function closure() {
         
         this.weekDayPanelClick = function(event) {
             console.log("User clicked weekDayPanel");
-            
+            var wsUrlCreateNewActivityFormLocal = wsUrlCreateNewActivityForm.replace("{masterKey}", user.getMasterKey());
+            $.ajax({
+                type: "GET",
+                url: wsUrlCreateNewActivityFormLocal,
+                success: function(data) {
+                    console.log("loaded createNewActivity-form from server and going to display it on web page");
+                    var activityFormContainer = $("div#activityFormContainer");
+                    activityFormContainer.empty();
+                    activityFormContainer.prepend(data);
+                    activityFormContainer.toggleClass("visible invisible");
+                    activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
+                    
+                    // enter default values
+                    $("input#activityFormTimeInvested").attr("value", "30m");
+                    $("input#activityFormStartDateTime").attr("value", $(event.target).attr("data-date") + " 09:00:00");
+                    $("input#activityFormEndDateTime").attr("value", $(event.target).attr("data-date") + " 09:30:00");
+
+                    
+                    $("div#activityFormContainer input#cancelbutton").on("click", function(event){
+                        activityFormContainer.empty();
+                        activityFormContainer.toggleClass("visible invisible");
+                    });
+                },
+                dataType: "html"
+            });
         }
 
         this.activityMouseEnter = function(event) {
@@ -218,7 +245,8 @@ var TimeoCalendar = (function closure() {
                     activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
 
                     $("div#activityFormContainer input#cancelbutton").on("click",function(event){
-                        var activityFormContainer = $("div#activityFormContainer");
+                        // TODO by closure the line below should not be necessary.
+                        // var activityFormContainer = $("div#activityFormContainer");
                         activityFormContainer.empty();
                         activityFormContainer.toggleClass("visible invisible");
                     });

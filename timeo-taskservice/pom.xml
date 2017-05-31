@@ -337,6 +337,7 @@
                                 <include>js/businessCard.js</include>
                                 <include>js/createTask.js</include>
                                 <include>WEB-INF/views/ajax/FinishActivityForm.jspx</include>
+                                <include>WEB-INF/views/ajax/CreateNewActivityForm.jspx</include>
                             </includes>
                         </resource>
                     </webResources>

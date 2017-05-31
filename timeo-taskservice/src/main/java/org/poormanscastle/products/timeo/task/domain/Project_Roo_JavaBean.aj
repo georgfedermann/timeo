@@ -4,8 +4,10 @@
 package org.poormanscastle.products.timeo.task.domain;
 
 import java.util.Date;
+import java.util.Set;
 import org.poormanscastle.products.timeo.task.domain.Project;
 import org.poormanscastle.products.timeo.task.domain.ProjectStatus;
+import org.poormanscastle.products.timeo.task.domain.ProjectTeamMember;
 
 privileged aspect Project_Roo_JavaBean {
     
@@ -103,6 +105,14 @@ privileged aspect Project_Roo_JavaBean {
     
     public void Project.setLabel(String label) {
         this.label = label;
+    }
+    
+    public Set<ProjectTeamMember> Project.getProjectTeamMembers() {
+        return this.projectTeamMembers;
+    }
+    
+    public void Project.setProjectTeamMembers(Set<ProjectTeamMember> projectTeamMembers) {
+        this.projectTeamMembers = projectTeamMembers;
     }
     
 }

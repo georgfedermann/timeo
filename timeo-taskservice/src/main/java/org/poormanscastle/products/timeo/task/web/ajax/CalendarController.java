@@ -50,5 +50,5 @@ public class CalendarController {
         
         return "ajax/calendar/calendarWeekView";
     }
-
+    
 }

@@ -5,7 +5,7 @@
     <form:update id="fu_org_poormanscastle_products_timeo_task_domain_Project" modelAttribute="project" path="/projects" versionField="Version" z="fhd89GsCOYrESliYfgAl/GycCGk=">
         <field:input field="name" id="c_org_poormanscastle_products_timeo_task_domain_Project_name" min="3" required="true" z="pqc2GwShvdO77x5vXyTU2ctwVeg="/>
         <field:input field="description" id="c_org_poormanscastle_products_timeo_task_domain_Project_description" min="2" required="true" z="user-managed"/>
-        <field:select field="spocMasterKey" id="c_org_poormanscastle_products_timeo_task_domain_Project_spocMasterKey" itemLabel="email" itemValue="masterKey" items="${resources}" label="SPOC" path="/masterKeys" required="false" z="user-managed" />
+        <field:select field="spocMasterKey" id="c_org_poormanscastle_products_timeo_task_domain_Project_spocMasterKey" itemLabel="email" itemValue="masterKey" items="${resources}" label="SPOC" path="/masterKeys" required="false" z="user-managed"/>
         <field:input field="dbClarityId" id="c_org_poormanscastle_products_timeo_task_domain_Project_dbClarityId" required="false" z="user-managed"/>
         <field:input field="planPosition" id="c_org_poormanscastle_products_timeo_task_domain_Project_planPosition" required="false" z="user-managed"/>
         <field:datetime dateTimePattern="${project_entrydate_date_format}" field="entryDate" id="c_org_poormanscastle_products_timeo_task_domain_Project_entryDate" required="true" z="UHanlifyPsh5SGL96J0+n0SVne0="/>
@@ -13,6 +13,7 @@
         <field:datetime dateTimePattern="${project_startdate_date_format}" field="startDate" id="c_org_poormanscastle_products_timeo_task_domain_Project_startDate" z="r7Y+CLicI56MOtUsR6fbzcYzWKs="/>
         <field:datetime dateTimePattern="${project_donedate_date_format}" field="doneDate" id="c_org_poormanscastle_products_timeo_task_domain_Project_doneDate" z="/xRljOyJM1LNmC9yb2Pba9/ybWY="/>
         <field:select field="projectStatus" id="c_org_poormanscastle_products_timeo_task_domain_Project_projectStatus" itemLabel="name" itemValue="id" items="${projectstatuses}" path="/projectstatuses" required="true" z="user-managed"/>
-        <field:input render="false" field="label" id="c_org_poormanscastle_products_timeo_task_domain_Project_label" z="user-managed"/>
+        <field:input field="label" id="c_org_poormanscastle_products_timeo_task_domain_Project_label" render="false" z="user-managed"/>
+        <field:simple field="projectTeamMembers" id="c_org_poormanscastle_products_timeo_task_domain_Project_projectTeamMembers" messageCode="entity_reference_not_managed" messageCodeAttribute="Project Team Member" render="false" z="user-managed"/>
     </form:update>
 </div>

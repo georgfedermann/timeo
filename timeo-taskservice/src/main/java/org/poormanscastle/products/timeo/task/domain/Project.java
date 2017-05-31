@@ -1,11 +1,13 @@
 package org.poormanscastle.products.timeo.task.domain;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -62,18 +64,21 @@ public class Project {
     private Date entryDate;
 
     /**
+     * Keeping track of the due date
      */
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 
     /**
+     * Keeping track of the date when the project was actually started
      */
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
     /**
+     * Keeping track of the date when the project was considered to have been completed.
      */
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -116,5 +121,8 @@ public class Project {
     @Transient
     @JsonInclude
     private String label;
+
+    @OneToMany(mappedBy = "project")
+    private Set<ProjectTeamMember> projectTeamMembers;
 
 }

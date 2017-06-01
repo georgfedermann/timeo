@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CalendarController {
 
     final static Logger logger = Logger.getLogger(CalendarController.class);
-    
+
     @Autowired
     private ActivityService activityService;
 
@@ -33,6 +33,8 @@ public class CalendarController {
         model.addAttribute("weekDays", TaskServiceUtils.getCalendarWeek(year, calendarWeekNumber));
         model.addAttribute("year", year);
         model.addAttribute("calendarWeek", calendarWeekNumber);
+        model.addAttribute("activities", activityService.getActivitiesForStakeholderAndCalendarWeek(masterKey,
+                year, calendarWeekNumber));
         return "ajax/calendar/calendarWeekView";
     }
 
@@ -44,11 +46,11 @@ public class CalendarController {
         model.addAttribute("weekDays", TaskServiceUtils.getCalendarWeek(today.getYear(), today.getWeekOfWeekyear()));
         model.addAttribute("year", today.getYear());
         model.addAttribute("calendarWeek", today.getWeekOfWeekyear());
-        
-        model.addAttribute("activities", activityService.getActivitiesForStakeholderAndCalendarWeek(masterKey, 
+
+        model.addAttribute("activities", activityService.getActivitiesForStakeholderAndCalendarWeek(masterKey,
                 today.getYear(), today.getWeekOfWeekyear()));
-        
+
         return "ajax/calendar/calendarWeekView";
     }
-    
+
 }

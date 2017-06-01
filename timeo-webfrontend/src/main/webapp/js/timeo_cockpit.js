@@ -146,30 +146,23 @@ var TimeoCalendar = (function closure() {
         var wsUrlCreateNewActivity = null;
         var wsUrlGetTasksForProjectAndUser = null;
         var year = -1;
+        // the calendarWeek for which the current view shows activities
         var calendarWeek = -1;
-
-        this.reloadCalendarView = function () {
-            var me = this;
-            var localWsUrl = "";
-            if (year == -1 || calendarWeek == -1) {
-                // load calendar week for current date
-                localWsUrl = wsUrlCalendarForCurrentDate.replace("{masterKey}", user.getMasterKey());
-            } else {
-                // since year and calendar week have been defined, use them to load the calendar week view
-                localWsUrl = this.wsUrlCalendarForYearAndCalendarWeek.replace("{teamMemberId}", user.getMasterKey())
-                    .replace("{year}", $("div#calendarData > div#calendarYear"))
-                    .replace("{calendarWeekNumber}", $("div#calendarData > div#calenderWeek").text());
-            }
-            $.ajax({
-                type: "GET",
-                url: localWsUrl,
-                success: function (data) {
-                    $("div#timeoCalendar").html(data);
-                    setTimeout(me.registerActivityMouseHandler.bind(me), 1000);
-                },
-                dataType: "text"
-            });
-        };
+        // the actual current calendarWeek to which to return when the user
+        // clicks the go-to-today button on the calendar view
+        var actualCalendarWeek = -1;
+        
+        this.getYear = function() {
+            return year;
+        }
+        
+        this.getCalendarWeek = function() {
+            return calendarWeek;
+        }
+        
+        this.getActualCalendarWeek = function() {
+            return actualCalendarWeek;
+        }
 
         this.init = function () {
             wsUrlCalendarForYearAndCalendarWeek =
@@ -188,11 +181,66 @@ var TimeoCalendar = (function closure() {
             calendarWeek = -1;
         }
 
+        this.reloadCalendarView = function () {
+            var me = this;
+            var localWsUrl = "";
+            if (year == -1 || calendarWeek == -1) {
+                // load calendar week for current date
+                localWsUrl = wsUrlCalendarForCurrentDate.replace("{masterKey}", user.getMasterKey());
+            } else {
+                // since year and calendar week have been defined, use them to load the calendar week view
+                localWsUrl = wsUrlCalendarForYearAndCalendarWeek.replace("{masterKey}", user.getMasterKey())
+                    .replace("{year}", year)
+                    .replace("{calendarWeekNumber}", calendarWeek);
+            }
+            $.ajax({
+                type: "GET",
+                url: localWsUrl,
+                success: function (data) {
+                    $("div#timeoCalendar").html(data);
+                    setTimeout(me.registerActivityMouseHandler.bind(me), 1000);
+                    year = $("div#calendarYear").text();
+                    calendarWeek = $("div#calendarWeek").text();
+                    actualCalendarWeek = actualCalendarWeek == -1 ? calendarWeek : actualCalendarWeek;
+                },
+                dataType: "text"
+            });
+        };
+
         this.registerActivityMouseHandler = function () {
             // $("div.activityPanel").on("mouseenter", this.activityMouseEnter.bind(this));
             // $("div.activityPanel").on("mouseleave", this.activityMouseLeave.bind(this));
             $("div.activityPanel").on("click", this.activityMouseClick.bind(this));
             $("div.weekDayPanel").on("click", this.weekDayPanelClick.bind(this));
+            $("div#calendarBackButton").on("click", this.calendarBackButtonClick.bind(this));
+            $("div#calendarTodayButton").on("click", this.calendarTodayButtonClick.bind(this));
+            $("div#calendarForwardButton").on("click", this.calendarForwardButtonClick.bind(this));
+        };
+        
+        this.calendarBackButtonClick = function(event) {
+            console.log("User clicked back to previous week in calendar view");
+            if(calendarWeek <= 1){
+                alert("Please stay within 2017 for now");
+                return;
+            }
+            calendarWeek = calendarWeek - 1;
+            this.reloadCalendarView();
+        };
+        
+        this.calendarTodayButtonClick = function(event) {
+            console.log("User clicked go to current week in calendar view");
+            calendarWeek = actualCalendarWeek;
+            this.reloadCalendarView();
+        };
+        
+        this.calendarForwardButtonClick = function(event) {
+            console.log("User clicked go to next week in calendar view");
+            if(calendarWeek >= 52){
+                alert("Please stay within 2017 for now");
+                return;
+            }
+            calendarWeek = +calendarWeek + 1;
+            this.reloadCalendarView();
         };
         
         this.weekDayPanelClick = function(event) {

@@ -80,5 +80,7 @@ public interface TaskService {
      * @return
      */
     long getTimeInvestedInTask(Task task);
+    
+    List<Task> getTasksForProjectAndUser(String projectId, String masterKey);
 
 }

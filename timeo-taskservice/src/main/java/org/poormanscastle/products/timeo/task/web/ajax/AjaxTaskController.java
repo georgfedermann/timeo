@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.poormanscastle.products.timeo.task.domain.Activity;
 import org.poormanscastle.products.timeo.task.domain.Project;
+import org.poormanscastle.products.timeo.task.domain.Status;
+import org.poormanscastle.products.timeo.task.domain.Task;
 import org.poormanscastle.products.timeo.task.service.ActivityService;
 import org.poormanscastle.products.timeo.task.service.ProjectService;
 import org.poormanscastle.products.timeo.task.service.TaskService;
@@ -91,10 +93,34 @@ public class AjaxTaskController {
                 startDateTime, endDateTime, status, comment);
     }
     
+    @RequestMapping(method = RequestMethod.POST, value = "/createNewActivity")
+    public @ResponseBody String createNewActivity(
+            @RequestParam("timeInvested") String timeInvested,
+            @RequestParam("startDateTime") String startDateTime,
+            @RequestParam("endDateTime") String endDateTime,
+            @RequestParam("comment") String comment,
+            @RequestParam("task") String taskId){
+        logger.info(StringUtils.join("Received WS request to create and store new activity for following data: ",
+                "timeInvested: ", timeInvested, "; startDateTime: ", startDateTime, "; endDateTime: ",
+                endDateTime, "; comment: ", comment, "; task: ", taskId, "."));
+        return activityService.createAndStoreActivity(taskId, timeInvested,
+                startDateTime, endDateTime, comment);
+    }
+    
     @RequestMapping(method = RequestMethod.GET, value = "/createNewActivityForm/{masterKey}")
     public String createnewActivityForm(@PathVariable("masterKey") String masterKey, Model model){
         model.addAttribute("projectListForUser", projectService.getProjectsForUser(masterKey));
+        model.addAttribute("statusList", Status.findAllStatuses());
         return "ajax/CreateNewActivityForm";
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/getTasksForProjectAndUser/{projectId}/{masterKey}")
+    public String getTasksForProjectAndUser(@PathVariable("masterKey") String masterKey,
+                                            @PathVariable("projectId") String projectId,
+                                            Model model){
+        List<Task> taskList = taskService.getTasksForProjectAndUser(projectId, masterKey);
+        model.addAttribute("tasks", taskList);
+        return "ajax/TasklistAsSelectOptions";
     }
 
 }

@@ -144,6 +144,7 @@ var TimeoCalendar = (function closure() {
         var wsUrlGetActivityForm = null;
         var wsUrlCreateNewActivityForm = null;
         var wsUrlCreateNewActivity = null;
+        var wsUrlGetTasksForProjectAndUser = null;
         var year = -1;
         var calendarWeek = -1;
 
@@ -181,6 +182,8 @@ var TimeoCalendar = (function closure() {
                 "${profile.taskservice.hostname}${profile.taskservice.createActivityForm}";
             wsUrlCreateNewActivity =
                 "${profile.taskservice.hostname}${profile.taskservice.createActivity}";
+            wsUrlGetTasksForProjectAndUser =
+                "${profile.taskservice.hostname}${profile.taskservice.getTasksForProjectAndUser}";
             year = -1;
             calendarWeek = -1;
         }
@@ -195,6 +198,7 @@ var TimeoCalendar = (function closure() {
         this.weekDayPanelClick = function(event) {
             console.log("User clicked weekDayPanel");
             var wsUrlCreateNewActivityFormLocal = wsUrlCreateNewActivityForm.replace("{masterKey}", user.getMasterKey());
+            var me = this;
             $.ajax({
                 type: "GET",
                 url: wsUrlCreateNewActivityFormLocal,
@@ -205,17 +209,61 @@ var TimeoCalendar = (function closure() {
                     activityFormContainer.prepend(data);
                     activityFormContainer.toggleClass("visible invisible");
                     activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
-                    
                     // enter default values
                     $("input#activityFormTimeInvested").attr("value", "30m");
                     $("input#activityFormStartDateTime").attr("value", $(event.target).attr("data-date") + " 09:00:00");
                     $("input#activityFormEndDateTime").attr("value", $(event.target).attr("data-date") + " 09:30:00");
-
-                    
+                    // implement cancel button behavior
                     $("div#activityFormContainer input#cancelbutton").on("click", function(event){
                         activityFormContainer.empty();
                         activityFormContainer.toggleClass("visible invisible");
                     });
+                    // register change handler on project select
+                    $("select#activityFormProject").on("change", me.activityProjectSelect.bind(me));
+
+                    // register custom submit handler
+                    $("#finishActivityForm").submit(function(submitEvent){
+                        // suppress redirect to server response
+                        submitEvent.preventDefault();
+                        var formUrl = $(this).closest("form").attr("action");
+                        console.log("Found this action URL for activityForm: " + formUrl);
+                        $.ajax({
+                            url: formUrl,
+                            type: "post",
+                            data: $("#finishActivityForm").serialize(),
+                            success: function(data) {
+                                if(data.startsWith("SUCCESS: ")){
+                                    alert("Server replied: " + data);
+                                    activityFormContainer.empty();
+                                    activityFormContainer.toggleClass("visible invisible");
+                                    timeoCalendar.reloadCalendarView();
+                                } else if (data.startsWith("FAILURE: ")) {
+                                    alert("Server indicates an error: " + data);
+                                } else {
+                                    alert("WARNING: server sent incomprehensible gibberish. Please contact your team lead or system administrator: " + data);
+                                }
+                            }
+                        });
+                    });
+                },
+                dataType: "html"
+            });
+        }
+        
+        /*
+         * change event handler for the createActivitity-form project select input field.
+         */
+        this.activityProjectSelect = function(event) {
+            var projectId = $("select#activityFormProject option:selected").attr("value");
+            console.log("User chose project " + projectId + " from select input");
+            var wsUrlGetTasksForProjectAndUserLocal = wsUrlGetTasksForProjectAndUser
+                .replace("{projectId}", projectId).replace("{masterKey}", user.getMasterKey());
+            $.ajax({
+                type: "GET",
+                url: wsUrlGetTasksForProjectAndUserLocal,
+                success: function(data) {
+                    $("select#activityFormTask").replaceWith(data);
+                    $("input#submitbutton").removeAttr("disabled");
                 },
                 dataType: "html"
             });
@@ -230,6 +278,8 @@ var TimeoCalendar = (function closure() {
         };
         
         this.activityMouseClick = function(event) {
+            // avoid this event being handled by the weekDayPanel too
+            event.stopPropagation();
             var activityId = $(event.target).attr("data-activityId");
             console.log("User clicked activity with id " + activityId );
             var wsUrlGetActivityFormLocal = wsUrlGetActivityForm.replace("{activityId}", activityId);

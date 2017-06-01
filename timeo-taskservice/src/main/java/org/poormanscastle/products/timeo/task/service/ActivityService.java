@@ -70,4 +70,6 @@ public interface ActivityService {
      */
     List<List<Activity>> getActivitiesForStakeholderAndCalendarWeek(String masterKey, int year, int calendarWeek);
 
+    
+    String createAndStoreActivity(String taskId, String timeInvested, String startDateTime, String endDateTime, String comment);
 }

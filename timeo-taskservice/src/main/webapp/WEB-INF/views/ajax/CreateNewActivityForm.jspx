@@ -51,8 +51,8 @@
         <!-- select new task status -->
         <div class="formline">
             <div class="formlabel"><spring:message code="finishActivityForm.newState.label" /></div>
-            <div class="forminput"><select name="status" disabled="disabled" id="activityFormStatus" size="1">
-                <c:forEach var="status" items="${applicableStatusList}" varStatus="varStatus">
+            <div class="forminput"><select name="status" id="activityFormStatus" size="1" disabled="disabled">
+                <c:forEach var="status" items="${statusList}" varStatus="varStatus">
                     <c:choose>
                         <c:when test="${status.name == activity.task.status.name}"><option selected="selected" value="${status.id}">${status.name}</option></c:when>
                         <c:otherwise><option value="${status.id}">${status.name}</option></c:otherwise>
@@ -67,7 +67,7 @@
         <div class="formline formbuttons">
             <spring:message code="finishActivityForm.cancelButton.label" var="cancelButtonLabel" />
             <spring:message code="finishActivityForm.doneButton.label" var="doneButtonLabel" />
-            <div><input id="cancelbutton" type="button" disabled="disabled" value="${cancelButtonLabel}" /></div>
+            <div><input id="cancelbutton" type="button" value="${cancelButtonLabel}" /></div>
             <div><input id="submitbutton" type="submit" disabled="disabled" value="${doneButtonLabel}" /></div>
         </div>
     </form>

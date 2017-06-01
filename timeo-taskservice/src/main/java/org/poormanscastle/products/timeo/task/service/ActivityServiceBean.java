@@ -37,6 +37,54 @@ public class ActivityServiceBean implements ActivityService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
+    public String createAndStoreActivity(String taskId, String timeInvested, String startDateTimeString, String endDateTimeString, String comment) {
+        if (StringUtils.isBlank(comment)) {
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    "comment is empty. Please provide a meaningful information here for your team lead.");
+        }
+        Date startDateTime = null;
+        Date endDateTime = null;
+        try {
+            startDateTime = TaskServiceUtils.parseDate(startDateTimeString);
+        } catch (InvalidDateStringException exception) {
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    "the given start date/time should be of format: yyyy-mm-dd hh:mm:ss. Please adapt.");
+        }
+        try {
+            endDateTime = TaskServiceUtils.parseDate(endDateTimeString);
+        } catch (InvalidDateStringException exception) {
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    "the given end date/time should be of format: yyyy-mm-dd hh:mm:ss. Please adapt.");
+        }
+
+        int timeInvestedInSeconds = TaskServiceUtils.parseDurationString(timeInvested);
+        if (timeInvestedInSeconds <= 0) {
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    "the given duration string was evaluated to 0. Please check again.");
+        }
+
+        Task task = Task.findTask(taskId);
+        if (task == null) {
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    " sorry, the data repository is corrupted. No task is registered for the current activity. Please assemble all available information and contact your team lead and/or system administrator.");
+        }
+        
+        Activity activity = new Activity();
+        activity.setStartDateTime(startDateTime);
+        activity.setEndDateTime(endDateTime);
+        activity.setTimeInvested(timeInvestedInSeconds);
+        activity.setComment(comment);
+        activity.setActivityStatus(ActivityStatus.DONE);
+        activity.setTask(task);
+        activity.setProjectTeamMember(task.getProjectTeamMember());
+        activity.setActivityStatus(ActivityStatus.DONE);
+        activity.persist();
+
+        return ActivityServiceStatusMessage.SUCCESS.getMessage();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
     public String processAndStoreActivity(String activityId, String timeInvestedInSecondsString, String startDateTimeString,
                                           String endDateTimeString, String newTaskStatusId, String comment) {
         logger.info(StringUtils.join("Received service request to save activity with following data: ",

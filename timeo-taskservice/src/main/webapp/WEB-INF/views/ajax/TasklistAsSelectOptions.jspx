@@ -1,0 +1,13 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: georg
+  Date: 31/05/2017
+  Time: 13:52
+  To change this template use File | Settings | File Templates.
+-->
+<select name="task" id="activityFormTask" size="1"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:forEach items="${tasks}" var="task" varStatus="varStatus">
+        <option value="${task.id}">${task.name}</option>
+    </c:forEach>
+</select>

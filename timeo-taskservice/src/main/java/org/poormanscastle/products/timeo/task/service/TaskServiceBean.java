@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -174,6 +177,22 @@ public class TaskServiceBean implements TaskService {
                 "select sum(a.time_invested) as efforts from activity as a inner join task as t on a.task = t.id where t.id = ?",
                 Long.class, task.getId());
         return result == null ? 0 : result;
+    }
+
+    @Override
+    public List<Task> getTasksForProjectAndUser(String projectId, String masterKey) {
+        checkArgument(!StringUtils.isBlank(projectId), "projectId is required.");
+        checkArgument(!StringUtils.isBlank(masterKey), "masterKey is required.");
+        // TODO: use this instead of list filter below:
+        // select p.name, t.name, ptm.resource_id from project as p inner join task as t on t.project = p.id inner join project_team_member as ptm on t.project_team_member = ptm.id where ptm.resource_id = 149;
+        EntityManager em = Task.entityManager();
+        TypedQuery<Task> query = em.createQuery(
+                "SELECT t FROM Task AS t INNER JOIN t.project AS p WHERE p.id = :projectId", Task.class
+        );
+        query.setParameter("projectId", projectId);
+        List<Task> resultList = query.getResultList();
+        return resultList.stream().filter(t -> 
+                masterKey.equals(t.getProjectTeamMember().getResourceId())).collect(Collectors.toList());
     }
 
 }

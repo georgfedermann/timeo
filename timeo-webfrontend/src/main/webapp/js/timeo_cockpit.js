@@ -145,6 +145,7 @@ var TimeoCalendar = (function closure() {
         var wsUrlCreateNewActivityForm = null;
         var wsUrlCreateNewActivity = null;
         var wsUrlGetTasksForProjectAndUser = null;
+        var wsUrlGetApplicableStatusListForTask = null;
         var year = -1;
         // the calendarWeek for which the current view shows activities
         var calendarWeek = -1;
@@ -177,6 +178,8 @@ var TimeoCalendar = (function closure() {
                 "${profile.taskservice.hostname}${profile.taskservice.createActivity}";
             wsUrlGetTasksForProjectAndUser =
                 "${profile.taskservice.hostname}${profile.taskservice.getTasksForProjectAndUser}";
+            wsUrlGetApplicableStatusListForTask = 
+                "${profile.taskservice.hostname}${profile.taskservice.getApplicableStatusListForTask}";
             year = -1;
             calendarWeek = -1;
         }
@@ -258,6 +261,8 @@ var TimeoCalendar = (function closure() {
                     activityFormContainer.toggleClass("visible invisible");
                     activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
                     // enter default values
+                    // TODO start time could be defined by clicking in weekDayPanel region
+                    // TODO duration could be defined a a mouse motion within a weekDayPanel region
                     $("input#activityFormTimeInvested").attr("value", "30m");
                     $("input#activityFormStartDateTime").attr("value", $(event.target).attr("data-date") + " 09:00:00");
                     $("input#activityFormEndDateTime").attr("value", $(event.target).attr("data-date") + " 09:30:00");
@@ -296,7 +301,7 @@ var TimeoCalendar = (function closure() {
                 },
                 dataType: "html"
             });
-        }
+        };
         
         /*
          * change event handler for the createActivitity-form project select input field.
@@ -306,16 +311,36 @@ var TimeoCalendar = (function closure() {
             console.log("User chose project " + projectId + " from select input");
             var wsUrlGetTasksForProjectAndUserLocal = wsUrlGetTasksForProjectAndUser
                 .replace("{projectId}", projectId).replace("{masterKey}", user.getMasterKey());
+            var me = this;
             $.ajax({
                 type: "GET",
                 url: wsUrlGetTasksForProjectAndUserLocal,
                 success: function(data) {
                     $("select#activityFormTask").replaceWith(data);
+                    $("select#activityFormTask").on("change", me.activityTaskSelect.bind(me));
+                },
+                dataType: "html"
+            });
+        };
+        
+        /*
+         * change event handler for the createAcitivity-form task select input field.
+         */
+        this.activityTaskSelect = function(event) {
+            var taskId = $("select#activityFormTask option:selected").attr("value");
+            console.log("User chose task " + taskId + " from select input");
+            var wsUrlGetApplicableStatusListForTaskLocal = wsUrlGetApplicableStatusListForTask
+                .replace("{taskId}", taskId);
+            $.ajax({
+                type: "GET",
+                url: wsUrlGetApplicableStatusListForTaskLocal,
+                success: function(data) {
+                    $("select#activityFormStatus").replaceWith(data);
                     $("input#submitbutton").removeAttr("disabled");
                 },
                 dataType: "html"
             });
-        }
+        };
 
         this.activityMouseEnter = function(event) {
             console.log("Mouse just entered");

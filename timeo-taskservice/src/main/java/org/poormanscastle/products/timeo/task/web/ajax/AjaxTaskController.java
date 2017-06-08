@@ -99,12 +99,13 @@ public class AjaxTaskController {
             @RequestParam("startDateTime") String startDateTime,
             @RequestParam("endDateTime") String endDateTime,
             @RequestParam("comment") String comment,
-            @RequestParam("task") String taskId){
+            @RequestParam("task") String taskId,
+            @RequestParam("status") String statusId){
         logger.info(StringUtils.join("Received WS request to create and store new activity for following data: ",
                 "timeInvested: ", timeInvested, "; startDateTime: ", startDateTime, "; endDateTime: ",
                 endDateTime, "; comment: ", comment, "; task: ", taskId, "."));
         return activityService.createAndStoreActivity(taskId, timeInvested,
-                startDateTime, endDateTime, comment);
+                startDateTime, endDateTime, statusId, comment);
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/createNewActivityForm/{masterKey}")
@@ -121,6 +122,15 @@ public class AjaxTaskController {
         List<Task> taskList = taskService.getTasksForProjectAndUser(projectId, masterKey);
         model.addAttribute("tasks", taskList);
         return "ajax/TasklistAsSelectOptions";
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/getApplicableStatusListForTask/{taskId}")
+    public String getApplicableStatusListForTask(@PathVariable("taskId") String taskId, Model model){
+        Task task = Task.findTask(taskId);
+        List<Status> statusList = taskService.getApplicableStatuslistForTask(task);
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("task", task);
+        return "ajax/StatuslistForTaskAsSelectOptions";
     }
 
 }

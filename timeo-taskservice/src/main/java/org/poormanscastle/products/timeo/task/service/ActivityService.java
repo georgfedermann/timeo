@@ -64,12 +64,13 @@ public interface ActivityService {
     /**
      * delivers a list of lists of activities, one list of activities for each day
      * in this calendar week.
+     *
      * @param masterKey
      * @param calendarWeek
      * @return
      */
     List<List<Activity>> getActivitiesForStakeholderAndCalendarWeek(String masterKey, int year, int calendarWeek);
 
-    
-    String createAndStoreActivity(String taskId, String timeInvested, String startDateTime, String endDateTime, String comment);
+
+    String createAndStoreActivity(String taskId, String timeInvested, String startDateTime, String endDateTime, String newTaskStatusId, String comment);
 }

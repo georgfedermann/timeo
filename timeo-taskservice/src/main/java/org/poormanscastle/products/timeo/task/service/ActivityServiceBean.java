@@ -37,7 +37,7 @@ public class ActivityServiceBean implements ActivityService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public String createAndStoreActivity(String taskId, String timeInvested, String startDateTimeString, String endDateTimeString, String comment) {
+    public String createAndStoreActivity(String taskId, String timeInvested, String startDateTimeString, String endDateTimeString, String newTaskStatusId, String comment) {
         if (StringUtils.isBlank(comment)) {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
                     "comment is empty. Please provide a meaningful information here for your team lead.");
@@ -68,7 +68,8 @@ public class ActivityServiceBean implements ActivityService {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
                     " sorry, the data repository is corrupted. No task is registered for the current activity. Please assemble all available information and contact your team lead and/or system administrator.");
         }
-        
+        task.setStatus(Status.findStatus(newTaskStatusId));
+
         Activity activity = new Activity();
         activity.setStartDateTime(startDateTime);
         activity.setEndDateTime(endDateTime);

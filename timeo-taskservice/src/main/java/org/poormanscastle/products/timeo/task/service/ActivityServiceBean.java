@@ -37,7 +37,7 @@ public class ActivityServiceBean implements ActivityService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public String createAndStoreActivity(String taskId, String timeInvested, String startDateTimeString, String endDateTimeString, String comment) {
+    public String createAndStoreActivity(String taskId, String timeInvested, String startDateTimeString, String endDateTimeString, String newTaskStatusId, String comment) {
         if (StringUtils.isBlank(comment)) {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
                     "comment is empty. Please provide a meaningful information here for your team lead.");
@@ -68,7 +68,8 @@ public class ActivityServiceBean implements ActivityService {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
                     " sorry, the data repository is corrupted. No task is registered for the current activity. Please assemble all available information and contact your team lead and/or system administrator.");
         }
-        
+        task.setStatus(Status.findStatus(newTaskStatusId));
+
         Activity activity = new Activity();
         activity.setStartDateTime(startDateTime);
         activity.setEndDateTime(endDateTime);
@@ -86,7 +87,7 @@ public class ActivityServiceBean implements ActivityService {
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
     public String processAndStoreActivity(String activityId, String timeInvestedInSecondsString, String startDateTimeString,
-                                          String endDateTimeString, String newTaskStatusId, String comment) {
+                                          String endDateTimeString, String newTaskId, String newTaskStatusId, String comment) {
         logger.info(StringUtils.join("Received service request to save activity with following data: ",
                 "activityId: ", activityId, "; timeInvested: ", timeInvestedInSecondsString,
                 "; startDateTimeString: ", startDateTimeString, "; endDateTimeString: ", endDateTimeString,
@@ -127,6 +128,12 @@ public class ActivityServiceBean implements ActivityService {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
                     "the given activityId could not be ressolved to an actual activity in storage. Please adapt. Ask you team lead or system administrator for help.");
         }
+        
+        Task task = Task.findTask(newTaskId);
+        if (task == null){
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    " no task for the given taskId ", newTaskId, " exists in persistence. Where did you get that id from??");
+        }
 
         activity.setStartDateTime(startDateTime);
         activity.setEndDateTime(endDateTime);
@@ -134,12 +141,12 @@ public class ActivityServiceBean implements ActivityService {
         activity.setComment(comment);
         activity.setActivityStatus(ActivityStatus.DONE);
 
-        Task task = activity.getTask();
         if (activity.getTask() == null) {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
                     " sorry, the data repository is corrupted. No task is registered for the current activity. Please assemble all available information and contact your team lead and/or system administrator.");
         }
-        activity.getTask().setStatus(Status.findStatus(newTaskStatusId));
+        task.setStatus(Status.findStatus(newTaskStatusId));
+        activity.setTask(task);
 
         return ActivityServiceStatusMessage.SUCCESS.getMessage();
     }

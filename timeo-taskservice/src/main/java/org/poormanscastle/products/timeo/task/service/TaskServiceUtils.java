@@ -144,8 +144,8 @@ public class TaskServiceUtils {
     public static int getSecondsFromMidnight(Date startDateTime) {
         int result = new DateTime(startDateTime).getSecondOfDay();
         if (logger.isDebugEnabled()) {
-            logger.debug("Seconds form midnight=" + result + " for startDateTime " +
-                    new DateTime(startDateTime).toString("hh:mm:ss"));
+            logger.debug("Seconds from midnight=" + result + " for startDateTime " +
+                    new DateTime(startDateTime).toString("HH:mm:ss"));
         }
         return result;
     }

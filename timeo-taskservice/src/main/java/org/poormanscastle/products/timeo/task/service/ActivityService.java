@@ -25,19 +25,20 @@ public interface ActivityService {
      * @return
      */
     String processAndStoreActivity(String activityId, String timeInvestedInSeconds,
-                                   String startDateTime, String endDateTime, String newTaskStatus,
+                                   String startDateTime, String endDateTime, 
+                                   String newTaskId, String newTaskStatus,
                                    String comment);
 
-    /**
-     * probably mostly used by the Spring MVC ActivityController, this service returns a subset of the Activity entries
-     * in the repository as specified by the method parameters.
-     *
-     * @param firstResult
-     * @param sizeNo
-     * @param sortFieldName
-     * @param sortOrder
-     * @return
-     */
+        /**
+         * probably mostly used by the Spring MVC ActivityController, this service returns a subset of the Activity entries
+         * in the repository as specified by the method parameters.
+         *
+         * @param firstResult
+         * @param sizeNo
+         * @param sortFieldName
+         * @param sortOrder
+         * @return
+         */
     List<Activity> getActivities(int firstResult, int sizeNo, String sortFieldName, String sortOrder);
 
     /**

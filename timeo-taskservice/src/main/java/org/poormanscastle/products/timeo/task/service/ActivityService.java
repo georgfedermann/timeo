@@ -25,19 +25,20 @@ public interface ActivityService {
      * @return
      */
     String processAndStoreActivity(String activityId, String timeInvestedInSeconds,
-                                   String startDateTime, String endDateTime, String newTaskStatus,
+                                   String startDateTime, String endDateTime, 
+                                   String newTaskId, String newTaskStatus,
                                    String comment);
 
-    /**
-     * probably mostly used by the Spring MVC ActivityController, this service returns a subset of the Activity entries
-     * in the repository as specified by the method parameters.
-     *
-     * @param firstResult
-     * @param sizeNo
-     * @param sortFieldName
-     * @param sortOrder
-     * @return
-     */
+        /**
+         * probably mostly used by the Spring MVC ActivityController, this service returns a subset of the Activity entries
+         * in the repository as specified by the method parameters.
+         *
+         * @param firstResult
+         * @param sizeNo
+         * @param sortFieldName
+         * @param sortOrder
+         * @return
+         */
     List<Activity> getActivities(int firstResult, int sizeNo, String sortFieldName, String sortOrder);
 
     /**
@@ -64,12 +65,13 @@ public interface ActivityService {
     /**
      * delivers a list of lists of activities, one list of activities for each day
      * in this calendar week.
+     *
      * @param masterKey
      * @param calendarWeek
      * @return
      */
     List<List<Activity>> getActivitiesForStakeholderAndCalendarWeek(String masterKey, int year, int calendarWeek);
 
-    
-    String createAndStoreActivity(String taskId, String timeInvested, String startDateTime, String endDateTime, String comment);
+
+    String createAndStoreActivity(String taskId, String timeInvested, String startDateTime, String endDateTime, String newTaskStatusId, String comment);
 }

@@ -66,6 +66,10 @@ public class AjaxTaskController {
         model.addAttribute("activityId", activityId);
         model.addAttribute("taskServiceUtils", new TaskServiceUtils());
         model.addAttribute("applicableStatusList", taskService.getApplicableStatuslistForTask(activity.getTask()));
+        model.addAttribute("projectListForUser", 
+                projectService.getProjectsForUser(activity.getProjectTeamMember().getResourceId()));
+        model.addAttribute("tasks", taskService.getTasksForProjectAndUser(activity.getTask().getProject().getId(),
+                activity.getProjectTeamMember().getResourceId()));
         return "ajax/FinishActivityForm";
     }
 
@@ -81,6 +85,8 @@ public class AjaxTaskController {
             @RequestParam("timeInvested") String timeInvested,
             @RequestParam("startDateTime") String startDateTime,
             @RequestParam("endDateTime") String endDateTime,
+            @RequestParam("project") String projectId,
+            @RequestParam("task") String taskId,
             @RequestParam("status") String status,
             @RequestParam("comment") String comment) {
         logger.info(StringUtils.join("Received WS request to save activity with following data: ",
@@ -90,7 +96,7 @@ public class AjaxTaskController {
         ));
         
         return activityService.processAndStoreActivity(activityId, timeInvested,
-                startDateTime, endDateTime, status, comment);
+                startDateTime, endDateTime, taskId, status, comment);
     }
     
     @RequestMapping(method = RequestMethod.POST, value = "/createNewActivity")
@@ -99,12 +105,13 @@ public class AjaxTaskController {
             @RequestParam("startDateTime") String startDateTime,
             @RequestParam("endDateTime") String endDateTime,
             @RequestParam("comment") String comment,
-            @RequestParam("task") String taskId){
+            @RequestParam("task") String taskId,
+            @RequestParam("status") String statusId){
         logger.info(StringUtils.join("Received WS request to create and store new activity for following data: ",
                 "timeInvested: ", timeInvested, "; startDateTime: ", startDateTime, "; endDateTime: ",
                 endDateTime, "; comment: ", comment, "; task: ", taskId, "."));
         return activityService.createAndStoreActivity(taskId, timeInvested,
-                startDateTime, endDateTime, comment);
+                startDateTime, endDateTime, statusId, comment);
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/createNewActivityForm/{masterKey}")
@@ -121,6 +128,15 @@ public class AjaxTaskController {
         List<Task> taskList = taskService.getTasksForProjectAndUser(projectId, masterKey);
         model.addAttribute("tasks", taskList);
         return "ajax/TasklistAsSelectOptions";
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/getApplicableStatusListForTask/{taskId}")
+    public String getApplicableStatusListForTask(@PathVariable("taskId") String taskId, Model model){
+        Task task = Task.findTask(taskId);
+        List<Status> statusList = taskService.getApplicableStatuslistForTask(task);
+        model.addAttribute("statusList", statusList);
+        model.addAttribute("task", task);
+        return "ajax/StatuslistForTaskAsSelectOptions";
     }
 
 }

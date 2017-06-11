@@ -35,6 +35,32 @@
                     <div class="formlabel"><spring:message code="finishActivityForm.endDate.label" /></div>
                     <div class="forminput"><input type="datetime" id="activityFormEndDateTime" name="endDateTime" value="${taskServiceUtils.formatDate(activity.endDateTime)}" /></div>
                 </div>
+                <!-- select project -->
+                <div class="formline">
+                    <div class="formlabel"><spring:message code="finishActivityForm.selectProject.label" /></div>
+                    <div class="forminput"><select name="project" id="activityFormProject" size="1">
+                        <c:forEach var="myProject" items="${projectListForUser}" varStatus="varStatus">
+                            <c:choose>
+                                <c:when test="${myProject.id == activity.task.project.id}"><option selected="selected" value="${myProject.id}">${myProject.name}</option></c:when>
+                                <c:otherwise><option value="${myProject.id}">${myProject.name}</option></c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select></div>
+                </div>
+                <!-- select task -->
+                <div class="formline">
+                    <div class="formlabel"><spring:message code="finishActivityForm.selectTask.label" /></div>
+                    <div class="forminput">
+                        <select name="task" id="activityFormTask" size="1">
+                            <c:forEach items="${tasks}" var="task" varStatus="varStatus">
+                                <c:choose>
+                                    <c:when test="${task.id == activity.task.id}"><option selected="selected" value="${task.id}">${task.name}</option></c:when>
+                                    <c:otherwise><option value="${task.id}">${task.name}</option></c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
                 <div class="formline">
                     <div class="formlabel"><spring:message code="finishActivityForm.newState.label" /></div>
                     <div class="forminput"><select name="status" id="activityFormStatus" size="1">

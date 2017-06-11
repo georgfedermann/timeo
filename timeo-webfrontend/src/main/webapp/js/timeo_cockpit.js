@@ -145,6 +145,7 @@ var TimeoCalendar = (function closure() {
         var wsUrlCreateNewActivityForm = null;
         var wsUrlCreateNewActivity = null;
         var wsUrlGetTasksForProjectAndUser = null;
+        var wsUrlGetApplicableStatusListForTask = null;
         var year = -1;
         // the calendarWeek for which the current view shows activities
         var calendarWeek = -1;
@@ -177,6 +178,8 @@ var TimeoCalendar = (function closure() {
                 "${profile.taskservice.hostname}${profile.taskservice.createActivity}";
             wsUrlGetTasksForProjectAndUser =
                 "${profile.taskservice.hostname}${profile.taskservice.getTasksForProjectAndUser}";
+            wsUrlGetApplicableStatusListForTask = 
+                "${profile.taskservice.hostname}${profile.taskservice.getApplicableStatusListForTask}";
             year = -1;
             calendarWeek = -1;
         }
@@ -258,15 +261,14 @@ var TimeoCalendar = (function closure() {
                     activityFormContainer.toggleClass("visible invisible");
                     activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
                     // enter default values
+                    // TODO start time could be defined by clicking in weekDayPanel region
+                    // TODO duration could be defined a a mouse motion within a weekDayPanel region
                     $("input#activityFormTimeInvested").attr("value", "30m");
                     $("input#activityFormStartDateTime").attr("value", $(event.target).attr("data-date") + " 09:00:00");
                     $("input#activityFormEndDateTime").attr("value", $(event.target).attr("data-date") + " 09:30:00");
-                    // implement cancel button behavior
-                    $("div#activityFormContainer input#cancelbutton").on("click", function(event){
-                        activityFormContainer.empty();
-                        activityFormContainer.toggleClass("visible invisible");
-                    });
-                    // register change handler on project select
+                    // register cancel button click event handler
+                    $("div#activityFormContainer input#cancelbutton").on("click", me.cancelButtonClick.bind(me));
+                    // register project dropdown box selection handler
                     $("select#activityFormProject").on("change", me.activityProjectSelect.bind(me));
 
                     // register custom submit handler
@@ -296,7 +298,16 @@ var TimeoCalendar = (function closure() {
                 },
                 dataType: "html"
             });
-        }
+        };
+        
+        /*
+         * event handler for the cancel button on the various activity dialogs
+         */
+        this.cancelButtonClick = function(event) {
+            var activityFormContainer = $("div#activityFormContainer");
+            activityFormContainer.empty();
+            activityFormContainer.toggleClass("visible invisible");
+        };
         
         /*
          * change event handler for the createActivitity-form project select input field.
@@ -304,18 +315,49 @@ var TimeoCalendar = (function closure() {
         this.activityProjectSelect = function(event) {
             var projectId = $("select#activityFormProject option:selected").attr("value");
             console.log("User chose project " + projectId + " from select input");
+            // after selecting a new project the user has to actively select 
+            // a new task before she can submit the form
+            $("input#submitbutton").attr("disabled", "disabled");
+            // also, the status field will be disabled until a new task has activeley been selected
+            var activityFormStatusElement = $("select#activityFormStatus");
+            activityFormStatusElement.empty();
+            activityFormStatusElement.prepend($("<option disabled='disabled' selected='selected' value='-1'>-- field invalidated --</option>"));
+            activityFormStatusElement.attr("disabled", "disabled");
+            // prepare webservice URL by adding projectId and team member resourceId / masterKey
             var wsUrlGetTasksForProjectAndUserLocal = wsUrlGetTasksForProjectAndUser
                 .replace("{projectId}", projectId).replace("{masterKey}", user.getMasterKey());
+            var me = this;
             $.ajax({
                 type: "GET",
                 url: wsUrlGetTasksForProjectAndUserLocal,
                 success: function(data) {
                     $("select#activityFormTask").replaceWith(data);
+                    $("select#activityFormTask").on("change", me.activityTaskSelect.bind(me));
+                },
+                dataType: "html"
+            });
+        };
+        
+        /*
+         * change event handler for the createAcitivity-form task select input field.
+         */
+        this.activityTaskSelect = function(event) {
+            // hide default option in task dropdown box
+            $("option#taskDefaultOption").css({display: "none"});
+            var taskId = $("select#activityFormTask option:selected").attr("value");
+            console.log("User chose task " + taskId + " from select input");
+            var wsUrlGetApplicableStatusListForTaskLocal = wsUrlGetApplicableStatusListForTask
+                .replace("{taskId}", taskId);
+            $.ajax({
+                type: "GET",
+                url: wsUrlGetApplicableStatusListForTaskLocal,
+                success: function(data) {
+                    $("select#activityFormStatus").replaceWith(data);
                     $("input#submitbutton").removeAttr("disabled");
                 },
                 dataType: "html"
             });
-        }
+        };
 
         this.activityMouseEnter = function(event) {
             console.log("Mouse just entered");
@@ -331,6 +373,7 @@ var TimeoCalendar = (function closure() {
             var activityId = $(event.target).attr("data-activityId");
             console.log("User clicked activity with id " + activityId );
             var wsUrlGetActivityFormLocal = wsUrlGetActivityForm.replace("{activityId}", activityId);
+            var me = this;
             $.ajax({
                 type: "GET",
                 url: wsUrlGetActivityFormLocal,
@@ -341,13 +384,12 @@ var TimeoCalendar = (function closure() {
                     activityFormContainer.prepend(data);
                     activityFormContainer.toggleClass("visible invisible");
                     activityFormContainer.css({top: MouseData.getMouseY() + "px", left: MouseData.getMouseX() + "px"});
-
-                    $("div#activityFormContainer input#cancelbutton").on("click",function(event){
-                        // TODO by closure the line below should not be necessary.
-                        // var activityFormContainer = $("div#activityFormContainer");
-                        activityFormContainer.empty();
-                        activityFormContainer.toggleClass("visible invisible");
-                    });
+                    // register cancel button click event handler 
+                    $("div#activityFormContainer input#cancelbutton").on("click",me.cancelButtonClick.bind(me));
+                    // register project dropdown box selection handler
+                    $("select#activityFormProject").on("change", me.activityProjectSelect.bind(me));
+                    // register task dropdown box selection handler
+                    $("select#activityFormTask").on("change", me.activityTaskSelect.bind(me));
 
                     // register custom submit handler
                     $("#finishActivityForm").submit(function(submitEvent){
@@ -485,7 +527,9 @@ var TaskBrowser = (function closure() {
                     // update time investment field
                     var timeInvestedInputField = $("input[name='timeInvested']");
                     timeInvestedInputField.attr("value", Math.floor(timer.getTimePassed()) + "s");
-
+                    // disable project selection and task selection (for now). 
+                    $("select#activityFormProject option").not(":selected").remove();
+                    $("select#activityFormTask option").not(":selected").remove();
                     // register custom submit handler
                     $("#finishActivityForm").submit(function (submitEvent) {
                         // suppress redirect to server response

@@ -30,6 +30,9 @@ $(document).ready(function () {
 
     timeoCalendar = new TimeoCalendar();
     timeoCalendar.init();
+    
+    taskFilterButton = new TaskFilterButton();
+    taskFilterButton.init();
 
     setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
     setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
@@ -135,6 +138,41 @@ var User = (function closure() {
 
 })();
 
+var TaskFilterButton = (function closure() {
+    
+    function TaskFilterButton() {
+        var status = null;
+
+        this.init = function() {
+            status = "active";
+            var me = this;
+            var taskFilterButton = $("div#taskFilter_button");
+            var image = $("div#taskFilter_button img");
+            image.on("mouseover", this.handleMouseover.bind(this));
+            image.on("mouseout", this.handleMouseout.bind(this));
+        };
+
+        this.handleMouseover = function() {
+            console.log("mouseover on taskFilter button");
+            var image = $("div#taskFilter_button img");
+            image.attr("src", image.attr("src").replace("active", "mouseover"));
+            image.css({border: "2px solid #98050D"});
+        };
+
+        this.handleMouseout = function() {
+            console.log("mouseout on taskFilter button");
+            if (this.status != "selected") {
+                var image = $("div#taskFilter_button img");
+                image.attr("src", image.attr("src").replace("mouseover", status));
+                image.removeAttr("style");
+            }
+        };
+
+    }
+    
+    return TaskFilterButton;
+    
+})();
 
 var TimeoCalendar = (function closure() {
 
@@ -165,7 +203,7 @@ var TimeoCalendar = (function closure() {
             return actualCalendarWeek;
         }
 
-        this.init = function () {
+        this.init = function() {
             wsUrlCalendarForYearAndCalendarWeek =
                 "${profile.taskservice.hostname}${profile.taskservice.calendarForYearAndCalendarWeek}";
             wsUrlCalendarForCurrentDate =

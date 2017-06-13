@@ -115,7 +115,7 @@ public class AjaxTaskController {
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/createNewActivityForm/{masterKey}")
-    public String createnewActivityForm(@PathVariable("masterKey") String masterKey, Model model){
+    public String createNewActivityForm(@PathVariable("masterKey") String masterKey, Model model){
         model.addAttribute("projectListForUser", projectService.getProjectsForUser(masterKey));
         model.addAttribute("statusList", Status.findAllStatuses());
         return "ajax/CreateNewActivityForm";

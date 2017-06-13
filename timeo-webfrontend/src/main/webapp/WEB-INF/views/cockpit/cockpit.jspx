@@ -24,7 +24,7 @@
     <spring:url var="receive_call_button_img_inactive" value="/resources/images/phone_inactive.png" />
     <spring:url var="receive_call_button_img_mouseover" value="/resources/images/phone_mouseover.png" />
     <spring:url var="receive_call_button_img_selected" value="/resources/images/phone_selected.png" />
-    <spring:url var="watch_youtube_button_img_inactive" value="/resources/images/youtube_inactive.png" />
+    <spring:url var="taskFilter_buttom_img_active" value="/resources/images/taskFilter_active.png" />
     <spring:url var="pause_button_img_inactive" value="/resources/images/pause_inactive.png" />
     <spring:url var="task_browser_dummy" value="/resources/images/task_browser_dummy.png" />
     <spring:url var="logout_url" value="/logout" />
@@ -70,8 +70,8 @@
                         <div id="receive_call_button" class="toolbar_button">
                             <img class="toolbar_button" src="${receive_call_button_img_active}" />
                         </div>
-                        <div id="watch_youtube_button" class="toolbar_button">
-                            <img class="toolbar_button" src="${watch_youtube_button_img_inactive}" />
+                        <div id="taskFilter_button" class="toolbar_button">
+                            <img class="toolbar_button" src="${taskFilter_buttom_img_active}" />
                         </div>
                     </div>
                 </div>

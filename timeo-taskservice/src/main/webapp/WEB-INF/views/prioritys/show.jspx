@@ -5,5 +5,6 @@
     <page:show id="ps_org_poormanscastle_products_timeo_task_domain_Priority" object="${priority}" path="/prioritys" z="Z04ukNq1inQdRk3ydmZMq5MbN/8=">
         <field:display field="name" id="s_org_poormanscastle_products_timeo_task_domain_Priority_name" object="${priority}" z="hxZEeDmBX7wDUnAnyNkOkm5XwmU="/>
         <field:display field="description" id="s_org_poormanscastle_products_timeo_task_domain_Priority_description" object="${priority}" z="21NmqyI47UP97+UNzHMkiALOqMY="/>
+        <field:display field="ranking" id="s_org_poormanscastle_products_timeo_task_domain_Priority_ranking" object="${priority}" z="V3+zTFXB0IVQn4gP5+B0H47oXLM="/>
     </page:show>
 </div>

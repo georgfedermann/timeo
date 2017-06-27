@@ -46,7 +46,7 @@
             <h2>My commands</h2>
         </li>
         <ul>
-            <spring:url value="/projectteammembers?sortFieldName=resourceId&amp;sortOrder=desc" var="listProjectTeamMembersUrl" />
+            <spring:url value="/projectteammembers?sortFieldName=project&amp;sortOrder=desc" var="listProjectTeamMembersUrl" />
             <spring:url value="/projects?sortFieldName=name&amp;sortOrder=asc" var="listProjectsUrl" />
             
             <li><a href="${listProjectTeamMembersUrl}">List teams</a></li>

@@ -122,6 +122,7 @@ public class TaskServiceBean implements TaskService {
     public List<Task> getTasksForResource(String resourceId) {
         logger.info(StringUtils.join("Got a service request for the tasks for the resource with resourceId ",
                 resourceId, "."));
+        // TODO implement the below using HQL instead of complex and imperformant Java logic
         List<ProjectTeamMember> projectTeamMemberList = ProjectTeamMember.
                 findProjectTeamMembersByResourceIdEquals(resourceId).getResultList();
         List<Task> taskList = new ArrayList<>();
@@ -129,6 +130,10 @@ public class TaskServiceBean implements TaskService {
             taskList.addAll(Task.findTasksByProjectTeamMember(projectTeamMember).getResultList());
         }
         taskList.forEach(task -> task.setEffortMeasured(getTimeInvestedInTask(task)));
+        taskList.sort((o1, o2) -> {
+            // sort tasks by priority, with the highest priority at the beginning
+            return o2.getPriority().getRanking() - o1.getPriority().getRanking();
+        });
         return taskList;
     }
 
@@ -191,7 +196,7 @@ public class TaskServiceBean implements TaskService {
         );
         query.setParameter("projectId", projectId);
         List<Task> resultList = query.getResultList();
-        return resultList.stream().filter(t -> 
+        return resultList.stream().filter(t ->
                 masterKey.equals(t.getProjectTeamMember().getResourceId())).collect(Collectors.toList());
     }
 

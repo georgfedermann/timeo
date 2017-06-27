@@ -5,5 +5,6 @@
     <form:update id="fu_org_poormanscastle_products_timeo_task_domain_Priority" modelAttribute="priority" path="/prioritys" versionField="Version" z="yxZXuAEPc6i16nJu0pFSBajgjkE=">
         <field:input field="name" id="c_org_poormanscastle_products_timeo_task_domain_Priority_name" min="1" required="true" z="NUMSteVVS7sHReY+MQpiNorM6I0="/>
         <field:input field="description" id="c_org_poormanscastle_products_timeo_task_domain_Priority_description" min="3" required="true" z="Ez9JjThwnpVpMJIxN8rPrgvsmGI="/>
+        <field:input field="ranking" id="c_org_poormanscastle_products_timeo_task_domain_Priority_ranking" required="true" z="jJ0qA3yA9ST4CKhOSVtJ3bNKslk="/>
     </form:update>
 </div>

@@ -14,7 +14,7 @@ privileged aspect Priority_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Priority.entityManager;
     
-    public static final List<String> Priority.fieldNames4OrderClauseFilter = java.util.Arrays.asList("id", "name", "description");
+    public static final List<String> Priority.fieldNames4OrderClauseFilter = java.util.Arrays.asList("id", "name", "description", "ranking");
     
     public static final EntityManager Priority.entityManager() {
         EntityManager em = new Priority().entityManager;

@@ -40,5 +40,8 @@ public class Priority {
     @NotNull
     @Size(min = 3)
     private String description;
+    
+    @NotNull
+    private int ranking;
 
 }

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by georg on 04/05/2017.
@@ -29,10 +30,12 @@ public class AjaxUserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/tasksForUser/widget/{stakeholderId}")
-    public String getTasksForUser(@PathVariable String stakeholderId, Model model) {
+    public String getTasksForUser(@PathVariable String stakeholderId,
+                                  @RequestParam(required = false, value = "applicableTaskStatus") String[] applicableTaskStatus,
+                                  Model model) {
         logger.info(StringUtils.join(
                 "Received a REST-ful WS request for the task list for the user identified by userId ", stakeholderId, "."));
-        model.addAttribute("tasks", taskService.getTasksForResource(stakeholderId));
+        model.addAttribute("tasks", taskService.getTasksForResource(stakeholderId, applicableTaskStatus));
         model.addAttribute("Id", stakeholderId);
         model.addAttribute("taskUtils", new TaskServiceUtils());
         return "ajax/TasklistForUser";

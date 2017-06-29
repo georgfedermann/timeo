@@ -6,6 +6,7 @@
         <table:table data="${prioritys}" id="l_org_poormanscastle_products_timeo_task_domain_Priority" path="/prioritys" z="hfdDLGPVkOx8szzc5ZvWL2H3YaA=">
             <table:column id="c_org_poormanscastle_products_timeo_task_domain_Priority_name" property="name" sort="true" z="user-managed"/>
             <table:column id="c_org_poormanscastle_products_timeo_task_domain_Priority_description" property="description" sort="true" z="user-managed"/>
+            <table:column id="c_org_poormanscastle_products_timeo_task_domain_Priority_ranking" property="ranking" z="NNdcWCbNH1XWncjq2G/J1u7ncaw="/>
         </table:table>
     </page:list>
 </div>

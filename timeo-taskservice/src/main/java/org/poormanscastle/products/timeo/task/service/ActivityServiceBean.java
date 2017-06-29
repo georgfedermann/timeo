@@ -143,9 +143,17 @@ public class ActivityServiceBean implements ActivityService {
 
         if (activity.getTask() == null) {
             return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
-                    " sorry, the data repository is corrupted. No task is registered for the current activity. Please assemble all available information and contact your team lead and/or system administrator.");
+                    " sorry, the data repository appears to be corrupted. No task is registered for the current activity. Please assemble all available information and contact your team lead and/or system administrator.");
+        }
+        if (activity.getProjectTeamMember() == null){
+            return StringUtils.join(ActivityServiceStatusMessage.FAILURE.getMessage(),
+                    " sorry, the data repository appears to be corrupted. No resource is registered for the current activity. Please assemble all available information and contact your team lead and/or system administrator.");
         }
         task.setStatus(Status.findStatus(newTaskStatusId));
+        if (!StringUtils.equals(activity.getProjectTeamMember().getId(), activity.getTask().getProjectTeamMember().getId())){
+            activity.setProjectTeamMember(activity.getTask().getProjectTeamMember());
+        }
+        
         activity.setTask(task);
 
         return ActivityServiceStatusMessage.SUCCESS.getMessage();

@@ -31,4 +31,12 @@ privileged aspect Priority_Roo_JavaBean {
         this.description = description;
     }
     
+    public int Priority.getRanking() {
+        return this.ranking;
+    }
+    
+    public void Priority.setRanking(int ranking) {
+        this.ranking = ranking;
+    }
+    
 }

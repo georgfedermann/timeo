@@ -56,7 +56,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<Priority, String> ApplicationConversionServiceFactoryBean.getPriorityToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<org.poormanscastle.products.timeo.task.domain.Priority, java.lang.String>() {
             public String convert(Priority priority) {
-                return new StringBuilder().append(priority.getName()).append(' ').append(priority.getDescription()).toString();
+                return new StringBuilder().append(priority.getName()).append(' ').append(priority.getDescription()).append(' ').append(priority.getRanking()).toString();
             }
         };
     }

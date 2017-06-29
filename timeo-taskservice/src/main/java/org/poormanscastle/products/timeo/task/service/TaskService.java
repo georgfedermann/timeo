@@ -12,9 +12,9 @@ import org.poormanscastle.products.timeo.task.domain.Task;
  */
 public interface TaskService {
 
-    List<Task> getTasksForResource(Resource resource);
+    List<Task> getTasksForResource(Resource resource, String[] applicableTaskStatus);
 
-    List<Task> getTasksForResource(String resourceId);
+    List<Task> getTasksForResource(String resourceId, String[] applicableTaskStatus);
 
     /**
      * creates a new activity instance for the given task and persists
@@ -80,7 +80,7 @@ public interface TaskService {
      * @return
      */
     long getTimeInvestedInTask(Task task);
-    
+
     List<Task> getTasksForProjectAndUser(String projectId, String masterKey);
 
 }

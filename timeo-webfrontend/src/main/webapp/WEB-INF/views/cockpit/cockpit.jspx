@@ -99,6 +99,11 @@
             <div id="phoneCallDialog" class="phoneCallDialogHidden">
                 <p>You are not allowed to place a call, dude.</p>
             </div>
+            <div id="taskStatusFilterDialog" class="taskFilterDialogInvisible">
+                <form id="taskStatusFilterForm">
+                    <fieldset id="taskStatusListFieldset"><jsp:text /></fieldset>
+                </form>
+            </div>
             <div id="finishActivityFormContainer" class="invisible"><jsp:text /></div>
             <div id="activityFormContainer" class="invisible"><jsp:text /></div>
             <div id="timeoCalendar"><jsp:text /></div>

@@ -3,6 +3,7 @@ package org.poormanscastle.products.timeo.task.service;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -106,10 +107,10 @@ public class TaskServiceBean implements TaskService {
      * @return
      */
     @Override
-    public List<Task> getTasksForResource(Resource resource) {
+    public List<Task> getTasksForResource(Resource resource, String[] applicableTaskStatus) {
         logger.info(StringUtils.join("Got a service request for the tasks for the resource ",
                 resource == null ? "null" : resource.toString(), "."));
-        return resource == null ? null : getTasksForResource(resource.getMasterKey());
+        return resource == null ? null : getTasksForResource(resource.getMasterKey(), applicableTaskStatus);
     }
 
     /**
@@ -119,7 +120,7 @@ public class TaskServiceBean implements TaskService {
      * @return
      */
     @Override
-    public List<Task> getTasksForResource(String resourceId) {
+    public List<Task> getTasksForResource(String resourceId, String[] applicableTaskStatus) {
         logger.info(StringUtils.join("Got a service request for the tasks for the resource with resourceId ",
                 resourceId, "."));
         // TODO implement the below using HQL instead of complex and imperformant Java logic
@@ -130,6 +131,14 @@ public class TaskServiceBean implements TaskService {
             taskList.addAll(Task.findTasksByProjectTeamMember(projectTeamMember).getResultList());
         }
         taskList.forEach(task -> task.setEffortMeasured(getTimeInvestedInTask(task)));
+
+        if (applicableTaskStatus != null) {
+            List<String> applicableTaskStatusList = Arrays.asList(applicableTaskStatus);
+            if (!applicableTaskStatusList.isEmpty()) {
+                taskList = taskList.stream().filter(o -> applicableTaskStatusList.contains(o.getStatus().getId())).collect(Collectors.toList());
+            }
+        }
+
         taskList.sort((o1, o2) -> {
             // sort tasks by priority, with the highest priority at the beginning
             return o2.getPriority().getRanking() - o1.getPriority().getRanking();

@@ -142,14 +142,18 @@ var TaskFilterButton = (function closure() {
     
     function TaskFilterButton() {
         var status = null;
+        
+        var wsUrlGetTaskStatusList = null;
 
         this.init = function() {
+            wsUrlGetTaskStatusList = "${profile.taskservice.hostname}${profile.taskstatusservice.getTaskStatusList}"
             status = "active";
-            var me = this;
-            var taskFilterButton = $("div#taskFilter_button");
+            // var me = this;
+            // var taskFilterButton = $("div#taskFilter_button");
             var image = $("div#taskFilter_button img");
             image.on("mouseover", this.handleMouseover.bind(this));
             image.on("mouseout", this.handleMouseout.bind(this));
+            image.on("click", this.handleMouseclick.bind(this));
         };
 
         this.handleMouseover = function() {
@@ -161,13 +165,48 @@ var TaskFilterButton = (function closure() {
 
         this.handleMouseout = function() {
             console.log("mouseout on taskFilter button");
-            if (this.status != "selected") {
+            if (status != "selected") {
                 var image = $("div#taskFilter_button img");
                 image.attr("src", image.attr("src").replace("mouseover", status));
                 image.removeAttr("style");
             }
         };
-
+        
+        this.handleMouseclick = function() {
+            console.log("mouseclick on taskFilter button");
+            // toggle status of the button so to know if the dialog shall 
+            // get displayed or be hidden
+            status = status == "active" ? "selected" : "active";
+            var image = $("div#taskFilter_button img");
+            var taskStatusFilterDialog = $("div#taskStatusFilterDialog");
+            var right = image.position().left + image.width();
+            var top = image.position().top + image.height();
+            var paddingSize = 8;
+            taskStatusFilterDialog.toggleClass("taskFilterDialogInvisible taskFilterDialogVisible");
+            var left = right - taskStatusFilterDialog.width() - paddingSize;
+            
+            // if the task status list has not been loaded yet, do it now:
+            var statusListContainer = $("fieldset#taskStatusListFieldset");
+            if($.trim(statusListContainer.html())=="") {
+                $.ajax({
+                    type: "GET",
+                    url: wsUrlGetTaskStatusList,
+                    success: function (data) {
+                        statusListContainer.html(data.firstChild);
+                    }
+                });
+            }
+            
+            // if the dialog is hidden now => user has updated (or checked)
+            // the filter configuration => reload the tasks browser contents
+            // for the current filter configuration
+            if(status != "selected"){
+                taskBrowser.refreshTasks();
+            }
+            
+            taskStatusFilterDialog.css("top", top);
+            taskStatusFilterDialog.css("left", left);
+        };
     }
     
     return TaskFilterButton;
@@ -193,15 +232,15 @@ var TimeoCalendar = (function closure() {
         
         this.getYear = function() {
             return year;
-        }
+        };
         
         this.getCalendarWeek = function() {
             return calendarWeek;
-        }
+        };
         
         this.getActualCalendarWeek = function() {
             return actualCalendarWeek;
-        }
+        };
 
         this.init = function() {
             wsUrlCalendarForYearAndCalendarWeek =
@@ -220,7 +259,7 @@ var TimeoCalendar = (function closure() {
                 "${profile.taskservice.hostname}${profile.taskservice.getApplicableStatusListForTask}";
             year = -1;
             calendarWeek = -1;
-        }
+        };
 
         this.reloadCalendarView = function () {
             var me = this;
@@ -482,6 +521,7 @@ var TaskBrowser = (function closure() {
             $("div#taskbrowser_container").prepend($("<div id='taskbrowser_panel' class='my-flipster'></div>"));
             
             var me = this;
+            /*
             $.get(
                 tasklistWebserviceUrl,
                 function (data) {
@@ -490,7 +530,21 @@ var TaskBrowser = (function closure() {
                     taskbrowserPanel.append(data.firstChild);
                     taskbrowserPanel.flipster();
                     me.registerButtonListeners();
-                });
+            });
+            */
+            
+            $.ajax({
+                url: tasklistWebserviceUrl,
+                type: "GET",
+                data: $("form#taskStatusFilterForm").serialize(),
+                success: function(data) {
+                    var taskbrowserPanel = $("div#taskbrowser_panel");
+                    taskbrowserPanel.empty();
+                    taskbrowserPanel.append(data.firstChild);
+                    taskbrowserPanel.flipster();
+                    me.registerButtonListeners();
+                }
+            });
         };
         
         this.init = function() {
@@ -637,14 +691,14 @@ var TimeoTimer = (function closure(){
             // the time intervals that pass. To be able to pause the timer again,
             // it stores the intervalId in this instance variable.
             intervalId = "";
-        }
+        };
         
         // updates the timer display with the current time
         this.updateTimeDisplay = function() {
             var taskClock = $("div#taskClock");
             taskClock.empty();
             taskClock.append($("<span>" + this.getTime() + "</span>"));
-        }
+        };
         
         // start the clock and let it count the time
         this.startClock = function() {
@@ -652,14 +706,14 @@ var TimeoTimer = (function closure(){
             startTime = new Date();
             status = "running";
             intervalId = setInterval(this.updateTimeDisplay.bind(this), 100);
-        }
+        };
         
         // pause the clock and stop it from counting the time
         this.pauseClock = function() {
             timePassed = (new Date().getTime() - startTime.getTime()) / 1000;
             status = "paused";
             clearInterval(intervalId);
-        }
+        };
         
         this.getTime = function() {
             var currentTime = new Date();
@@ -670,7 +724,7 @@ var TimeoTimer = (function closure(){
             var secondsOutput = secondsRemainder < 10 ? "0" + secondsRemainder : secondsRemainder;
             var timeValue = minutesPassed + ":" + secondsOutput;
             return timeValue;
-        }
+        };
 
         this.getTimePassed = function() {
             return timePassed;
@@ -727,7 +781,6 @@ ProfileButton.prototype.handleMouseclick = function () {
     var image = $("div#profile_button img");
     var contextMenu = $("div#profileContextMenu");
     contextMenu.toggleClass("profileContextMenuHidden profileContextMenuVisible");
-    // contextMenu.attr("class", "profileContextMenuVisible");
     var right = image.position().left + image.width();
     var top = image.position().top + image.height();
     var paddingSize = 8;

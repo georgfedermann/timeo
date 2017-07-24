@@ -7,10 +7,10 @@ body {
 
 div#cockpit_panel {
     /* border: 1px #505150 solid;*/
-    width: 1000px;
+    width: 1300px;
     margin-left: auto;
     margin-right: auto;
-    height: 650px;
+    height: 800px;
     box-shadow: 3px 3px 10px 3px rgba(50, 50, 50, 0.95);
     background: url("../images/normal-bg.png") repeat-y scroll 0 0 #E3DED8;
     border-bottom-right-radius: 10px;
@@ -22,9 +22,17 @@ div#header_panel {
     padding: 10px 10px 10px 10px;
 }
 
-div#taskbrowser_container {
+div#content_panel {
     display: flex;
+}
+
+div#taskbrowser_container {
+    display: none;
     padding-top: 60px;
+}
+
+div#taskbrowser_container.selected {
+    display: flex;
 }
 
 div#taskbrowser_panel {
@@ -261,14 +269,19 @@ div.formline.formbuttons {
 }
 
 div#timeoCalendar {
-    margin-top: 250px;
+    margin-top: 20px;
     width: 100%;
     height: 1000px;
+    display: none;
+}
+
+div#timeoCalendar.selected {
+    display: inherit;
 }
 
 div#calendarPanel {
     position: absolute;
-    left: 250px;
+    left: 41px;
     text-align: center;
 }
 
@@ -405,4 +418,35 @@ ul#taskStatusList {
 
 div.invisible {
     display: none;
+}
+
+div#tabbedPanel {
+    width: 85%;
+}
+
+div#tabbedPanelHeader {
+    display: flex;
+    width: 48%;
+    background-color: aliceblue;
+}
+
+div.tabbedPanelHeaderTab {
+    background-color: aliceblue;
+    padding: 20px 31px 18px 10px;
+}
+
+div.tabbedPanelHeaderTab:hover {
+    background-color: azure;
+}
+
+div.tabbedPanelHeaderTab.selected {
+    background-color: aqua;
+}
+
+div#projectBrowser {
+    display: none;
+}
+
+div#projectBrowser.selected {
+    display: inherit;
 }

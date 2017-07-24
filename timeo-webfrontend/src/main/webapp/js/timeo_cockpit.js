@@ -33,6 +33,9 @@ $(document).ready(function () {
     
     taskFilterButton = new TaskFilterButton();
     taskFilterButton.init();
+    
+    tabbedPanel = new TabbedPanel();
+    tabbedPanel.init();
 
     setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
     setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
@@ -553,7 +556,7 @@ var TaskBrowser = (function closure() {
             finishActivityUrl = "${profile.taskservice.registerActivity}${profile.taskservice.finishActivity}";
             currentActivityId = "dummy";
             timer = new TimeoTimer;
-        }
+        };
 
         this.registerButtonListeners = function () {
             $(".acceptTaskButton").on("click", taskBrowser.acceptTaskHandler.bind(this));
@@ -736,6 +739,55 @@ var TimeoTimer = (function closure(){
     
 })();
 
+var TabbedPanel = (function closure(){
+    
+    function TabbedPanel() {
+
+        this.init = function() {
+            $("div#tabbedPanelHeaderTaskBrowser").on("click", this.taskBrowserTabClick.bind(this));
+            $("div#tabbedPanelHeaderActivityCalendar").on("click", this.activityCalendarTabClick.bind(this));
+            $("div#tabbedPanelHeaderProjectBrowser").on("click", this.projectBrowserTabClick.bind(this));
+            
+            this.unselectAllTabs();
+            this.taskBrowserTabClick();
+        };
+
+        this.taskBrowserTabClick = function(event) {
+            console.log("TaskBrowserTabClick");
+            this.unselectAllTabs();
+            $("div#tabbedPanelHeaderTaskBrowser").addClass("selected");
+            $("div#taskbrowser_container").addClass("selected");
+        };
+
+        this.activityCalendarTabClick = function(event) {
+            console.log("ActivityCalendarTabClick");
+            this.unselectAllTabs();
+            $("div#tabbedPanelHeaderActivityCalendar").addClass("selected");
+            $("div#timeoCalendar").addClass("selected");
+        };
+
+        this.projectBrowserTabClick = function(event) {
+            console.log("ProjectBrowserTabClick");
+            this.unselectAllTabs();
+            $("div#tabbedPanelHeaderProjectBrowser").addClass("selected");
+            $("div#projectBrowser").addClass("selected");
+        };
+        
+        this.unselectAllTabs = function() {
+            $("div#tabbedPanelHeaderTaskBrowser").removeClass("selected");
+            $("div#tabbedPanelHeaderActivityCalendar").removeClass("selected");
+            $("div#tabbedPanelHeaderProjectBrowser").removeClass("selected");
+            
+            $("div#taskbrowser_container").removeClass("selected");
+            $("div#timeoCalendar").removeClass("selected");
+            $("div#projectBrowser").removeClass("selected");
+        }
+
+    }
+    
+    return TabbedPanel;
+
+})();
 
 /**
  * Implements functionality of the ProfileButton

@@ -70,7 +70,7 @@
                 <beans:constructor-arg index="0" value="${cas.server.hostname}cas/" />
             </beans:bean>
         </beans:property>
-        <beans:property name="key" value="CAS_AUTHENTICATION_PROVIDER_ID" />
+        <beans:property name="key" value="CAS_AUTHENTICATION_PROVIDER_ID_timeo_userservice" />
     </beans:bean>
     
 </beans:beans>

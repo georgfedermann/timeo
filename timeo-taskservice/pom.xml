@@ -22,6 +22,7 @@
         <slf4j.version>1.7.5</slf4j.version>
         <spring.version>3.2.10.RELEASE</spring.version>
         <tomcat.version>7.0.63</tomcat.version>
+        <spring-security.version>3.2.5.RELEASE</spring-security.version>
     </properties>
     <repositories>
         <repository>
@@ -271,6 +272,50 @@
             <artifactId>spring-js-resources</artifactId>
             <version>2.2.1.RELEASE</version>
         </dependency>
+        <!-- Spring security integration -->
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-cas</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+        <!-- end of Spring security integration -->
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>

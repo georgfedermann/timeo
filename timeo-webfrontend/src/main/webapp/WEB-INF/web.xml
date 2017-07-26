@@ -70,6 +70,10 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <!-- Accept single sign out notification from CAS server -->
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutHttpSessionListener</listener-class>
+    </listener>
     
     <!-- Handle requests for Spring MVC controllers -->
     <servlet>

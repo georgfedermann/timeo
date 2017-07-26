@@ -7,18 +7,27 @@
     
     <!-- HTTP security configurations -->
     <http auto-config="true" entry-point-ref="casEntryPoint" use-expressions="true">
-        <custom-filter position="CAS_FILTER" ref="casFilter" />
         
-        <logout logout-url="/resources/j_spring_security_logout" delete-cookies="JSESSIONID" />
         <!-- Configure these elements to secure URIs in your application -->
-        <intercept-url pattern="/choices/**" access="hasRole('ROLE_ADMIN')" />
-        <intercept-url pattern="/member/**" access="isAuthenticated()" />
-        <intercept-url pattern="/resources/**" access="permitAll" />
-        <intercept-url pattern="/login/**" access="permitAll" />
         <intercept-url pattern="/ajax/**" access="permitAll" />
-        <intercept-url pattern="/**" access="isAuthenticated()" />
-        <logout invalidate-session="true" logout-url="/logout" logout-success-url="http://www.xkcd.com" delete-cookies="JSESSIONID" />
+        <intercept-url pattern="/**" access="hasRole('ROLE_ADMIN')" />
+        <logout invalidate-session="true" logout-url="/logout" logout-success-url="/triggerRequestSingleLogoutFilter"
+                delete-cookies="JSESSIONID" />
+        <custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER" />
+        <custom-filter ref="singleLogoutFilter" before="CAS_FILTER" />
+        <custom-filter position="CAS_FILTER" ref="casFilter" />
     </http>
+    
+    <!-- this filter handles a single logout request from the CAS server -->
+    <beans:bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" />
+    
+    <beans:bean id="requestSingleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:constructor-arg value="${cas.logout.forward}" />
+        <beans:constructor-arg>
+            <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+        </beans:constructor-arg>
+        <beans:property name="filterProcessesUrl" value="/triggerRequestSingleLogoutFilter" />
+    </beans:bean>
     
     <!-- Configure Authentication mechanism -->
     <authentication-manager alias="authenticationManager">
@@ -61,7 +70,7 @@
                 <beans:constructor-arg index="0" value="${cas.server.hostname}cas/" />
             </beans:bean>
         </beans:property>
-        <beans:property name="key" value="CAS_AUTHENTICATION_PROVIDER_ID" />
+        <beans:property name="key" value="CAS_AUTHENTICATION_PROVIDER_ID_timeo_userservice" />
     </beans:bean>
     
 </beans:beans>

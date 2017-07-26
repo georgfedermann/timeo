@@ -54,10 +54,14 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Creates the Spring Container shared by all Servlets and Filters -->
+    <!-- Creates the Spring container shared by all servlets and filters -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <!-- Accept single sign out notification from CAS server
+    <listener>
+        <listener-class>org.jasig.cas.client.session.SingleSignOutFilter</listener-class>
+    </listener>  -->
 
     <!-- Handles Spring requests -->
     <servlet>

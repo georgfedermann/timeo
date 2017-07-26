@@ -7,7 +7,6 @@
     
     <!-- HTTP security configurations -->
     <http auto-config="true" entry-point-ref="casEntryPoint" use-expressions="true">
-        <custom-filter position="CAS_FILTER" ref="casFilter" />
         
         <!-- Configure these elements to secure URIs in your application -->
         <intercept-url pattern="/ajax/**" access="permitAll" />
@@ -16,6 +15,7 @@
                 delete-cookies="JSESSIONID" />
         <custom-filter ref="requestSingleLogoutFilter" before="LOGOUT_FILTER" />
         <custom-filter ref="singleLogoutFilter" before="CAS_FILTER" />
+        <custom-filter position="CAS_FILTER" ref="casFilter" />
     </http>
     
     <!-- this filter handles a single logout request from the CAS server -->

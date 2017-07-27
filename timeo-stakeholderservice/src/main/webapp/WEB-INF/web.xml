@@ -29,6 +29,10 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <filter>
         <filter-name>HttpMethodFilter</filter-name>
@@ -39,11 +43,7 @@
         <filter-name>Spring OpenEntityManagerInViewFilter</filter-name>
         <filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>CharacterEncodingFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
+    
     <filter-mapping>
         <filter-name>HttpMethodFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -54,14 +54,20 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <!-- Creates the Spring container shared by all servlets and filters -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    <!-- Accept single sign out notification from CAS server
-    <listener>
-        <listener-class>org.jasig.cas.client.session.SingleSignOutFilter</listener-class>
-    </listener>  -->
 
     <!-- Handles Spring requests -->
     <servlet>

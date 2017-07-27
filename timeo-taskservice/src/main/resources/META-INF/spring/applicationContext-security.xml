@@ -18,7 +18,7 @@
         <custom-filter ref="singleLogoutFilter" before="CAS_FILTER" />
     </http>
     
-    <!-- this filter handles a single logout reqeust from the CAS server -->
+    <!-- this filter handles a single logout request from the CAS server -->
     <beans:bean id="singleLogoutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter" />
 
     <beans:bean id="requestSingleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">

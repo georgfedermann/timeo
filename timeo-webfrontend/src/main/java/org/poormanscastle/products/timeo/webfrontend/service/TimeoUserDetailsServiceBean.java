@@ -53,7 +53,7 @@ public class TimeoUserDetailsServiceBean implements UserDetailsService, Initiali
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             return mapper.readValue(new URL(localWsUserserviceByLoginIdUrl), TimeoWebfrontendUser.class);
         } catch (IOException exception) {
-            String errMsg = StringUtils.join("Could not load resorce for username ", username, " from URL ",
+            String errMsg = StringUtils.join("Could not load resource for username ", username, " from URL ",
                     localWsUserserviceByLoginIdUrl, ".");
             logger.error(errMsg, exception);
             throw new ResourceNotFoundException(errMsg, exception);

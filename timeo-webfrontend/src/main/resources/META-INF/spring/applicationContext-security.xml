@@ -11,7 +11,7 @@
 
         <!-- Configure these elements to secure URIs in your application -->
         <intercept-url pattern="/cockpit/**" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/resources/**" access="permitAll"/>
+        <intercept-url pattern="/resources/**" access="isAuthenticated()" />
         <intercept-url pattern="/login/**" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <logout invalidate-session="true" logout-url="/logout" logout-success-url="/triggerRequestSingleLogoutFilter"

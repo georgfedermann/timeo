@@ -11,6 +11,7 @@
 
         <!-- Configure these elements to secure URIs in your application -->
         <intercept-url pattern="/ajax/**" access="permitAll"/>
+        <intercept-url pattern="/resources/**" access="isAuthenticated()" />
         <intercept-url pattern="/**" access="hasRole('ROLE_PROJECT_LEAD')"/>
         <logout invalidate-session="true" logout-url="/logout" logout-success-url="/triggerRequestSingleLogoutFilter"
                 delete-cookies="JSESSIONID"/>

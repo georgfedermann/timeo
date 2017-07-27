@@ -1,4 +1,4 @@
-package org.poormanscastle.products.timeo.task.service;
+package org.poormanscastle.products.timeo.stakeholdermatrix.services;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -7,7 +7,7 @@ import java.net.URL;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.poormanscastle.products.timeo.task.domain.security.TimeoUser;
+import org.poormanscastle.products.timeo.stakeholdermatrix.domain.security.TimeoUser;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;

@@ -133,7 +133,7 @@ var User = (function closure() {
         };
 
         this.getLoginId = function () {
-            return logindId;
+            return loginId;
         };
     }
 

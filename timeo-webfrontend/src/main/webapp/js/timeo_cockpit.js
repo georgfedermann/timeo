@@ -36,9 +36,13 @@ $(document).ready(function () {
     
     tabbedPanel = new TabbedPanel();
     tabbedPanel.init();
+    
+    projectBrowser = new ProjectBrowser();
+    projectBrowser.init();
 
     setTimeout(taskBrowser.refreshTasks.bind(taskBrowser), 1000);
     setTimeout(timeoCalendar.reloadCalendarView.bind(timeoCalendar), 1000);
+    setTimeout(projectBrowser.refreshProjectBrowser.bind(projectBrowser), 1000);
     
     $(document).mousemove(function(event){
         MouseData.setMouseX(event.pageX);
@@ -280,7 +284,7 @@ var TimeoCalendar = (function closure() {
                 type: "GET",
                 url: localWsUrl,
                 success: function (data) {
-                    $("div#timeoCalendar").html(data);
+                    $("div#timeoCalendar_container").html(data);
                     setTimeout(me.registerActivityMouseHandler.bind(me), 1000);
                     year = $("div#calendarYear").text();
                     calendarWeek = $("div#calendarWeek").text();
@@ -502,6 +506,84 @@ var TimeoCalendar = (function closure() {
     }
 
     return TimeoCalendar;
+    
+})();
+
+var ProjectBrowser = (function closure(){
+    
+    function ProjectBrowser() {
+        var projectBrowserWebserviceUrl = null;
+        
+        this.refreshProjectBrowser = function() {
+            var me = this;
+            console.log("Retrieving project browser from URL " + projectBrowserWebserviceUrl);
+            $.ajax({
+                type: "GET",
+                url: projectBrowserWebserviceUrl,
+                success: function(data) {
+                    $("div#projectBrowser_container").html(data);
+                    projectBrowser.addBusinessCardMouseOver();
+                    projectBrowser.registerProjectTreeMouseHandler();
+                },
+                dataType: "text"
+            });
+        };
+        
+        this.registerProjectTreeMouseHandler = function() {
+            var me = this;
+            $("img.projectListBullet").on("click", this.handleProjectListBulletClick.bind(this));
+            $("img.taskListBullet").on("click", this.handleTaskListBulletClick.bind(this));
+        };
+        
+        this.handleProjectListBulletClick = function(eventItem) {
+            // alert("Project bullet item was clicked for project " + $(eventItem.target).attr("data-project-id"));
+            var projectId = $(eventItem.target).attr("data-project-id");
+            $("li[data-parent-project='" + projectId + "']").toggleClass('invisible');
+            var iconName = $(eventItem.target).attr("src");
+            iconName = iconName.includes("Minus") ?
+                iconName.replace("Minus","Plus") : iconName.replace("Plus", "Minus");
+            $(eventItem.target).attr("src", iconName);
+        };
+        
+        this.handleTaskListBulletClick = function() {
+            alert("Task bullet item was clicked.");
+        };
+
+        this.init = function () {
+            projectBrowserWebserviceUrl = "${profile.taskservice.hostname}${profile.taskservice.projectBrowser.path}".replace("{masterKey}", user.getMasterKey());
+        };
+
+        this.addBusinessCardMouseOver = function () {
+            console.log("adding BusinessCard mouseOver event handler");
+            setTimeout(function () {
+                $("span.stakeholderRef").each(function () {
+                    var email = $(this).html();
+                    console.log("Found email: " + email);
+                    var timer;
+                    $(this).mouseover(function () {
+                        timer = setTimeout(function () {
+                            console.log("Mouse over td.stakeholderRef");
+                            console.log("Going to ajax businessCard from " + "http://localhost:8080/stakeholdermatrix/pages/matrix/businesscardForEmail/".replace("{email}", email));
+                            $.get("${profile.ws.stakeholder.hostname}${profile.ws.stakeholder.webservice.businesscard.path}".replace("{email}", email.trim()),
+                                function (data) {
+                                    // console.log("Received data from WS: " + data);
+                                    $("div#businessCard").html(data);
+                                });
+                            $("div#businessCard").css({'top': MouseData.getMouseY(), 'left': MouseData.getMouseX()}).fadeIn('slow');
+                        }, 1000);
+                    });
+                    $(this).mouseout(
+                        function(){
+                            clearTimeout(timer);
+                            $("div#businessCard").fadeOut('slow');
+                        }
+                    );
+                });
+            }, 1000);
+        };
+    }
+    
+    return ProjectBrowser;
     
 })();
 
@@ -763,14 +845,14 @@ var TabbedPanel = (function closure(){
             console.log("ActivityCalendarTabClick");
             this.unselectAllTabs();
             $("div#tabbedPanelHeaderActivityCalendar").addClass("selected");
-            $("div#timeoCalendar").addClass("selected");
+            $("div#timeoCalendar_container").addClass("selected");
         };
 
         this.projectBrowserTabClick = function(event) {
             console.log("ProjectBrowserTabClick");
             this.unselectAllTabs();
             $("div#tabbedPanelHeaderProjectBrowser").addClass("selected");
-            $("div#projectBrowser").addClass("selected");
+            $("div#projectBrowser_container").addClass("selected");
         };
         
         this.unselectAllTabs = function() {
@@ -779,8 +861,8 @@ var TabbedPanel = (function closure(){
             $("div#tabbedPanelHeaderProjectBrowser").removeClass("selected");
             
             $("div#taskbrowser_container").removeClass("selected");
-            $("div#timeoCalendar").removeClass("selected");
-            $("div#projectBrowser").removeClass("selected");
+            $("div#timeoCalendar_container").removeClass("selected");
+            $("div#projectBrowser_container").removeClass("selected");
         }
 
     }

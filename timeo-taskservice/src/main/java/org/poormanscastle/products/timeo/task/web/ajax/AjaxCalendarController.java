@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by georg on 22/05/2017.
  */
 @Controller
-public class CalendarController {
+public class AjaxCalendarController {
 
-    final static Logger logger = Logger.getLogger(CalendarController.class);
+    final static Logger logger = Logger.getLogger(AjaxCalendarController.class);
 
     @Autowired
     private ActivityService activityService;

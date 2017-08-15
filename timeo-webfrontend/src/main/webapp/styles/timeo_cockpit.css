@@ -268,14 +268,14 @@ div.formline.formbuttons {
     margin-left: 13px;
 }
 
-div#timeoCalendar {
+div#timeoCalendar_container {
     margin-top: 20px;
     width: 100%;
     height: 1000px;
     display: none;
 }
 
-div#timeoCalendar.selected {
+div#timeoCalendar_container.selected {
     display: inherit;
 }
 
@@ -443,10 +443,52 @@ div.tabbedPanelHeaderTab.selected {
     background-color: aqua;
 }
 
-div#projectBrowser {
+div#projectBrowser_container {
     display: none;
 }
 
-div#projectBrowser.selected {
+div#projectBrowser_container.selected {
     display: inherit;
+}
+
+div.projectBrowser span.pl_label {
+    font-weight: bold;
+}
+
+div.projectBrowser span.pl_value {
+    font-style: italic;
+}
+
+div.projectBrowser span.spoc_label {
+    font-weight: bold;
+}
+
+div.projectBrowser span.spoc_value {
+    font-style: italic;
+}
+
+img.taskListBullet {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+img.projectListBullet {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+img.taskListBullet {
+    margin-left: 38px;
+    margin-right: 10px;
+}
+
+div#businessCard {
+    position: absolute;
+    background-color: beige;
+    border: 1px solid darkgray;
+    padding: 5px;
+}
+
+.invisible {
+    display: none;
 }

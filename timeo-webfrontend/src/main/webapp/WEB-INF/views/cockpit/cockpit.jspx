@@ -63,8 +63,8 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div id="timeoCalendar"><jsp:text /></div>
-                            <div id="projectBrowser"><div>Please find your project data here.</div></div>
+                            <div id="timeoCalendar_container"><jsp:text /></div>
+                            <div id="projectBrowser_container"><div>Please find your project data here.</div></div>
                         </div>
                     </div>
                     <div id="toolbar">
@@ -116,6 +116,7 @@
             </div>
             <div id="finishActivityFormContainer" class="invisible"><jsp:text /></div>
             <div id="activityFormContainer" class="invisible"><jsp:text /></div>
+            <div id="businessCard"><jsp:text /></div>
         </body>
     </html>
 </jsp:root>

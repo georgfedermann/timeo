@@ -1,0 +1,47 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: georg
+  Date: 07/08/2017
+  Time: 12:01
+  To change this template use File | Settings | File Templates.
+-->
+<div id="projectBrowserForUserPanel"
+     xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <jsp:output omit-xml-declaration="true" />
+    <jsp:directive.page contentType="text/html; charset=UTF-8" />
+    <jsp:directive.page pageEncoding="UTF-8" />
+
+    <div id="projectBrowserForUser" class="projectBrowser">
+        <ul class="projectBrowser_projectList">
+            <c:forEach items="${projects}" var="project" varStatus="varStatus">
+                <li class="projectBrowser_projectListItem" id="${project.id}">
+                    <img data-project-id="${project.id}" class="projectListBullet" src="resources/images/treeMinusIcon.png" width="16" height="16" />
+                    <span class="projectbrowser_project">${project.name}</span> 
+                    <span class="pl_label"><spring:message code="projectBrowser.projectLead.Label" /></span>
+                    <span class="pl_value stakeholderRef"> tbd </span>
+                    <span class="spoc_label"><spring:message code="projectBrowser.spoc.label" /></span>
+                    <span class="spoc_value stakeholderRef"> ${project.label} </span>
+                    <ul class="projectBrowser_taskList" data-parent-project="${project.id}">
+                        <c:forEach items="${projectToTaskMap.get(project)}" var="task" varStatus="varStatus">
+                            <li class="projectBrowser_taskListItem" data-parent-project="${project.id}" data-task="${task.id}">
+                                <img class="taskListBullet" src="resources/images/treePlusIcon.png" width="16" height="16" />
+                                <span class="projectbrowser_task">${task.name}</span>
+                                <ul>
+                                    <c:forEach items="${taskToActivityMap.get(task)}" var="activity" varStatus="varStatus">
+                                        <li class="projectBrowser_activityListItem" data-parent-project="${project.id}" data-parent-task="${task.id}">
+                                            <span class="projectBrowser_activity invisible">${activity.comment}</span>
+                                        </li>
+                                    </c:forEach>
+                                </ul>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </li>
+            </c:forEach>
+        </ul>
+    </div>
+
+</div>

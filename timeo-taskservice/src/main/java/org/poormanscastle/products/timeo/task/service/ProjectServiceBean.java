@@ -39,7 +39,7 @@ public class ProjectServiceBean implements ProjectService {
         if (resource != null) {
             project.setLabel(resource.getEmail());
         } else {
-            project.setLabel(StringUtils.join("No email found for ", project.getSpocMasterKey(), "."));
+            project.setLabel(StringUtils.join("No email found for SPOC id ", project.getSpocMasterKey(), "."));
         }
     }
 
@@ -56,12 +56,13 @@ public class ProjectServiceBean implements ProjectService {
         checkArgument(!StringUtils.isBlank(masterKey), "MasterKey is required!");
         EntityManager em = Project.entityManager();
         TypedQuery<Project> query = em.createQuery(
-                "SELECT p FROM Project AS p INNER JOIN p.projectTeamMembers AS ptm WHERE ptm.resourceId = :masterKey", 
+                "SELECT p FROM Project AS p INNER JOIN p.projectTeamMembers AS ptm WHERE ptm.resourceId = :masterKey",
                 Project.class);
         query.setParameter("masterKey", masterKey);
-        List<Project> resultList = query.getResultList();
-        
-        return resultList;
+        List<Project> projects = query.getResultList();
+        projects.forEach(project -> setSpocLabelOnProject(project));
+
+        return projects;
     }
-    
+
 }
